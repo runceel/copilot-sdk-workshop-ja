@@ -141,6 +141,23 @@ a {
     color: var(--neon-cyan);
 }
 
+.snapshot-notice {
+    padding: 0.9rem 1.1rem;
+    border: 1px solid color-mix(in srgb, var(--neon-cyan) 28%, var(--border));
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.92rem;
+}
+
+.snapshot-notice p {
+    margin: 0;
+}
+
+.snapshot-notice a {
+    font-weight: 700;
+}
+
 .theme-toggle {
     padding: 0.45rem 0.65rem;
     border: 1px solid var(--border);

@@ -1478,6 +1478,17 @@ def validate_site_behavior() -> None:
     index = read(DOCS / "index.html")
     step = read(DOCS / "workshop" / "step.html")
     navigation = read(DOCS / "language-navigation.js")
+    readme = read(ROOT / "README.md")
+    snapshot_date = "2026年9月24日時点"
+    original_workshop_url = "https://github.github.com/copilot-sdk-workshop/"
+    require(snapshot_date in readme and original_workshop_url in readme,
+            "README must identify the Japanese snapshot date and link to the English original")
+    require('class="snapshot-notice"' in index and snapshot_date in index and original_workshop_url in index,
+            "Homepage must show the snapshot notice and link before workshop selection")
+    require(index.index('class="snapshot-notice"') < index.index('id="workshop-picker"'),
+            "Homepage snapshot notice must appear before workshop selection")
+    require('class="snapshot-notice lesson-snapshot-notice"' in step and snapshot_date in step and original_workshop_url in step,
+            "Lessons must show the snapshot notice and link for direct visitors")
     require(index.count('class="primary-action"') == 1, "Homepage must have exactly one primary action")
     require(index.count('name="workshop"') == 2, "Homepage must offer exactly two workshop choices")
     require('value="sdlc"' in index and 'value="museum"' in index,
