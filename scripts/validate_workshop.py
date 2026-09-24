@@ -2019,6 +2019,21 @@ def validate_configuration_explainers() -> None:
                 )
 
 
+def uses_action(workflow: str, reference: str) -> bool:
+    """Report whether a workflow uses an action at the required release.
+
+    Actions may be referenced by tag (`actions/setup-node@v7`) or pinned to a commit SHA that
+    names the same release in its trailing comment (`actions/setup-node@<sha> # v7.0.0`). Both
+    forms select the same release, so both satisfy the requirement. A more specific patch tag such
+    as `v7.0.0` satisfies a `v7` requirement, while `v70` does not.
+    """
+    action, _, release = reference.partition("@")
+    pattern = re.compile(
+        rf"{re.escape(action)}@(?:[0-9a-f]{{40}}\s*#\s*)?{re.escape(release)}(?:\.\d+)*(?![\w.-])"
+    )
+    return bool(pattern.search(workflow))
+
+
 def validate_workflows() -> None:
     required_setup = (
         ("actions/setup-dotnet@v6", "dotnet-version: 10.0.x"),
@@ -2027,12 +2042,17 @@ def validate_workflows() -> None:
         ("actions/setup-go@v7", 'go-version: "1.24.x"'),
         ("dtolnay/rust-toolchain@stable", 'toolchain: "1.94.0"'),
         ("actions/setup-java@v6", 'java-version: "17"'),
-        ("mvn --version", "bash scripts/validate-workshop.sh"),
     )
+    required_commands = ("mvn --version", "bash scripts/validate-workshop.sh")
     validation_workflow = read(ROOT / ".github" / "workflows" / "validate.yml")
-    for expected in required_setup:
-        for value in expected:
-            require(value in validation_workflow, f"validate.yml is missing required validation setup: {value}")
+    for action, setting in required_setup:
+        require(uses_action(validation_workflow, action),
+                f"validate.yml is missing required validation setup: {action}")
+        require(setting in validation_workflow,
+                f"validate.yml is missing required validation setup: {setting}")
+    for command in required_commands:
+        require(command in validation_workflow,
+                f"validate.yml is missing required validation setup: {command}")
 
     deployment_workflow = read(ROOT / ".github" / "workflows" / "deploy.yml")
     for forbidden in (
@@ -2048,13 +2068,17 @@ def validate_workflows() -> None:
             forbidden not in deployment_workflow,
             f"deploy.yml should publish the prevalidated site without running {forbidden}",
         )
-    for required in (
-        "Prepare deployment",
+    require(
+        "Prepare deployment" in deployment_workflow,
+        "deploy.yml is missing deployment step: Prepare deployment",
+    )
+    for action in (
         "actions/configure-pages@v6",
         "actions/upload-pages-artifact@v5",
         "actions/deploy-pages@v5",
     ):
-        require(required in deployment_workflow, f"deploy.yml is missing deployment step: {required}")
+        require(uses_action(deployment_workflow, action),
+                f"deploy.yml is missing deployment step: {action}")
 
 
 validate_language_registry()
