@@ -671,7 +671,7 @@ Playwright が返した要素やページ構造が根拠です。基準を選び
 <details>
 <summary>ステップ 6 の完成版実装</summary>
 
-比較用として、[`finished/dotnet/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/dotnet/accessibility-report)
+比較用として、[`finished/dotnet/accessibility-report`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/dotnet/accessibility-report)
 プロジェクトを使用してください。
 
 ```csharp
@@ -746,7 +746,7 @@ await ResponseStreamer.SendAndPrintAsync(session, Prompts.CreateReportPrompt(tar
 <details>
 <summary>ステップ 6 の完成版実装</summary>
 
-比較用として、[`finished/nodejs/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
+比較用として、[`finished/nodejs/accessibility-report`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/nodejs/accessibility-report)
 プロジェクトを使用してください。
 
 `src/index.ts`:
@@ -807,7 +807,7 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
 <details>
 <summary>ステップ 6 の完成版実装</summary>
 
-比較用として、[`finished/python/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
+比較用として、[`finished/python/accessibility-report`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/python/accessibility-report)
 プロジェクトを使用してください。
 
 `main.py`:
@@ -897,7 +897,7 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
 <details>
 <summary>ステップ 6 の完成版実装</summary>
 
-比較用として、[`finished/go/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/go/accessibility-report)
+比較用として、[`finished/go/accessibility-report`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/go/accessibility-report)
 プロジェクトを使用してください。レポートコントラクトとエントリーポイントは次のとおりです。
 
 ```go
@@ -976,7 +976,7 @@ func main() {
 <details>
 <summary>ステップ 6 の完成版実装</summary>
 
-比較用として、[`finished/rust/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/rust/accessibility-report)
+比較用として、[`finished/rust/accessibility-report`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/rust/accessibility-report)
 プロジェクトを使用してください。レポートコントラクトとエントリーポイントは次のとおりです。
 
 ```rust
@@ -1077,7 +1077,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 <details>
 <summary>ステップ 6 の完成版実装</summary>
 
-比較用として、[`finished/java/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/java/accessibility-report)
+比較用として、[`finished/java/accessibility-report`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/java/accessibility-report)
 プロジェクトを使用してください。レポートコントラクト、引数の解析、エントリーポイントは次のとおりです。
 
 ```java
