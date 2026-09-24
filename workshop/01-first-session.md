@@ -1,136 +1,99 @@
-# Step 1: Create your first Copilot session
+# ステップ 1: 最初の Copilot セッションを作成する
 
-> **Time:** 10 minutes
+> **所要時間:** 10 分
 
-## What you'll build
+## 作るもの
 
-You'll connect the console application to the Copilot runtime, create a conversation, send a
-prompt, and print the response.
+コンソールアプリケーションを Copilot runtime に接続し、会話を作成し、プロンプトを送信して、応答を表示します。
 
 :::language dotnet
-## Meet the GitHub Copilot SDK and runtime
+## GitHub Copilot SDK とランタイムの紹介
 
-The **GitHub Copilot SDK** is the .NET API your application uses to run Copilot as an agent. The
-[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md)
-receives prompts, calls models, and manages tools. `CopilotClient` connects your C# code to that
-runtime.
+**GitHub Copilot SDK** は、アプリケーションが Copilot をエージェントとして実行するために使用する .NET の API です。[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md) はプロンプトを受け取り、モデルを呼び出し、ツールを管理します。`CopilotClient` は C# のコードをそのランタイムに接続します。
 
-A `CopilotSession` represents one continuing conversation. It holds the messages and tool results
-that make up the conversation's context. Keep one client alive for the application, then create a
-session for each independent conversation.
+`CopilotSession` は、継続する 1 つの会話を表します。会話のコンテキストを構成するメッセージとツールの実行結果を保持します。アプリケーション全体で 1 つのクライアントを生かし続け、独立した会話ごとにセッションを作成してください。
 
-## Why clients and sessions stay separate
+## クライアントとセッションを分けておく理由
 
-Keeping those responsibilities separate lets the runtime connection outlive any one conversation.
-It also gives you a small working example before streaming and tools enter the picture.
+これらの責務を分離しておくことで、ランタイム接続を個々の会話よりも長く維持できます。また、ストリーミングやツールが登場する前に、小さく動作するサンプルを用意できます。
 
-At this point, the console app is simply `CopilotClient -> CopilotSession -> model response`.
+この時点では、コンソールアプリは単純に `CopilotClient -> CopilotSession -> model response` です。
 :::
 
 :::language nodejs
-## Meet the GitHub Copilot SDK and runtime
+## GitHub Copilot SDK とランタイムの紹介
 
-The **GitHub Copilot SDK** is the Node.js API your application uses to run Copilot as an agent. The
-[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md)
-receives prompts, calls models, and manages tools. `CopilotClient` connects your TypeScript code to
-that runtime.
+**GitHub Copilot SDK** は、アプリケーションが Copilot をエージェントとして実行するために使用する Node.js の API です。[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md) はプロンプトを受け取り、モデルを呼び出し、ツールを管理します。`CopilotClient` は TypeScript のコードをそのランタイムに接続します。
 
-A session from `createSession` represents one continuing conversation. It holds the messages and
-tool results that make up the conversation's context. Keep one client alive for the application,
-then create a session for each independent conversation.
+`createSession` で作成したセッションは、継続する 1 つの会話を表します。会話のコンテキストを構成するメッセージとツールの実行結果を保持します。アプリケーション全体で 1 つのクライアントを生かし続け、独立した会話ごとにセッションを作成してください。
 
-## Why clients and sessions stay separate
+## クライアントとセッションを分けておく理由
 
-Keeping those responsibilities separate lets the runtime connection outlive any one conversation.
-It also gives you a small working example before streaming and tools enter the picture.
+これらの責務を分離しておくことで、ランタイム接続を個々の会話よりも長く維持できます。また、ストリーミングやツールが登場する前に、小さく動作するサンプルを用意できます。
 
-At this point, the console app is simply `CopilotClient -> session -> model response`.
+この時点では、コンソールアプリは単純に `CopilotClient -> session -> model response` です。
 :::
 
 :::language python
-## Meet the GitHub Copilot SDK and runtime
+## GitHub Copilot SDK とランタイムの紹介
 
-The **GitHub Copilot SDK** is the Python API your application uses to run Copilot as an agent. The
-[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md)
-receives prompts, calls models, and manages tools. `CopilotClient` connects your Python code to
-that runtime.
+**GitHub Copilot SDK** は、アプリケーションが Copilot をエージェントとして実行するために使用する Python の API です。[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md) はプロンプトを受け取り、モデルを呼び出し、ツールを管理します。`CopilotClient` は Python のコードをそのランタイムに接続します。
 
-A session from `create_session` represents one continuing conversation. It holds the messages and
-tool results that make up the conversation's context. Keep one client alive for the application,
-then create a session for each independent conversation.
+`create_session` で作成したセッションは、継続する 1 つの会話を表します。会話のコンテキストを構成するメッセージとツールの実行結果を保持します。アプリケーション全体で 1 つのクライアントを生かし続け、独立した会話ごとにセッションを作成してください。
 
-## Why clients and sessions stay separate
+## クライアントとセッションを分けておく理由
 
-Keeping those responsibilities separate lets the runtime connection outlive any one conversation.
-It also gives you a small working example before streaming and tools enter the picture.
+これらの責務を分離しておくことで、ランタイム接続を個々の会話よりも長く維持できます。また、ストリーミングやツールが登場する前に、小さく動作するサンプルを用意できます。
 
-At this point, the console app is simply `CopilotClient -> session -> model response`.
+この時点では、コンソールアプリは単純に `CopilotClient -> session -> model response` です。
 :::
 
 :::language go
-## Meet the GitHub Copilot SDK and runtime
+## GitHub Copilot SDK とランタイムの紹介
 
-The **GitHub Copilot SDK** is the Go API your application uses to run Copilot as an agent. The
-[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md)
-receives prompts, calls models, and manages tools. `copilot.NewClient` connects your Go code to
-that runtime.
+**GitHub Copilot SDK** は、アプリケーションが Copilot をエージェントとして実行するために使用する Go の API です。[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md) はプロンプトを受け取り、モデルを呼び出し、ツールを管理します。`copilot.NewClient` は Go のコードをそのランタイムに接続します。
 
-A session from `CreateSession` represents one continuing conversation. It holds the messages and
-tool results that make up the conversation's context. Keep one client alive for the application,
-then create a session for each independent conversation.
+`CreateSession` で作成したセッションは、継続する 1 つの会話を表します。会話のコンテキストを構成するメッセージとツールの実行結果を保持します。アプリケーション全体で 1 つのクライアントを生かし続け、独立した会話ごとにセッションを作成してください。
 
-## Why clients and sessions stay separate
+## クライアントとセッションを分けておく理由
 
-Keeping those responsibilities separate lets the runtime connection outlive any one conversation.
-It also gives you a small working example before streaming and tools enter the picture.
+これらの責務を分離しておくことで、ランタイム接続を個々の会話よりも長く維持できます。また、ストリーミングやツールが登場する前に、小さく動作するサンプルを用意できます。
 
-At this point, the console app is simply `Client -> Session -> model response`.
+この時点では、コンソールアプリは単純に `Client -> Session -> model response` です。
 :::
 
 :::language rust
-## Meet the GitHub Copilot SDK and runtime
+## GitHub Copilot SDK とランタイムの紹介
 
-The **GitHub Copilot SDK** is the Rust API your application uses to run Copilot as an agent. The
-[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md)
-receives prompts, calls models, and manages tools. `Client` connects your Rust code to that
-runtime.
+**GitHub Copilot SDK** は、アプリケーションが Copilot をエージェントとして実行するために使用する Rust の API です。[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md) はプロンプトを受け取り、モデルを呼び出し、ツールを管理します。`Client` は Rust のコードをそのランタイムに接続します。
 
-A session from `create_session` represents one continuing conversation. It holds the messages and
-tool results that make up the conversation's context. Keep one client alive for the application,
-then create a session for each independent conversation.
+`create_session` で作成したセッションは、継続する 1 つの会話を表します。会話のコンテキストを構成するメッセージとツールの実行結果を保持します。アプリケーション全体で 1 つのクライアントを生かし続け、独立した会話ごとにセッションを作成してください。
 
-## Why clients and sessions stay separate
+## クライアントとセッションを分けておく理由
 
-Keeping those responsibilities separate lets the runtime connection outlive any one conversation.
-It also gives you a small working example before streaming and tools enter the picture.
+これらの責務を分離しておくことで、ランタイム接続を個々の会話よりも長く維持できます。また、ストリーミングやツールが登場する前に、小さく動作するサンプルを用意できます。
 
-At this point, the console app is simply `Client -> session -> model response`.
+この時点では、コンソールアプリは単純に `Client -> session -> model response` です。
 :::
 
 :::language java
-## Meet the GitHub Copilot SDK and runtime
+## GitHub Copilot SDK とランタイムの紹介
 
-The **GitHub Copilot SDK** is the Java API your application uses to run Copilot as an agent. The
-[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md)
-receives prompts, calls models, and manages tools. `CopilotClient` connects your Java code to that
-runtime.
+**GitHub Copilot SDK** は、アプリケーションが Copilot をエージェントとして実行するために使用する Java の API です。[**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md) はプロンプトを受け取り、モデルを呼び出し、ツールを管理します。`CopilotClient` は Java のコードをそのランタイムに接続します。
 
-A session from `createSession` represents one continuing conversation. It holds the messages and
-tool results that make up the conversation's context. Keep one client alive for the application,
-then create a session for each independent conversation.
+`createSession` で作成したセッションは、継続する 1 つの会話を表します。会話のコンテキストを構成するメッセージとツールの実行結果を保持します。アプリケーション全体で 1 つのクライアントを生かし続け、独立した会話ごとにセッションを作成してください。
 
-## Why clients and sessions stay separate
+## クライアントとセッションを分けておく理由
 
-Keeping those responsibilities separate lets the runtime connection outlive any one conversation.
-It also gives you a small working example before streaming and tools enter the picture.
+これらの責務を分離しておくことで、ランタイム接続を個々の会話よりも長く維持できます。また、ストリーミングやツールが登場する前に、小さく動作するサンプルを用意できます。
 
-At this point, the console app is simply `CopilotClient -> session -> model response`.
+この時点では、コンソールアプリは単純に `CopilotClient -> session -> model response` です。
 :::
 
-## Fire up your first Copilot session
+## 最初の Copilot セッションを起動する
 
 :::language dotnet
-Open `Program.cs` and **replace the entire file**:
+`Program.cs` を開き、**ファイル全体を置き換えます**:
 
 ```csharp
 using GitHub.Copilot;
@@ -159,12 +122,11 @@ if (response is null)
 Console.WriteLine($"\nCopilot: {response.Data.Content}");
 ```
 
-The ping verifies the runtime connection. The completed-response send waits until the session
-becomes idle, so it works well when you only need the finished answer.
+ping はランタイム接続を検証します。完了応答を待つ送信はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。
 :::
 
 :::language nodejs
-Open `src/index.ts` and **replace the entire file**:
+`src/index.ts` を開き、**ファイル全体を置き換えます**:
 
 ```typescript
 import { approveAll, CopilotClient } from "@github/copilot-sdk";
@@ -184,12 +146,11 @@ try {
 }
 ```
 
-`sendAndWait` waits until the session becomes idle, so it works well when you only need the finished
-answer. Always stop the session and client in `finally` blocks so the runtime shuts down cleanly.
+`sendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。ランタイムがクリーンにシャットダウンするよう、セッションとクライアントは必ず `finally` ブロックで停止してください。
 :::
 
 :::language python
-Open `main.py` and **replace the entire file**:
+`main.py` を開き、**ファイル全体を置き換えます**:
 
 ```python
 import asyncio
@@ -228,12 +189,11 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-Python listens for session events instead of calling a single completed-response helper. Print the
-assistant message, treat session errors as failures, and wait for the idle event before exiting.
+Python では、1 つの完了応答ヘルパーを呼び出す代わりにセッションイベントをリッスンします。アシスタントメッセージを表示し、セッションエラーを失敗として扱い、終了する前にアイドルイベントを待ちます。
 :::
 
 :::language go
-Open `main.go` and **replace the entire file**:
+`main.go` を開き、**ファイル全体を置き換えます**:
 
 ```go
 package main
@@ -274,12 +234,11 @@ func main() {
 }
 ```
 
-`SendAndWait` waits until the session becomes idle, so it works well when you only need the finished
-answer. `defer` disconnects the session and stops the client on the way out.
+`SendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。`defer` によって、処理の終了時にセッションを切断し、クライアントを停止します。
 :::
 
 :::language rust
-Open `src/main.rs` and **replace the entire file**:
+`src/main.rs` を開き、**ファイル全体を置き換えます**:
 
 ```rust
 use github_copilot_sdk::permission;
@@ -310,12 +269,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-`send_and_wait` waits until the session becomes idle, so it works well when you only need the
-finished answer. Disconnect the session and stop the client before returning.
+`send_and_wait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。関数から戻る前に、セッションを切断してクライアントを停止してください。
 :::
 
 :::language java
-Open `src/main/java/workshop/AccessibilityReport.java` and **replace the entire file**:
+`src/main/java/workshop/AccessibilityReport.java` を開き、**ファイル全体を置き換えます**:
 
 ```java
 package workshop;
@@ -346,22 +304,12 @@ public final class AccessibilityReport {
 }
 ```
 
-`sendAndWait` waits until the session becomes idle, so it works well when you only need the finished
-answer. The try-with-resources block closes the client when `main` exits.
+`sendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。try-with-resources ブロックは、`main` の終了時にクライアントをクローズします。
 :::
 
-This session sets a permission handler and nothing else, so it runs with the SDK's default persona.
-The knob you did not turn is the
-[system message](https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md#customize-the-system-message),
-which has three modes. `append` is the default: your content is added after the SDK-managed prompt,
-and the default CLI persona is preserved along with the environment context, tool instructions, and
-security guardrails the SDK injects. `replace` swaps the entire prompt for your content.
-`customize` overrides individual sections — tone, guidelines, code change rules, and others — while
-preserving the rest. This workshop stays on the default, so every answer you see comes from the
-standard persona. Reach for the other two modes when an application needs a voice or a scope of its
-own.
+このセッションはパーミッションハンドラーだけを設定し、それ以外は何も設定していないため、SDK のデフォルトのペルソナで実行されます。ここで操作しなかったつまみが [system message](https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md#customize-the-system-message) で、これには 3 つのモードがあります。`append` はデフォルトで、あなたのコンテンツが SDK の管理するプロンプトの後ろに追加され、SDK が注入する環境コンテキスト、ツールの指示、セキュリティのガードレールとともに、デフォルトの CLI ペルソナが維持されます。`replace` はプロンプト全体をあなたのコンテンツに置き換えます。`customize` は、トーン、ガイドライン、コード変更ルールなどの個々のセクションを上書きし、残りは維持します。このワークショップはデフォルトのままなので、目にするすべての回答は標準のペルソナから生成されます。アプリケーションに独自の声や範囲が必要になったら、他の 2 つのモードを利用してください。
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -395,7 +343,7 @@ mvn compile exec:java
 :::
 
 :::language dotnet
-Your exact response will vary, but the output should have this shape:
+実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
 === First Copilot session ===
@@ -407,7 +355,7 @@ Copilot: An accessible name lets assistive technology identify the input's purpo
 :::
 
 :::language nodejs
-Your exact response will vary, but the output should have this shape:
+実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
 This Copilot session is ready and waiting for your next prompt.
@@ -415,7 +363,7 @@ This Copilot session is ready and waiting for your next prompt.
 :::
 
 :::language python
-Your exact response will vary, but the output should have this shape:
+実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
 An accessible name lets assistive technology identify the input's purpose.
@@ -423,7 +371,7 @@ An accessible name lets assistive technology identify the input's purpose.
 :::
 
 :::language go
-Your exact response will vary, but the output should have this shape:
+実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
 An accessible name lets assistive technology identify the input's purpose.
@@ -431,7 +379,7 @@ An accessible name lets assistive technology identify the input's purpose.
 :::
 
 :::language rust
-Your exact response will vary, but the output should have this shape:
+実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
 An accessible name lets assistive technology identify the input's purpose.
@@ -439,7 +387,7 @@ An accessible name lets assistive technology identify the input's purpose.
 :::
 
 :::language java
-Your exact response will vary, but the output should have this shape:
+実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
 An accessible name lets assistive technology identify the input's purpose.
@@ -447,88 +395,81 @@ An accessible name lets assistive technology identify the input's purpose.
 :::
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| Authentication or authorization error | Run `copilot login` again, then rerun the project. |
-| Runtime executable not found | Set `COPILOT_CLI_BINARY_PATH` using the preflight instructions. |
-| The request times out | Check network access to GitHub Copilot and retry; this example does not hide the failure. |
+| 認証または認可のエラー | もう一度 `copilot login` を実行してから、プロジェクトを再実行します。 |
+| ランタイムの実行ファイルが見つからない | 事前準備の手順に従って `COPILOT_CLI_BINARY_PATH` を設定します。 |
+| リクエストがタイムアウトする | GitHub Copilot へのネットワークアクセスを確認して再試行します。このサンプルは失敗を隠しません。 |
 
 </details>
 
-> **You're ready for streaming when:** the terminal prints one complete Copilot response.
+> **ストリーミングに進む準備ができたと言えるのは:** ターミナルに 1 つの完全な Copilot の応答が表示されたときです。
 
-## Check your understanding
+## 理解度チェック
 
-Which object should usually live for the application lifetime, and which object owns one
-conversation's context?
+通常、どのオブジェクトをアプリケーションのライフタイムにわたって存続させるべきで、どのオブジェクトが 1 つの会話のコンテキストを所有するのでしょうか。
 
 :::language dotnet
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Keep `CopilotClient` for the lifetime of the runtime connection. A `CopilotSession` owns the
-messages and tool context for one conversation.
+ランタイム接続のライフタイムにわたって `CopilotClient` を保持します。`CopilotSession` は、1 つの会話のメッセージとツールコンテキストを所有します。
 
 </details>
 :::
 
 :::language nodejs
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Keep `CopilotClient` for the lifetime of the runtime connection. A session from `createSession` owns
-the messages and tool context for one conversation.
+ランタイム接続のライフタイムにわたって `CopilotClient` を保持します。`createSession` で作成したセッションは、1 つの会話のメッセージとツールコンテキストを所有します。
 
 </details>
 :::
 
 :::language python
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Keep `CopilotClient` for the lifetime of the runtime connection. A session from `create_session`
-owns the messages and tool context for one conversation.
+ランタイム接続のライフタイムにわたって `CopilotClient` を保持します。`create_session` で作成したセッションは、1 つの会話のメッセージとツールコンテキストを所有します。
 
 </details>
 :::
 
 :::language go
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Keep the client from `copilot.NewClient` for the lifetime of the runtime connection. A session from
-`CreateSession` owns the messages and tool context for one conversation.
+ランタイム接続のライフタイムにわたって `copilot.NewClient` で作成したクライアントを保持します。`CreateSession` で作成したセッションは、1 つの会話のメッセージとツールコンテキストを所有します。
 
 </details>
 :::
 
 :::language rust
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Keep `Client` for the lifetime of the runtime connection. A session from `create_session` owns the
-messages and tool context for one conversation.
+ランタイム接続のライフタイムにわたって `Client` を保持します。`create_session` で作成したセッションは、1 つの会話のメッセージとツールコンテキストを所有します。
 
 </details>
 :::
 
 :::language java
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Keep `CopilotClient` for the lifetime of the runtime connection. A session from `createSession` owns
-the messages and tool context for one conversation.
+ランタイム接続のライフタイムにわたって `CopilotClient` を保持します。`createSession` で作成したセッションは、1 つの会話のメッセージとツールコンテキストを所有します。
 
 </details>
 :::
 
 :::language dotnet
 <details>
-<summary>Complete Step 1 implementation</summary>
+<summary>ステップ 1 の完成した実装</summary>
 
-Compare your work with this complete Step 1 implementation.
+この完成したステップ 1 の実装と、自分の作業内容を比較してください。
 
 ```csharp
 using GitHub.Copilot;
@@ -557,9 +498,9 @@ Console.WriteLine($"\nCopilot: {response.Data.Content}");
 
 :::language nodejs
 <details>
-<summary>Complete Step 1 implementation</summary>
+<summary>ステップ 1 の完成した実装</summary>
 
-Compare your work with this complete Step 1 implementation.
+この完成したステップ 1 の実装と、自分の作業内容を比較してください。
 
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
@@ -583,9 +524,9 @@ try {
 
 :::language python
 <details>
-<summary>Complete Step 1 implementation</summary>
+<summary>ステップ 1 の完成した実装</summary>
 
-Compare your work with this complete Step 1 implementation.
+この完成したステップ 1 の実装と、自分の作業内容を比較してください。
 
 ```python
 import asyncio
@@ -626,9 +567,9 @@ if __name__ == "__main__":
 
 :::language go
 <details>
-<summary>Complete Step 1 implementation</summary>
+<summary>ステップ 1 の完成した実装</summary>
 
-Compare your work with this complete Step 1 implementation.
+この完成したステップ 1 の実装と、自分の作業内容を比較してください。
 
 ```go
 package main
@@ -671,9 +612,9 @@ func main() {
 
 :::language rust
 <details>
-<summary>Complete Step 1 implementation</summary>
+<summary>ステップ 1 の完成した実装</summary>
 
-Compare your work with this complete Step 1 implementation.
+この完成したステップ 1 の実装と、自分の作業内容を比較してください。
 
 ```rust
 use github_copilot_sdk::types::{MessageOptions, SessionConfig};
@@ -705,9 +646,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 :::language java
 <details>
-<summary>Complete Step 1 implementation</summary>
+<summary>ステップ 1 の完成した実装</summary>
 
-Compare your work with this complete Step 1 implementation.
+この完成したステップ 1 の実装と、自分の作業内容を比較してください。
 
 ```java
 package workshop;
@@ -738,15 +679,11 @@ public final class AccessibilityReport {
 </details>
 :::
 
-## Learn more
+## さらに学ぶ
 
-- [Build your first Copilot-powered app](https://docs.github.com/en/copilot/how-tos/copilot-sdk/getting-started):
-  GitHub's tutorial for the same first client, session, and prompt.
-- [Session resume and persistence](https://github.com/github/copilot-sdk/blob/main/docs/features/session-persistence.md):
-  how a session's conversation state is kept, and how to resume it after a restart.
-- [Context clearing](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md):
-  replacing the conversation inside a session without creating a new one.
-- [Authentication](https://github.com/github/copilot-sdk/blob/main/docs/auth/README.md):
-  the credentials a client can use once you move past `copilot login`.
+- [Copilot を活用した最初のアプリを作る](https://docs.github.com/en/copilot/how-tos/copilot-sdk/getting-started): 最初のクライアント、セッション、プロンプトを扱う GitHub のチュートリアルです。
+- [セッションの再開と永続化](https://github.com/github/copilot-sdk/blob/main/docs/features/session-persistence.md): セッションの会話状態がどのように保持され、再起動後にどのように再開するかを説明します。
+- [コンテキストのクリア](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md): 新しいセッションを作成せずに、セッション内の会話を置き換えます。
+- [認証](https://github.com/github/copilot-sdk/blob/main/docs/auth/README.md): `copilot login` の先に進んだときに、クライアントが使用できる認証情報について説明します。
 
-Continue to [Step 2: Stream a response](02-streaming.md).
+[ステップ 2: 応答をストリーミングする](02-streaming.md) に進みましょう。

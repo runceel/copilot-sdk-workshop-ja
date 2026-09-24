@@ -1,34 +1,34 @@
-# Step 8 (optional): Publish an interactive exhibit page
+# ステップ 8（任意）: インタラクティブな展示ページを公開する
 
-> **Time:** 15 minutes
+> **所要時間:** 15 分
 
-## What you'll build
+## 作るもの
 
-An `exhibit.html` file you can open in a browser: the title, the narrative, the three visitor
-questions, a visible human-review caveat, and an accessible filter over the questions.
+ブラウザで開ける `exhibit.html` ファイルです。タイトル、ストーリー、3 つの来館者向けの質問、
+人間によるレビューが必要である旨の目に見える注意書き、そして質問に対するアクセシブルなフィルターを含みます。
 
-The model writes the file. Your application decides that it may write **exactly one** file, in
-exactly one directory, and nothing else.
+ファイルを書き込むのはモデルです。ただし、書き込んでよいのは **ちょうど 1 つ** のファイルだけであり、
+書き込み先はちょうど 1 つのディレクトリに限定され、それ以外は一切許可しない、とアプリケーションが決定します。
 
-## One capability, one file
+## 1 つの機能、1 つのファイル
 
-This step exposes a real write capability for the first time, so the boundary has to be exact:
+このステップでは初めて実際の書き込み機能を公開します。そのため、境界は正確でなければなりません。
 
-- The session allowlist contains one entry: `builtin:apply_patch`. No shell, no MCP, no network.
-- `exhibitWritePermission(workingDirectory)` from the helpers approves a request only when it is a
-  write request and the requested file name — resolved against the working directory when relative —
-  normalizes to exactly `<workingDirectory>/exhibit.html`. Everything else is rejected with
-  feedback. Path traversal like `../../etc/hosts` normalizes somewhere else and is refused.
-- The prompt also says "do not write any other file". That sentence is a hint that helps the model
-  succeed on the first try. It is not what stops a second write. The handler is.
+- セッションの許可リストにはエントリが 1 つだけあります。`builtin:apply_patch` です。シェルも MCP もネットワークもありません。
+- ヘルパーの `exhibitWritePermission(workingDirectory)` は、リクエストが書き込みリクエストであり、
+  かつ要求されたファイル名が（相対パスの場合は作業ディレクトリを基準に解決されて）ちょうど
+  `<workingDirectory>/exhibit.html` に正規化される場合にのみ承認します。それ以外はすべてフィードバック付きで拒否されます。
+  `../../etc/hosts` のようなパストラバーサルは別の場所に正規化され、拒否されます。
+- プロンプトにも「他のファイルは書き込まない」と書かれています。この一文は、モデルが最初の試行で成功する助けとなるヒントです。
+  2 回目の書き込みを止めているのはこの一文ではありません。ハンドラーです。
 
-The exhibit text goes into the prompt as **source material, not instructions**. It came from a model
-a moment ago, so treat it the way you treated Wikipedia articles in Step 7.
+展示テキストは **指示ではなく元資料** としてプロンプトに入ります。少し前にモデルが生成したものなので、
+ステップ 7 で Wikipedia の記事を扱ったのと同じように扱ってください。
 
-## Add the HTML session
+## HTML セッションを追加する
 
 :::language dotnet
-Open `Program.cs`. Add the HTML configuration and prompt builder:
+`Program.cs` を開きます。HTML の設定とプロンプトビルダーを追加します。
 
 ```csharp
 SessionConfig HtmlConfig(string workingDirectory) => new()
@@ -68,7 +68,7 @@ static string BuildHtmlPrompt(string exhibit)
 }
 ```
 
-Offer the page at the end of the run, after the sources:
+実行の最後、ソースの後にページの生成を提案します。
 
 ```csharp
     Console.WriteLine();
@@ -84,17 +84,17 @@ Offer the page at the end of the run, after the sources:
     return 0;
 ```
 
-**Look inside:** `Helpers/CuratorSafety.cs` holds `ExhibitWritePermission`, and it is the only
-thing standing between the model and your file system in this step. It precomputes
-`Path.GetFullPath` of `<workingDirectory>/exhibit.html`, then approves a request only when it is a
-`PermissionRequestWrite` whose resolved file name equals that one path. Everything else — another
-file name, a traversal like `../../etc/hosts`, a shell request, an MCP request — takes the
-`PermissionDecision.Reject` branch with feedback.
+**内部を見てみましょう:** `Helpers/CuratorSafety.cs` に `ExhibitWritePermission` があり、
+このステップではこれがモデルとあなたのファイルシステムの間に立つ唯一の存在です。これは
+`<workingDirectory>/exhibit.html` の `Path.GetFullPath` を事前計算し、リクエストが
+`PermissionRequestWrite` であって、その解決されたファイル名がその 1 つのパスと一致する場合にのみ承認します。
+それ以外はすべて — 別のファイル名、`../../etc/hosts` のようなトラバーサル、シェルリクエスト、MCP リクエスト — が
+フィードバック付きで `PermissionDecision.Reject` の分岐に入ります。
 :::
 
 :::language nodejs
-Open `src/index.ts`. Add `exhibitFileName` and `exhibitWritePermission` to the
-helper import, then add the HTML configuration and prompt builder:
+`src/index.ts` を開きます。ヘルパーのインポートに `exhibitFileName` と `exhibitWritePermission` を
+追加し、HTML の設定とプロンプトビルダーを追加します。
 
 ```typescript
 function htmlConfig(workingDirectory: string): SessionConfig {
@@ -128,7 +128,7 @@ Created ${exhibitFileName}`;
 }
 ```
 
-Offer the page at the end of the run, after the sources:
+実行の最後、ソースの後にページの生成を提案します。
 
 ```typescript
     if (await askYesNo("\nGenerate an interactive exhibit.html?", false)) {
@@ -141,17 +141,16 @@ Offer the page at the end of the run, after the sources:
     }
 ```
 
-**Look inside:** `src/curator.ts` holds `exhibitWritePermission`, and it is the only thing standing
-between the model and your file system in this step. It precomputes `resolve(root, "exhibit.html")`
-once, then approves a request only when `request.kind === "write"` and the requested file name
-resolves against `root` to exactly that path. Everything else — another file name, a traversal like
-`../../etc/hosts`, a shell request, an MCP request — takes the `{ kind: "reject" }` branch with
-feedback.
+**内部を見てみましょう:** `src/curator.ts` に `exhibitWritePermission` があり、このステップでは
+これがモデルとあなたのファイルシステムの間に立つ唯一の存在です。これは `resolve(root, "exhibit.html")` を
+一度だけ事前計算し、`request.kind === "write"` であって、要求されたファイル名が `root` を基準に解決されて
+ちょうどそのパスになる場合にのみ承認します。それ以外はすべて — 別のファイル名、`../../etc/hosts` のような
+トラバーサル、シェルリクエスト、MCP リクエスト — がフィードバック付きで `{ kind: "reject" }` の分岐に入ります。
 :::
 
 :::language python
-Open `main.py`. Add `exhibit_write_permission` to the helper import and
-`from pathlib import Path` to the top, then add the HTML configuration and prompt builder:
+`main.py` を開きます。ヘルパーのインポートに `exhibit_write_permission` を追加し、
+先頭に `from pathlib import Path` を追加してから、HTML の設定とプロンプトビルダーを追加します。
 
 ```python
 def html_config(working_directory: str) -> dict[str, Any]:
@@ -186,7 +185,7 @@ After the write succeeds, reply only:
 Created exhibit.html"""
 ```
 
-Offer the page at the end of the run, after the sources:
+実行の最後、ソースの後にページの生成を提案します。
 
 ```python
         print()
@@ -200,16 +199,16 @@ Offer the page at the end of the run, after the sources:
         return 0
 ```
 
-**Look inside:** `curator.py` holds `exhibit_write_permission`, and it is the only thing standing
-between the model and your file system in this step. It precomputes the resolved
-`<working_directory>/exhibit.html` path once, then approves a request only when its `kind` is
-`"write"` and the resolved requested path equals that one path. Everything else — another file
-name, a traversal like `../../etc/hosts`, a shell request, an MCP request — falls through to
-`PermissionDecisionReject` with feedback.
+**内部を見てみましょう:** `curator.py` に `exhibit_write_permission` があり、このステップでは
+これがモデルとあなたのファイルシステムの間に立つ唯一の存在です。これは解決された
+`<working_directory>/exhibit.html` のパスを一度だけ事前計算し、`kind` が `"write"` であって、
+解決された要求パスがその 1 つのパスと一致する場合にのみ承認します。それ以外はすべて — 別のファイル名、
+`../../etc/hosts` のようなトラバーサル、シェルリクエスト、MCP リクエスト — がフィードバック付きで
+`PermissionDecisionReject` に落ちます。
 :::
 
 :::language go
-Open `main.go`. Add the HTML configuration and prompt builder:
+`main.go` を開きます。HTML の設定とプロンプトビルダーを追加します。
 
 ```go
 func htmlConfig(workingDirectory string) *copilot.SessionConfig {
@@ -244,7 +243,7 @@ Created exhibit.html`, exhibit)
 }
 ```
 
-Offer the page at the end of `run`, after the sources:
+`run` の最後、ソースの後にページの生成を提案します。
 
 ```go
 	fmt.Println()
@@ -257,18 +256,18 @@ Offer the page at the end of `run`, after the sources:
 	return nil
 ```
 
-**Look inside:** `curator.go` holds `ExhibitWritePermission`, and it is the only thing standing
-between the model and your file system in this step. It precomputes
-`filepath.Clean(filepath.Join(workingDirectory, ExhibitFileName))` once, then approves a request
-only when `writePermissionFileName` reports a write request whose cleaned path equals that one
-path. Everything else — another file name, a traversal like `../../etc/hosts`, a shell request, an
-MCP request — falls through to `rpc.PermissionDecisionReject` with feedback.
+**内部を見てみましょう:** `curator.go` に `ExhibitWritePermission` があり、このステップでは
+これがモデルとあなたのファイルシステムの間に立つ唯一の存在です。これは
+`filepath.Clean(filepath.Join(workingDirectory, ExhibitFileName))` を一度だけ事前計算し、
+`writePermissionFileName` がクリーンなパスがその 1 つのパスと一致する書き込みリクエストを報告した場合にのみ
+承認します。それ以外はすべて — 別のファイル名、`../../etc/hosts` のようなトラバーサル、シェルリクエスト、
+MCP リクエスト — がフィードバック付きで `rpc.PermissionDecisionReject` に落ちます。
 :::
 
 :::language rust
-Open `src/main.rs`. Add `EXHIBIT_FILE_NAME` and `exhibit_write_permission` to
-the crate import and `use std::path::PathBuf;` to the top, then add the HTML configuration and
-prompt builder:
+`src/main.rs` を開きます。クレートのインポートに `EXHIBIT_FILE_NAME` と
+`exhibit_write_permission` を追加し、先頭に `use std::path::PathBuf;` を追加してから、
+HTML の設定とプロンプトビルダーを追加します。
 
 ```rust
 fn html_config(working_directory: PathBuf) -> SessionConfig {
@@ -301,7 +300,7 @@ Created {EXHIBIT_FILE_NAME}"#
 }
 ```
 
-Offer the page at the end of `run`, after the sources:
+`run` の最後、ソースの後にページの生成を提案します。
 
 ```rust
     println!();
@@ -319,16 +318,16 @@ Offer the page at the end of `run`, after the sources:
     Ok(())
 ```
 
-**Look inside:** `src/lib.rs` holds `exhibit_write_permission` and the `ExhibitWritePermissions`
-handler behind it, and that handler is the only thing standing between the model and your file
-system in this step. It stores the normalized `<working_directory>/exhibit.html` path once, then
-approves a request only when the request kind is write and the normalized requested path equals
-that one path. Everything else — another file name, a traversal like `../../etc/hosts`, a shell
-request, an MCP request — takes the `PermissionResult::reject` branch with feedback.
+**内部を見てみましょう:** `src/lib.rs` に `exhibit_write_permission` と、その背後にある
+`ExhibitWritePermissions` ハンドラーがあり、このハンドラーがこのステップでモデルとあなたのファイルシステムの
+間に立つ唯一の存在です。これは正規化された `<working_directory>/exhibit.html` のパスを一度だけ保持し、
+リクエストの種類が write であって、正規化された要求パスがその 1 つのパスと一致する場合にのみ承認します。
+それ以外はすべて — 別のファイル名、`../../etc/hosts` のようなトラバーサル、シェルリクエスト、MCP リクエスト — が
+フィードバック付きで `PermissionResult::reject` の分岐に入ります。
 :::
 
 :::language java
-Open `src/main/java/workshop/MuseumExhibitStudio.java`. Add these imports:
+`src/main/java/workshop/MuseumExhibitStudio.java` を開きます。次のインポートを追加します。
 
 ```java
 import com.github.copilot.rpc.PermissionHandler;
@@ -337,11 +336,11 @@ import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 ```
 
-Current Java SDK releases may not expose the file name on a write permission request
-([github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273)). The strict handler
-is still the default; an explicit, documented opt-in flag is the only way to run the demo when the
-field is missing, and it cannot enforce the output path. Add the flag, the HTML configuration, and
-the prompt builder:
+現行の Java SDK のリリースでは、書き込みパーミッションリクエストにファイル名が公開されない場合があります
+([github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273))。厳格なハンドラーは
+依然としてデフォルトです。このフィールドが欠けているときにデモを実行する唯一の方法は、明示的で文書化された
+オプトインフラグを使うことであり、それは出力パスを強制できません。このフラグ、HTML の設定、
+プロンプトビルダーを追加します。
 
 ```java
     private static final String LOCAL_DEMO_WRITE_FLAG = "--allow-local-demo-write";
@@ -391,7 +390,7 @@ the prompt builder:
     }
 ```
 
-Read the flag at the top of `main`, warn loudly when it is on, and offer the page after the sources:
+`main` の先頭でフラグを読み取り、有効な場合は目立つ警告を出し、ソースの後にページの生成を提案します。
 
 ```java
             boolean allowLocalDemoWrite = List.of(args).contains(LOCAL_DEMO_WRITE_FLAG);
@@ -414,14 +413,15 @@ Read the flag at the top of `main`, warn loudly when it is on, and offer the pag
             }
 ```
 
-**Look inside:** `CuratorSafety.java` holds `exhibitWritePermission`, the strict handler your
-`exhibitPermission` wraps. It normalizes `<workingDirectory>/exhibit.html` once, then approves a
-request only when the kind is `"write"` and `isExhibitWrite` resolves the requested `fileName` to
-exactly that path. A missing `fileName` field stays denied rather than defaulting to allowed, which
-is why the opt-in demo flag above exists and why it is off unless you ask for it.
+**内部を見てみましょう:** `CuratorSafety.java` に `exhibitWritePermission` があり、これはあなたの
+`exhibitPermission` がラップする厳格なハンドラーです。これは `<workingDirectory>/exhibit.html` を
+一度だけ正規化し、種類が `"write"` であって、`isExhibitWrite` が要求された `fileName` をちょうどそのパスに
+解決する場合にのみ承認します。`fileName` フィールドが欠けている場合は、許可にデフォルト設定されるのではなく
+拒否されたままになります。これが上記のオプトインデモフラグが存在する理由であり、明示的に要求しない限り
+オフになっている理由です。
 :::
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -454,8 +454,8 @@ mvn compile exec:java
 ```
 :::
 
-The write lands in the working directory the program is started from, so run it from inside
-your starter directory for this step. Answer `y` at the last question:
+書き込みは、プログラムを起動した作業ディレクトリに行われます。そのため、このステップ用のスターターディレクトリの
+中から実行してください。最後の質問に `y` と答えます。
 
 ```text
 Generate an interactive exhibit.html? [y/N]: y
@@ -466,40 +466,40 @@ Created exhibit.html
 Wrote exhibit.html. Open it in a browser to review the exhibit.
 ```
 
-Open `exhibit.html`. You should see the exhibit title, the narrative, the three
-questions with a working filter and a live count, and the human-review caveat. Tab through the page:
-focus should be clearly visible on the filter and any interactive elements.
+`exhibit.html` を開きます。展示タイトル、ストーリー、動作するフィルターとライブカウント付きの 3 つの質問、
+そして人間によるレビューが必要である旨の注意書きが表示されるはずです。ページを Tab キーで移動してみましょう。
+フィルターや任意のインタラクティブ要素で、フォーカスがはっきりと見えるはずです。
 
-Now try to break the boundary. Temporarily change one line of your HTML prompt to ask for a second
-file — for example `Also create notes.txt in the current working directory.` — and run again. The
-second write is rejected with:
+次に、境界を破ってみましょう。HTML プロンプトの 1 行を一時的に変更して 2 つ目のファイルを要求します。
+たとえば `Also create notes.txt in the current working directory.` のようにして、もう一度実行します。
+2 つ目の書き込みは次のように拒否されます。
 
 ```text
 This session allows writing only exhibit.html in the application working directory.
 ```
 
-`exhibit.html` is still produced, `notes.txt` does not exist, and nothing you wrote in the prompt
-changed that outcome. Put the prompt back.
+`exhibit.html` は引き続き生成され、`notes.txt` は存在せず、プロンプトに何を書いてもその結果は変わりません。
+プロンプトを元に戻してください。
 
-## Check your understanding
+## 理解度チェック
 
-- The prompt says "do not write any other file" and the handler enforces one path. Which one did the
-  run above actually rely on, and how do you know?
-- The exhibit text is model output being fed back into another model with a write capability. Which
-  two things in this step keep that from being dangerous?
-- Your application now has three sessions with three different capability profiles. Describe each in
-  one sentence, and say why they are not one session with the union of their permissions.
+- プロンプトには「他のファイルは書き込まない」とあり、ハンドラーは 1 つのパスを強制します。上記の実行が実際に
+  頼りにしていたのはどちらでしょうか。そして、どうしてそれが分かるのでしょうか。
+- 展示テキストは、書き込み機能を持つ別のモデルにフィードバックされているモデル出力です。このステップで、それが
+  危険にならないようにしている 2 つのものは何でしょうか。
+- あなたのアプリケーションは今、3 つの異なる機能プロファイルを持つ 3 つのセッションを備えています。それぞれを
+  一文で説明し、なぜそれらが権限の和集合を持つ 1 つのセッションではないのかを述べてください。
 
-You have finished Museum Exhibit Studio. Your starter project now matches
-`finished/<language>/museum-exhibit-studio`: an educator picks approved facts, optionally researches
-them under a narrow allowlist, and gets grounded, structurally checked exhibit copy plus a
-publishable page — with every capability decided by your code rather than by a prompt.
+これで Museum Exhibit Studio は完了です。あなたのスタータープロジェクトは今や
+`finished/<language>/museum-exhibit-studio` と一致します。教育者が承認済みファクトを選び、任意で狭い許可リストの
+もとでそれらを調査し、根拠のある構造チェック済みの展示コピーと公開可能なページを得ます。しかも、あらゆる機能に
+関する決定は、プロンプトではなくあなたのコードによって下されています。
 
-## Learn more
+## さらに学ぶ
 
-- [Pre-tool-use hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md):
-  approving, denying, or rewriting a tool call in code, which is what the write handler does here.
-- [Hooks reference](https://github.com/github/copilot-sdk/blob/main/docs/hooks/README.md):
-  every hook the SDK exposes, and the input each one receives.
-- [Local CLI setup](https://github.com/github/copilot-sdk/blob/main/docs/setup/local-cli.md):
-  controlling which CLI the SDK starts, which is what decides where a written file lands.
+- [Pre-tool-use フック](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md):
+  ツール呼び出しをコードで承認・拒否・書き換える方法。ここで書き込みハンドラーが行っていることそのものです。
+- [フックリファレンス](https://github.com/github/copilot-sdk/blob/main/docs/hooks/README.md):
+  SDK が公開するすべてのフックと、それぞれが受け取る入力。
+- [ローカル CLI のセットアップ](https://github.com/github/copilot-sdk/blob/main/docs/setup/local-cli.md):
+  SDK が起動する CLI を制御する方法。これが、書き込まれたファイルの配置先を決めるものです。

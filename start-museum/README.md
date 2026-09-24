@@ -1,22 +1,22 @@
-# Museum Exhibit Studio starters
+# Museum Exhibit Studio スターター
 
-Choose the directory for your workshop language and work directly inside it. After you change into
-it, open that same folder in your editor (`code .` from inside it, or any other editor's open-folder
-command) and keep your terminal there. These starters contain pinned dependencies, a minimal
-executable, and one pre-built curator helper module. The helpers hold the plumbing you never have
-to write: the approved fact sets and their bounds, the pre-built `approved_fact_lookup` local tool
-that hands those facts to the curator, a streaming printer, deterministic exhibit validation, the
-scoped Wikipedia MCP server and its deny-by-default permission handler, the single-file
-`exhibit.html` write permission, and small terminal prompts. You never edit the helpers.
+ワークショップの言語のディレクトリを選び、その中で直接作業してください。その中に移動したら、同じフォルダーを
+エディターで開き（その中から `code .` を実行するか、他のエディターのフォルダーを開くコマンドを使用します）、
+ターミナルをそこに保ってください。これらのスターターには、固定された依存関係、最小限の実行可能ファイル、そして
+1 つの事前ビルド済みキュレーターヘルパーモジュールが含まれています。ヘルパーは、あなたが書く必要のない配管を
+保持しています。承認済みファクトセットとその境界、それらのファクトをキュレーターに渡す事前ビルド済みの
+`approved_fact_lookup` ローカルツール、ストリーミングプリンター、決定的な展示検証、スコープ化された
+Wikipedia MCP サーバーと、その拒否をデフォルトとするパーミッションハンドラー、単一ファイル `exhibit.html` の
+書き込みパーミッション、そして小さなターミナルプロンプトです。ヘルパーを編集することは決してありません。
 
-The starters do **not** include the curator system message, the exhibit prompt, session
-configuration, tool registration, or any orchestration. You write those during the lessons: one
-session, then streaming, then the curator voice, the fact tool registration and its prompt, one
-session runner that owns the guardrails, the validation report, scoped Wikipedia research, and an
-optional `exhibit.html` page. Each starter entrypoint carries comments marking exactly where each
-step's code goes. Start at [`workshop/museum-00-preflight.md`](../workshop/museum-00-preflight.md).
+スターターには、キュレーターのシステムメッセージ、展示プロンプト、セッション構成、ツール登録、
+オーケストレーションは **含まれていません**。それらはレッスン中に書きます。1 つのセッション、次にストリーミング、
+次にキュレーターの語り口、ファクトツールの登録とそのプロンプト、ガードレールを所有する 1 つのセッションランナー、
+検証レポート、スコープ化された Wikipedia リサーチ、そして任意の `exhibit.html` ページです。各スターターの
+エントリポイントには、各ステップのコードがどこに入るかを正確に示すコメントが付いています。
+[`workshop/museum-00-preflight.md`](../workshop/museum-00-preflight.md) から始めてください。
 
-| Language | Helper module | Change directory, build, and run |
+| 言語 | ヘルパーモジュール | ディレクトリを変更してビルドし、実行する |
 |---|---|---|
 | .NET | `Helpers/Curator*.cs` | `cd start-museum/dotnet && dotnet build && dotnet run` |
 | Node.js | `src/curator.ts` | `cd start-museum/nodejs && npm ci && npm run build && npm start` |
@@ -25,10 +25,11 @@ step's code goes. Start at [`workshop/museum-00-preflight.md`](../workshop/museu
 | Rust | `src/lib.rs` | `cd start-museum/rust && cargo check --locked && cargo run --locked` |
 | Java | `src/main/java/workshop/Curator*.java` | `cd start-museum/java && mvn compile && mvn exec:java` |
 
-Running the starter prints its identity and does not start Copilot or require authentication.
-Because you edit these files in place, your work shows up in `git status`. That is expected. Run
-`git checkout -- .` from the repository root to restore a clean starter.
+スターターを実行すると、その識別情報が出力され、Copilot は起動せず、認証も必要としません。
+これらのファイルをその場で編集するため、作業内容は `git status` に表示されます。それは想定どおりです。
+きれいなスターターに復元するには、リポジトリのルートから `git checkout -- .` を実行します。
 
-Every starter already pins the dependencies the finished application needs, so you never edit a
-project manifest during the workshop. The Rust starter builds the `museum_exhibit_studio` library
-crate from `src/lib.rs`; import the helpers from it in `src/main.rs`.
+すべてのスターターは、完成したアプリケーションが必要とする依存関係をすでに固定しているため、ワークショップ中に
+プロジェクトのマニフェストを編集することは決してありません。Rust スターターは、`src/lib.rs` から
+`museum_exhibit_studio` ライブラリクレートをビルドします。`src/main.rs` の中でそこからヘルパーを
+インポートしてください。

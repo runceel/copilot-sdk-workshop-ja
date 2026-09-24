@@ -1,69 +1,69 @@
-# Step 4: Connect an external tool safely
+# ステップ 4: 外部ツールを安全に接続する
 
-> **Time:** 20 minutes
+> **所要時間:** 20 分
 
-## What you'll connect
+## 接続するもの
 
-You'll start Playwright through MCP, limit navigation to the workshop target you provide, inspect
-its accessibility tree, and report the page title.
+MCP を介して Playwright を起動し、ナビゲーションを自分が指定したワークショップのターゲットに限定して、
+そのアクセシビリティツリーを調べ、ページタイトルをレポートします。
 
-## Meet MCP and its trust boundary
+## MCP とその信頼境界を知る
 
-The [**Model Context Protocol (MCP)**](https://github.com/github/copilot-sdk/blob/main/docs/features/mcp.md)
-is a standard way to connect an agent to reusable capabilities implemented outside your
-application. In this workshop, the SDK starts the Playwright MCP server as a separate `npx`
-process. Playwright handles browser automation, while your application configures the connection.
+[**Model Context Protocol (MCP)**](https://github.com/github/copilot-sdk/blob/main/docs/features/mcp.md)
+は、アプリケーションの外部で実装された再利用可能な機能へエージェントを接続するための標準的な方法です。
+このワークショップでは、SDK が Playwright MCP サーバーを別個の `npx`
+プロセスとして起動します。Playwright はブラウザーの自動化を担当し、アプリケーションは接続を構成します。
 
-The process boundary is also a **trust boundary**. A
-[permission handler](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md) is
-a callback the runtime invokes before a requested action runs, and it decides whether each external
-action may proceed.
+プロセス境界は **信頼境界** でもあります。
+[パーミッションハンドラー](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md) は、
+要求されたアクションが実行される前にランタイムが呼び出すコールバックで、各外部アクションを
+実行してよいかどうかを判断します。
 
-| Question | Local WCAG tool | Playwright MCP |
+| 問い | ローカルの WCAG ツール | Playwright MCP |
 |---|---|---|
-| Who implements it? | This application | External Playwright package |
-| Where does it run? | Same application process | Separate Node.js process |
-| What is it best for? | App-owned data and deterministic logic | Reusable browser capability |
-| How is trust handled here? | Read-only tool skips permission | Tool list and custom handler restrict access |
+| 誰が実装しているか？ | このアプリケーション | 外部の Playwright パッケージ |
+| どこで実行されるか？ | 同じアプリケーションプロセス | 別個の Node.js プロセス |
+| 何に最も適しているか？ | アプリ所有のデータと決定論的なロジック | 再利用可能なブラウザー機能 |
+| ここでは信頼をどう扱うか？ | 読み取り専用ツールはパーミッションをスキップ | ツールリストとカスタムハンドラーがアクセスを制限 |
 
-The WCAG lookup and narrow snapshot reader stay in process.
-`CopilotSession -> Playwright MCP -> browser` crosses a process boundary.
+WCAG ルックアップと狭い範囲のスナップショットリーダーはプロセス内にとどまります。
+`CopilotSession -> Playwright MCP -> browser` はプロセス境界をまたぎます。
 
-## Put Playwright behind guardrails
+## Playwright をガードレールの背後に置く
 
-The browser argument uses Microsoft Edge, the workshop default. If you prepared Google Chrome
-instead, use `--browser=chrome`.
+ブラウザー引数はワークショップの既定である Microsoft Edge を使用します。代わりに Google Chrome を
+用意した場合は、`--browser=chrome` を使用してください。
 
-The session tool allowlist keeps unrelated runtime tools out. The MCP server's tool list exposes
-only navigation. In Playwright MCP 0.0.78, navigation writes its automatic accessibility tree to
-`.playwright-mcp/`. The application snapshot reader accepts no arguments and reads only the newest
-Playwright snapshot created after the session started.
+セッションのツール許可リストは無関係なランタイムツールを締め出します。MCP サーバーのツールリストは
+ナビゲーションのみを公開します。Playwright MCP 0.0.78 では、ナビゲーションは自動生成した
+アクセシビリティツリーを `.playwright-mcp/` に書き込みます。アプリケーションのスナップショットリーダーは
+引数を受け取らず、セッション開始後に作成された最新の Playwright スナップショットのみを読み取ります。
 
-`browser_snapshot` stays off both allowlists because its optional `filename` argument can write a
-file. The runtime can automatically allow MCP tools annotated as read-only without calling your
-permission delegate, so a handler cannot reliably sanitize that argument. Removing the tool closes
-the capability instead of relying on a prompt.
+`browser_snapshot` は、そのオプション引数 `filename` がファイルを書き込める可能性があるため、
+どちらの許可リストにも含めません。ランタイムは読み取り専用と注釈された MCP ツールを、
+パーミッションのデリゲートを呼び出さずに自動的に許可できるため、ハンドラーはその引数を確実に
+サニタイズできません。プロンプトに頼るのではなく、ツールを取り除くことでこの機能を閉じます。
 
-The reader accepts no path. It ignores pre-existing files, nested files, symbolic links, empty
-files, and snapshots larger than 1 MB. Navigation is approved only when the complete canonical URL
-matches the target supplied at startup. Scheme and host use URL-standard case-insensitive
-comparison. Path, query, and fragment must match case-sensitively.
+リーダーはパスを受け取りません。既存のファイル、ネストされたファイル、シンボリックリンク、空の
+ファイル、1 MB を超えるスナップショットを無視します。ナビゲーションは、完全な正規化 URL が
+起動時に指定されたターゲットと一致した場合にのみ許可されます。スキームとホストは URL 標準の
+大文字小文字を区別しない比較を使用します。パス、クエリ、フラグメントは大文字小文字を区別して一致する必要があります。
 
-The handler returns exactly one decision per request, and this one needs two of the available
-kinds. `approve-once` allows this single request. `reject` denies it and can forward a feedback
-message to the model, so a refused call comes back with a reason instead of as a silent failure.
-Two more kinds exist for situations this workshop does not reach: `user-not-available` denies
-because no user is present to confirm, and `no-result` declines to respond at all so another
-connected client can answer the request instead. Wider approval scopes — `approve-for-session`,
-`approve-for-location`, and `approve-permanently` — remember a decision beyond this one call. Each
-SDK spells all of these with its own naming convention.
+ハンドラーはリクエストごとに 1 つの決定だけを返します。今回は利用可能な種類のうち 2 つが必要です。
+`approve-once` はこの単一のリクエストを許可します。`reject` はそれを拒否し、フィードバック
+メッセージをモデルに転送できるため、拒否された呼び出しは無言の失敗ではなく理由付きで返ってきます。
+このワークショップでは扱わない状況向けにさらに 2 つの種類があります。`user-not-available` は
+確認できるユーザーが存在しないため拒否し、`no-result` は一切応答せず、代わりに別の
+接続済みクライアントがリクエストに応答できるようにします。より広い承認スコープ — `approve-for-session`、
+`approve-for-location`、`approve-permanently` — は、この 1 回の呼び出しを超えて決定を記憶します。
+各 SDK はこれらすべてを独自の命名規則で表記します。
 
 :::language dotnet
-## Wire up scoped Playwright access in C#
+## C# でスコープ付き Playwright アクセスを組み立てる
 
-### 1. Accept one controlled target
+### 1. 制御されたターゲットを 1 つ受け取る
 
-At the top of `Program.cs`, after the `using` statements and before the banner, insert:
+`Program.cs` の先頭で、`using` 文の後、バナーの前に次を挿入します。
 
 ```csharp
 if (args.Length is not 1 ||
@@ -75,10 +75,10 @@ if (args.Length is not 1 ||
 }
 ```
 
-### 2. Inspect the prebuilt permission handler
+### 2. 用意済みのパーミッションハンドラーを確認する
 
-Open `Helpers/WorkshopPermissionHandler.cs`. The prebuilt handler returns a one-time
-approval only for exact-target navigation. Every other external request is rejected.
+`Helpers/WorkshopPermissionHandler.cs` を開きます。用意済みのハンドラーは、ターゲットに完全一致する
+ナビゲーションに対してのみ 1 回限りの承認を返します。それ以外の外部リクエストはすべて拒否されます。
 
 ```csharp
 public static Func<PermissionRequest, PermissionInvocation, Task<PermissionDecision>> CreateForTarget(
@@ -103,19 +103,20 @@ public static Func<PermissionRequest, PermissionInvocation, Task<PermissionDecis
 }
 ```
 
-The .NET SDK currently prefixes MCP permission tool names with the server name (for example,
-`playwright-browser_navigate`), while MCP configuration uses `browser_navigate`.
-`IsPlaywrightTool` accepts those two exact forms rather than using a broad wildcard.
+.NET SDK は現在、MCP パーミッションのツール名にサーバー名を接頭辞として付けます（例:
+`playwright-browser_navigate`）。一方、MCP 構成では `browser_navigate` を使用します。
+`IsPlaywrightTool` は幅広いワイルドカードを使う代わりに、これら 2 つの正確な形式を受け入れます。
 
-> **SDK note:** version 1.0.7 ships `PermissionHandler.ApproveAll`, but no built-in scoped handler.
-> The starter therefore includes a hand-written delegate. `PermissionDecision` is currently marked
-> evaluation-only, so that one helper contains a localized `GHCP001` suppression.
+> **SDK メモ:** バージョン 1.0.7 には `PermissionHandler.ApproveAll` が同梱されていますが、
+> 組み込みのスコープ付きハンドラーはありません。そのためスターターには手書きのデリゲートが
+> 含まれています。`PermissionDecision` は現在評価専用としてマークされているため、その 1 つの
+> ヘルパーにはローカライズされた `GHCP001` の抑制が含まれています。
 
-### 3. Inspect the prebuilt snapshot-reader boundary
+### 3. 用意済みのスナップショットリーダーの境界を確認する
 
-Open `Helpers/PlaywrightSnapshotReader.cs`. The reader captures existing snapshots when
-the tool is created, accepts no model-supplied arguments, selects only a new direct child named
-`page-*.yml`, rejects symbolic links and oversized files, then returns the text.
+`Helpers/PlaywrightSnapshotReader.cs` を開きます。リーダーはツールが作成された時点で既存の
+スナップショットを取得し、モデルが指定する引数を受け取らず、`page-*.yml` という名前の新しい直下の子
+だけを選択し、シンボリックリンクや大きすぎるファイルを拒否したうえで、テキストを返します。
 
 ```csharp
 public static AIFunction CreateTool(string workingDirectory)
@@ -140,12 +141,12 @@ public static AIFunction CreateTool(string workingDirectory)
 }
 ```
 
-The adapter skips permission because it is read-only, uses application-selected storage, and is
-implemented by the application. That is a narrower capability than a general file reader.
+アダプターは読み取り専用であり、アプリケーションが選択したストレージを使用し、アプリケーションによって
+実装されているため、パーミッションをスキップします。これは汎用的なファイルリーダーよりも狭い機能です。
 
-### 4. Add Playwright MCP and scoped permissions
+### 4. Playwright MCP とスコープ付きパーミッションを追加する
 
-Replace the session configuration with:
+セッション構成を次のように置き換えます。
 
 ```csharp
 var workingDirectory = Directory.GetCurrentDirectory();
@@ -178,9 +179,9 @@ await using var session = await client.CreateSessionAsync(new SessionConfig
 });
 ```
 
-### 5. Request browser evidence
+### 5. ブラウザーの根拠を要求する
 
-Replace the final send call:
+最後の送信呼び出しを置き換えます。
 
 ```csharp
 Console.WriteLine($"\nInspecting: {targetUri.AbsoluteUri}\n");
@@ -193,15 +194,15 @@ await ResponseStreamer.SendAndPrintAsync(
     """);
 ```
 
-## Run it
+## 実行する
 
 ```bash
 dotnet run -- "{{TARGET_APP_URL}}"
 ```
 
-The first run may take longer while `npx` starts Playwright.
+初回の実行は、`npx` が Playwright を起動する間、時間がかかることがあります。
 
-Look for:
+次のような出力を探します。
 
 ```text
 [tool:start] playwright-browser_navigate
@@ -213,22 +214,22 @@ Page title: Blazor Accessibility Target
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `npx` cannot be started | Rerun the preflight MCP command and verify Node.js is on `PATH`. |
-| Playwright cannot find a browser | Install Edge or Chrome, or configure an installed browser as described by Playwright MCP. |
-| A permission is rejected | Use the exact target URL above. The handler intentionally denies other URLs and tools. |
-| No current-run snapshot is available | Keep the prompt order: call `browser_navigate` before `read_latest_accessibility_snapshot`. |
-| The compiler cannot find the permission helper | Confirm `using HelloCopilotSDK.Helpers;` is present and the helper file is in the project. |
+| `npx` を起動できない | 事前準備の MCP コマンドを再実行し、Node.js が `PATH` にあることを確認します。 |
+| Playwright がブラウザーを見つけられない | Edge または Chrome をインストールするか、Playwright MCP の説明に従ってインストール済みのブラウザーを構成します。 |
+| パーミッションが拒否される | 上記の正確なターゲット URL を使用します。ハンドラーは意図的にほかの URL やツールを拒否します。 |
+| 現在の実行のスナップショットが利用できない | プロンプトの順序を守ります。`read_latest_accessibility_snapshot` の前に `browser_navigate` を呼び出します。 |
+| コンパイラーがパーミッションヘルパーを見つけられない | `using HelloCopilotSDK.Helpers;` が存在し、ヘルパーファイルがプロジェクトに含まれていることを確認します。 |
 
 </details>
 
 <details>
-<summary>Complete Step 4 implementation</summary>
+<summary>ステップ 4 の完全な実装</summary>
 
-Compare your work with this complete Step 4 implementation.
+自分の作業を、このステップ 4 の完全な実装と比較します。
 
 ```csharp
 using GitHub.Copilot;
@@ -293,11 +294,11 @@ await ResponseStreamer.SendAndPrintAsync(
 :::
 
 :::language nodejs
-## Wire up scoped Playwright access in TypeScript
+## TypeScript でスコープ付き Playwright アクセスを組み立てる
 
-### 1. Accept one controlled target
+### 1. 制御されたターゲットを 1 つ受け取る
 
-At the top of `src/index.ts`, replace the entrypoint setup with:
+`src/index.ts` の先頭で、エントリーポイントのセットアップを次のように置き換えます。
 
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
@@ -316,9 +317,10 @@ if (!["http:", "https:"].includes(target.protocol)) {
 }
 ```
 
-### 2. Inspect the prebuilt permission handler
+### 2. 用意済みのパーミッションハンドラーを確認する
 
-Open `src/workshop.ts`. The prebuilt handler approves only exact-target Playwright navigation:
+`src/workshop.ts` を開きます。用意済みのハンドラーは、ターゲットに完全一致する Playwright の
+ナビゲーションのみを承認します。
 
 ```typescript
 export function permissionForTarget(target: URL): PermissionHandler {
@@ -360,13 +362,13 @@ function sameUrl(requested: string, allowed: URL): boolean {
 }
 ```
 
-Accept both `browser_navigate` and `playwright-browser_navigate` because the runtime may prefix the
-server name on permission requests.
+ランタイムはパーミッションリクエストでサーバー名を接頭辞として付ける場合があるため、
+`browser_navigate` と `playwright-browser_navigate` の両方を受け入れます。
 
-### 3. Inspect the prebuilt snapshot-reader boundary
+### 3. 用意済みのスナップショットリーダーの境界を確認する
 
-Still in `src/workshop.ts`, the snapshot reader captures existing files at creation
-time and accepts no model-supplied path:
+引き続き `src/workshop.ts` 内で、スナップショットリーダーは作成時に既存のファイルを取得し、
+モデルが指定するパスを受け取りません。
 
 ```typescript
 export function createSnapshotReader(workingDirectory: string) {
@@ -409,9 +411,9 @@ export function createSnapshotReader(workingDirectory: string) {
 }
 ```
 
-### 4. Add Playwright MCP and scoped permissions
+### 4. Playwright MCP とスコープ付きパーミッションを追加する
 
-In `src/index.ts`, create the session with the three-tool allowlist and Playwright MCP:
+`src/index.ts` で、3 つのツールの許可リストと Playwright MCP を使ってセッションを作成します。
 
 ```typescript
 const client = new CopilotClient();
@@ -448,18 +450,18 @@ try {
 }
 ```
 
-`availableTools` uses the runtime-prefixed MCP name `playwright-browser_navigate`, while the MCP
-server config still lists bare `browser_navigate`.
+`availableTools` はランタイムが接頭辞を付けた MCP 名 `playwright-browser_navigate` を使用しますが、
+MCP サーバー構成では引き続き接頭辞なしの `browser_navigate` を列挙します。
 
-## Run it
+## 実行する
 
 ```bash
 npm start -- "{{TARGET_APP_URL}}"
 ```
 
-The first run may take longer while `npx` starts Playwright.
+初回の実行は、`npx` が Playwright を起動する間、時間がかかることがあります。
 
-Look for:
+次のような出力を探します。
 
 ```text
 [tool:start] playwright-browser_navigate
@@ -471,22 +473,22 @@ Page title: Blazor Accessibility Target
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `npx` cannot be started | Rerun the preflight MCP command and verify Node.js is on `PATH`. |
-| Playwright cannot find a browser | Install Edge or Chrome, or configure an installed browser as described by Playwright MCP. |
-| A permission is rejected | Use the exact target URL above. The handler intentionally denies other URLs and tools. |
-| No current-run snapshot is available | Keep the prompt order: call `browser_navigate` before `read_latest_accessibility_snapshot`. |
-| TypeScript cannot resolve helpers | Confirm the import path ends with `.js` and run `npm install` in the starter directory. |
+| `npx` を起動できない | 事前準備の MCP コマンドを再実行し、Node.js が `PATH` にあることを確認します。 |
+| Playwright がブラウザーを見つけられない | Edge または Chrome をインストールするか、Playwright MCP の説明に従ってインストール済みのブラウザーを構成します。 |
+| パーミッションが拒否される | 上記の正確なターゲット URL を使用します。ハンドラーは意図的にほかの URL やツールを拒否します。 |
+| 現在の実行のスナップショットが利用できない | プロンプトの順序を守ります。`read_latest_accessibility_snapshot` の前に `browser_navigate` を呼び出します。 |
+| TypeScript がヘルパーを解決できない | インポートパスが `.js` で終わっていることを確認し、スターターディレクトリで `npm install` を実行します。 |
 
 </details>
 
 <details>
-<summary>Complete Step 4 implementation</summary>
+<summary>ステップ 4 の完全な実装</summary>
 
-Compare your work with this complete Step 4 implementation.
+自分の作業を、このステップ 4 の完全な実装と比較します。
 
 `src/index.ts`:
 
@@ -522,11 +524,11 @@ try {
 :::
 
 :::language python
-## Wire up scoped Playwright access in Python
+## Python でスコープ付き Playwright アクセスを組み立てる
 
-### 1. Accept one controlled target
+### 1. 制御されたターゲットを 1 つ受け取る
 
-At the top of `main.py`, validate the startup URL:
+`main.py` の先頭で、起動時の URL を検証します。
 
 ```python
 import asyncio
@@ -556,9 +558,10 @@ async def main() -> None:
         raise ValueError("Enter an absolute HTTP or HTTPS URL.")
 ```
 
-### 2. Inspect the prebuilt permission handler
+### 2. 用意済みのパーミッションハンドラーを確認する
 
-Open `workshop.py`. The prebuilt handler approves only exact-target Playwright navigation:
+`workshop.py` を開きます。用意済みのハンドラーは、ターゲットに完全一致する Playwright の
+ナビゲーションのみを承認します。
 
 ```python
 def permission_for_target(target: str):
@@ -608,10 +611,10 @@ def _same_url(requested: str, allowed: str) -> bool:
         return False
 ```
 
-### 3. Inspect the prebuilt snapshot-reader boundary
+### 3. 用意済みのスナップショットリーダーの境界を確認する
 
-Still in `workshop.py`, the snapshot reader captures existing files at creation time
-and accepts no model-supplied path:
+引き続き `workshop.py` 内で、スナップショットリーダーは作成時に既存のファイルを取得し、
+モデルが指定するパスを受け取りません。
 
 ```python
 def create_snapshot_reader(working_directory: str):
@@ -649,9 +652,9 @@ def create_snapshot_reader(working_directory: str):
     return read_latest_accessibility_snapshot
 ```
 
-### 4. Add Playwright MCP and scoped permissions
+### 4. Playwright MCP とスコープ付きパーミッションを追加する
 
-Replace the session creation block in `main.py`:
+`main.py` のセッション作成ブロックを置き換えます。
 
 ```python
     async with CopilotClient() as client:
@@ -701,40 +704,40 @@ Replace the session creation block in `main.py`:
                 raise error
 ```
 
-`available_tools` uses the runtime-prefixed MCP name `playwright-browser_navigate`, while the MCP
-server config still lists bare `browser_navigate`.
+`available_tools` はランタイムが接頭辞を付けた MCP 名 `playwright-browser_navigate` を使用しますが、
+MCP サーバー構成では引き続き接頭辞なしの `browser_navigate` を列挙します。
 
-## Run it
+## 実行する
 
 ```bash
 python main.py "{{TARGET_APP_URL}}"
 ```
 
-The first run may take longer while `npx` starts Playwright.
+初回の実行は、`npx` が Playwright を起動する間、時間がかかることがあります。
 
-Look for navigation and snapshot activity, then a page title such as:
+ナビゲーションとスナップショットのアクティビティを探し、続いて次のようなページタイトルを探します。
 
 ```text
 Page title: Blazor Accessibility Target
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `npx` cannot be started | Rerun the preflight MCP command and verify Node.js is on `PATH`. |
-| Playwright cannot find a browser | Install Edge or Chrome, or configure an installed browser as described by Playwright MCP. |
-| A permission is rejected | Use the exact target URL above. The handler intentionally denies other URLs and tools. |
-| No current-run snapshot is available | Keep the prompt order: call `browser_navigate` before `read_latest_accessibility_snapshot`. |
-| Import errors for workshop helpers | Activate the preflight virtual environment and confirm `workshop.py` is beside `main.py`. |
+| `npx` を起動できない | 事前準備の MCP コマンドを再実行し、Node.js が `PATH` にあることを確認します。 |
+| Playwright がブラウザーを見つけられない | Edge または Chrome をインストールするか、Playwright MCP の説明に従ってインストール済みのブラウザーを構成します。 |
+| パーミッションが拒否される | 上記の正確なターゲット URL を使用します。ハンドラーは意図的にほかの URL やツールを拒否します。 |
+| 現在の実行のスナップショットが利用できない | プロンプトの順序を守ります。`read_latest_accessibility_snapshot` の前に `browser_navigate` を呼び出します。 |
+| ワークショップヘルパーのインポートエラー | 事前準備の仮想環境をアクティブにし、`workshop.py` が `main.py` の隣にあることを確認します。 |
 
 </details>
 
 <details>
-<summary>Complete Step 4 implementation</summary>
+<summary>ステップ 4 の完全な実装</summary>
 
-Compare your work with this complete Step 4 implementation.
+自分の作業を、このステップ 4 の完全な実装と比較します。
 
 `main.py`:
 
@@ -796,11 +799,11 @@ if __name__ == "__main__":
 :::
 
 :::language go
-## Wire up scoped Playwright access in Go
+## Go でスコープ付き Playwright アクセスを組み立てる
 
-### 1. Accept one controlled target
+### 1. 制御されたターゲットを 1 つ受け取る
 
-At the start of `main` in `main.go`, validate the startup URL:
+`main.go` の `main` の先頭で、起動時の URL を検証します。
 
 ```go
 if len(os.Args) != 2 {
@@ -818,9 +821,9 @@ if err != nil || parsed.Host == "" || (parsed.Scheme != "http" && parsed.Scheme 
 }
 ```
 
-### 2. Add the permission handler
+### 2. パーミッションハンドラーを追加する
 
-Before `main`, add exact-URL matching and the permission handler:
+`main` の前に、完全一致の URL 判定とパーミッションハンドラーを追加します。
 
 ```go
 func sameURL(requested, allowed string) bool {
@@ -860,11 +863,11 @@ func permissionForTarget(target string) copilot.PermissionHandlerFunc {
 }
 ```
 
-Accept both bare and prefixed Playwright tool names on the permission path.
+パーミッションの経路では、接頭辞なしと接頭辞付きの両方の Playwright ツール名を受け入れます。
 
-### 3. Add the snapshot-reader boundary
+### 3. スナップショットリーダーの境界を追加する
 
-Still before `main`, add the no-argument snapshot reader:
+引き続き `main` の前に、引数なしのスナップショットリーダーを追加します。
 
 ```go
 const maxSnapshotBytes = 1_000_000
@@ -911,9 +914,9 @@ func snapshotReader(workingDirectory string) func(struct{}, copilot.ToolInvocati
 }
 ```
 
-### 4. Add Playwright MCP and scoped permissions
+### 4. Playwright MCP とスコープ付きパーミッションを追加する
 
-In `main`, define both local tools and replace the session configuration:
+`main` で、ローカルツールを両方定義し、セッション構成を置き換えます。
 
 ```go
 workingDirectory, err := os.Getwd()
@@ -953,42 +956,42 @@ if err := streamResponse(session, fmt.Sprintf("Use browser_navigate to open %s, 
 }
 ```
 
-Add the imports used by the new helpers: `encoding/json`, `net/url`, `path/filepath`, `sort`,
-`time`, and `"github.com/github/copilot-sdk/go/rpc"`.
+新しいヘルパーが使用するインポートを追加します: `encoding/json`、`net/url`、`path/filepath`、`sort`、
+`time`、および `"github.com/github/copilot-sdk/go/rpc"`。
 
-## Run it
+## 実行する
 
 ```bash
 go run . "{{TARGET_APP_URL}}"
 ```
 
-The first run may take longer while `npx` starts Playwright.
+初回の実行は、`npx` が Playwright を起動する間、時間がかかることがあります。
 
-Look for a page title such as:
+次のようなページタイトルを探します。
 
 ```text
 Page title: Blazor Accessibility Target
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `npx` cannot be started | Rerun the preflight MCP command and verify Node.js is on `PATH`. |
-| Playwright cannot find a browser | Install Edge or Chrome, or configure an installed browser as described by Playwright MCP. |
-| A permission is rejected | Use the exact target URL above. The handler intentionally denies other URLs and tools. |
-| No current-run snapshot is available | Keep the prompt order: call `browser_navigate` before `read_latest_accessibility_snapshot`. |
-| Missing imports | Add `encoding/json`, `net/url`, `path/filepath`, `sort`, `time`, and the `rpc` package. |
+| `npx` を起動できない | 事前準備の MCP コマンドを再実行し、Node.js が `PATH` にあることを確認します。 |
+| Playwright がブラウザーを見つけられない | Edge または Chrome をインストールするか、Playwright MCP の説明に従ってインストール済みのブラウザーを構成します。 |
+| パーミッションが拒否される | 上記の正確なターゲット URL を使用します。ハンドラーは意図的にほかの URL やツールを拒否します。 |
+| 現在の実行のスナップショットが利用できない | プロンプトの順序を守ります。`read_latest_accessibility_snapshot` の前に `browser_navigate` を呼び出します。 |
+| インポートが不足している | `encoding/json`、`net/url`、`path/filepath`、`sort`、`time`、および `rpc` パッケージを追加します。 |
 
 </details>
 
 <details>
-<summary>Complete Step 4 implementation</summary>
+<summary>ステップ 4 の完全な実装</summary>
 
-Compare your work with this complete Step 4 implementation.
+自分の作業を、このステップ 4 の完全な実装と比較します。
 
-`main.go` session wiring:
+`main.go` のセッション配線:
 
 ```go
 workingDirectory, err := os.Getwd()
@@ -1032,11 +1035,11 @@ if err := streamResponse(session, fmt.Sprintf("Use browser_navigate to open %s, 
 :::
 
 :::language rust
-## Wire up scoped Playwright access in Rust
+## Rust でスコープ付き Playwright アクセスを組み立てる
 
-### 1. Accept one controlled target
+### 1. 制御されたターゲットを 1 つ受け取る
 
-At the start of `main` in `src/main.rs`, validate the startup URL:
+`src/main.rs` の `main` の先頭で、起動時の URL を検証します。
 
 ```rust
 let argument = std::env::args()
@@ -1053,9 +1056,9 @@ if !matches!(target.scheme(), "http" | "https") || target.host_str().is_none() {
 }
 ```
 
-### 2. Add the permission handler
+### 2. パーミッションハンドラーを追加する
 
-Add the exact-target permission handler before `main`:
+`main` の前に、ターゲットに完全一致するパーミッションハンドラーを追加します。
 
 ```rust
 struct ScopedPermissions {
@@ -1125,9 +1128,9 @@ fn same_url(left: &Url, right: &Url) -> bool {
 }
 ```
 
-### 3. Add the snapshot-reader boundary
+### 3. スナップショットリーダーの境界を追加する
 
-Add the no-argument snapshot reader before `main`:
+`main` の前に、引数なしのスナップショットリーダーを追加します。
 
 ```rust
 const MAX_SNAPSHOT_BYTES: u64 = 1_000_000;
@@ -1201,9 +1204,9 @@ impl ToolHandler for SnapshotReader {
 }
 ```
 
-### 4. Add Playwright MCP and scoped permissions
+### 4. Playwright MCP とスコープ付きパーミッションを追加する
 
-In `main`, define both local tools, configure MCP, and install the permission handler:
+`main` で、ローカルツールを両方定義し、MCP を構成し、パーミッションハンドラーをインストールします。
 
 ```rust
 let working_directory = std::env::current_dir()?;
@@ -1264,44 +1267,44 @@ session.disconnect().await?;
 client.stop().await?;
 ```
 
-Add the imports used by the new helpers, including
-`github_copilot_sdk::handler::{PermissionHandler, PermissionResult}`,
-`McpServerConfig`, `McpStdioServerConfig`, `PermissionRequestData`, `PermissionRequestKind`,
-`RequestId`, `SessionId`, `indexmap::IndexMap`, and `url::Url`.
+新しいヘルパーが使用するインポートを追加します。これには
+`github_copilot_sdk::handler::{PermissionHandler, PermissionResult}`、
+`McpServerConfig`、`McpStdioServerConfig`、`PermissionRequestData`、`PermissionRequestKind`、
+`RequestId`、`SessionId`、`indexmap::IndexMap`、`url::Url` が含まれます。
 
-## Run it
+## 実行する
 
 ```bash
 cargo run -- "{{TARGET_APP_URL}}"
 ```
 
-The first run may take longer while `npx` starts Playwright.
+初回の実行は、`npx` が Playwright を起動する間、時間がかかることがあります。
 
-Look for a page title such as:
+次のようなページタイトルを探します。
 
 ```text
 Page title: Blazor Accessibility Target
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `npx` cannot be started | Rerun the preflight MCP command and verify Node.js is on `PATH`. |
-| Playwright cannot find a browser | Install Edge or Chrome, or configure an installed browser as described by Playwright MCP. |
-| A permission is rejected | Use the exact target URL above. The handler intentionally denies other URLs and tools. |
-| No current-run snapshot is available | Keep the prompt order: call `browser_navigate` before `read_latest_accessibility_snapshot`. |
-| Trait or type unresolved | Keep the permission, MCP, `IndexMap`, and `Url` imports shown above. |
+| `npx` を起動できない | 事前準備の MCP コマンドを再実行し、Node.js が `PATH` にあることを確認します。 |
+| Playwright がブラウザーを見つけられない | Edge または Chrome をインストールするか、Playwright MCP の説明に従ってインストール済みのブラウザーを構成します。 |
+| パーミッションが拒否される | 上記の正確なターゲット URL を使用します。ハンドラーは意図的にほかの URL やツールを拒否します。 |
+| 現在の実行のスナップショットが利用できない | プロンプトの順序を守ります。`read_latest_accessibility_snapshot` の前に `browser_navigate` を呼び出します。 |
+| トレイトまたは型が解決されない | 上記のパーミッション、MCP、`IndexMap`、`Url` のインポートを維持します。 |
 
 </details>
 
 <details>
-<summary>Complete Step 4 implementation</summary>
+<summary>ステップ 4 の完全な実装</summary>
 
-Compare your work with this complete Step 4 implementation.
+自分の作業を、このステップ 4 の完全な実装と比較します。
 
-Session wiring from `src/main.rs`:
+`src/main.rs` のセッション配線:
 
 ```rust
 let mut config = SessionConfig::default();
@@ -1343,12 +1346,11 @@ stream_response!(session, mcp_safety_prompt(&target));
 :::
 
 :::language java
-## Wire up scoped Playwright access in Java
+## Java でスコープ付き Playwright アクセスを組み立てる
 
-### 1. Accept one controlled target
+### 1. 制御されたターゲットを 1 つ受け取る
 
-At the start of `main` in
-`src/main/java/workshop/AccessibilityReport.java`, validate the startup URL:
+`src/main/java/workshop/AccessibilityReport.java` の `main` の先頭で、起動時の URL を検証します。
 
 ```java
 RunOptions options = parseRunOptions(args);
@@ -1361,7 +1363,7 @@ if (options.allowLocalDemoMcp()) {
 }
 ```
 
-Add the parser helper:
+パーサーヘルパーを追加します。
 
 ```java
 private static URI parseTarget(String value) throws URISyntaxException {
@@ -1377,9 +1379,9 @@ private static URI parseTarget(String value) throws URISyntaxException {
 }
 ```
 
-### 2. Add the permission handler
+### 2. パーミッションハンドラーを追加する
 
-Approve only exact-target Playwright navigation on the session configuration:
+セッション構成で、ターゲットに完全一致する Playwright のナビゲーションのみを承認します。
 
 ```java
 .setOnPermissionRequest((request, ignored) -> {
@@ -1401,17 +1403,18 @@ Approve only exact-target Playwright navigation on the session configuration:
 })
 ```
 
-> **Temporary Java SDK limitation and local-demo fallback:** By default this is fail-closed: it
-> approves only an `mcp` request whose payload proves the configured Playwright navigation is the
-> exact entered URL. Current Java SDK releases do not expose those MCP request fields
-> ([github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273)), so the
-> default path rejects that request rather than guessing. For the controlled workshop target only,
-> pass `--allow-local-demo-mcp`. That explicit flag approves one `mcp` request at a time; it does
-> **not** use `APPROVE_ALL`, and the MCP configuration still exposes only Playwright
-> `browser_navigate`. It cannot enforce the exact URL while the SDK payload is unavailable. Never
-> enable it for a production, shared, or untrusted target.
+> **一時的な Java SDK の制限とローカルデモのフォールバック:** 既定ではこれはフェイルクローズです。
+> 設定された Playwright のナビゲーションが入力された URL と完全に一致することをペイロードが証明する
+> `mcp` リクエストのみを承認します。現在の Java SDK リリースはそれらの MCP リクエストのフィールドを
+> 公開していないため
+> （[github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273)）、既定の経路は
+> 推測するのではなく、そのリクエストを拒否します。制御されたワークショップのターゲットに限り、
+> `--allow-local-demo-mcp` を渡してください。その明示的なフラグは `mcp` リクエストを一度に 1 つ
+> 承認します。`APPROVE_ALL` は **使用せず**、MCP 構成は引き続き Playwright の `browser_navigate`
+> のみを公開します。SDK のペイロードが利用できない間は、正確な URL を強制することはできません。
+> 本番環境、共有環境、信頼できないターゲットでは決して有効にしないでください。
 
-Add this option parser beside `parseTarget`:
+`parseTarget` の隣にこのオプションパーサーを追加します。
 
 ```java
 private static final String LOCAL_DEMO_MCP_FLAG = "--allow-local-demo-mcp";
@@ -1446,7 +1449,7 @@ private record RunOptions(URI target, boolean allowLocalDemoMcp) {
 }
 ```
 
-Add the URL-matching helpers:
+URL 一致のヘルパーを追加します。
 
 ```java
 private static boolean isExactNavigation(Map<String, Object> request, URI target) {
@@ -1481,9 +1484,9 @@ private static boolean equalsIgnoreCase(String left, String right) {
 }
 ```
 
-### 3. Add the snapshot-reader boundary
+### 3. スナップショットリーダーの境界を追加する
 
-Register a no-argument snapshot reader that only returns current-run Playwright files:
+現在の実行の Playwright ファイルのみを返す、引数なしのスナップショットリーダーを登録します。
 
 ```java
 var readSnapshot = ToolDefinition.from(
@@ -1492,7 +1495,7 @@ var readSnapshot = ToolDefinition.from(
         new SnapshotReader(workingDirectory)::read).skipPermission(true);
 ```
 
-Add the nested reader class:
+ネストされたリーダークラスを追加します。
 
 ```java
 private static final class SnapshotReader {
@@ -1555,9 +1558,9 @@ private static final class SnapshotReader {
 }
 ```
 
-### 4. Add Playwright MCP and scoped permissions
+### 4. Playwright MCP とスコープ付きパーミッションを追加する
 
-Build the full session configuration and send the browser evidence prompt:
+完全なセッション構成を組み立て、ブラウザーの根拠を求めるプロンプトを送信します。
 
 ```java
 var lookup = ToolDefinition.from(
@@ -1618,47 +1621,48 @@ try (var client = new CopilotClient()) {
 }
 ```
 
-Add the MCP and permission imports:
+MCP とパーミッションのインポートを追加します。
 
 ```java
 import com.github.copilot.rpc.McpStdioServerConfig;
 import com.github.copilot.rpc.PermissionRequestResult;
 ```
 
-## Run it
+## 実行する
 
 ```bash
 mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 ```
 
-The first run may take longer while `npx` starts Playwright. This command intentionally opts into
-the temporary local-demo fallback above; omit the flag to keep the strict fail-closed policy.
+初回の実行は、`npx` が Playwright を起動する間、時間がかかることがあります。このコマンドは、上記の
+一時的なローカルデモのフォールバックに意図的にオプトインしています。厳格なフェイルクローズの
+ポリシーを維持するには、このフラグを省略してください。
 
-Look for a page title such as:
+次のようなページタイトルを探します。
 
 ```text
 Page title: Blazor Accessibility Target
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `npx` cannot be started | Rerun the preflight MCP command and verify Node.js is on `PATH`. |
-| Playwright cannot find a browser | Install Edge or Chrome, or configure an installed browser as described by Playwright MCP. |
-| A permission is rejected | The default handler intentionally denies missing or non-exact request payloads. Use the exact target when the SDK provides it; for this controlled target only, add `--allow-local-demo-mcp` until [#2273](https://github.com/github/copilot-sdk/issues/2273) is fixed. |
-| No current-run snapshot is available | Keep the prompt order: call `browser_navigate` before `read_latest_accessibility_snapshot`. |
-| MCP or permission types unresolved | Add the `McpStdioServerConfig` and `PermissionRequestResult` imports. |
+| `npx` を起動できない | 事前準備の MCP コマンドを再実行し、Node.js が `PATH` にあることを確認します。 |
+| Playwright がブラウザーを見つけられない | Edge または Chrome をインストールするか、Playwright MCP の説明に従ってインストール済みのブラウザーを構成します。 |
+| パーミッションが拒否される | 既定のハンドラーは、欠落しているか完全一致でないリクエストペイロードを意図的に拒否します。SDK が提供する場合は正確なターゲットを使用します。この制御されたターゲットに限り、[#2273](https://github.com/github/copilot-sdk/issues/2273) が修正されるまで `--allow-local-demo-mcp` を追加します。 |
+| 現在の実行のスナップショットが利用できない | プロンプトの順序を守ります。`read_latest_accessibility_snapshot` の前に `browser_navigate` を呼び出します。 |
+| MCP またはパーミッションの型が解決されない | `McpStdioServerConfig` と `PermissionRequestResult` のインポートを追加します。 |
 
 </details>
 
 <details>
-<summary>Complete Step 4 implementation</summary>
+<summary>ステップ 4 の完全な実装</summary>
 
-Compare your work with this complete Step 4 implementation.
+自分の作業を、このステップ 4 の完全な実装と比較します。
 
-Session wiring from `AccessibilityReport.java`:
+`AccessibilityReport.java` のセッション配線:
 
 ```java
 var config = new SessionConfig()
@@ -1694,31 +1698,31 @@ var config = new SessionConfig()
 </details>
 :::
 
-> **You're ready to combine tools when:** the terminal shows named Playwright tool activity and
-> prints the target page title.
+> **ツールを組み合わせる準備ができたと言えるのは:** ターミナルに名前付きの Playwright ツールの
+> アクティビティが表示され、ターゲットのページタイトルが出力されたときです。
 
-## Check your understanding
+## 理解度チェック
 
-Why is Playwright an MCP server here instead of another application-owned callback?
+なぜここでは Playwright を、別のアプリケーション所有のコールバックではなく MCP サーバーにするのでしょうか？
 
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Playwright provides reusable browser automation in its own process, with its own dependencies. MCP
-connects it without moving browser logic into the application's domain code, and permissions
-protect the process boundary.
+Playwright は再利用可能なブラウザー自動化を、独自のプロセスと独自の依存関係で提供します。MCP は、
+ブラウザーのロジックをアプリケーションのドメインコードに移すことなくそれを接続し、パーミッションが
+プロセス境界を保護します。
 
 </details>
 
-## Learn more
+## さらに学ぶ
 
-- [Model Context Protocol](https://modelcontextprotocol.io/): the open standard the Playwright
-  server implements, and the vocabulary its tool names come from.
-- [MCP debugging](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/mcp-debugging.md):
-  diagnosing a server that will not start or that exposes different tools than you expected.
-- [Hook error handling](https://github.com/github/copilot-sdk/blob/main/docs/hooks/error-handling.md):
-  deciding what a session does when a tool call or a handler fails.
-- [Plugin directories](https://github.com/github/copilot-sdk/blob/main/docs/features/plugin-directories.md):
-  bundling MCP servers, skills, and hooks so a session loads them as one unit.
+- [Model Context Protocol](https://modelcontextprotocol.io/): Playwright サーバーが実装する
+  オープンな標準であり、そのツール名の由来となる語彙です。
+- [MCP のデバッグ](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/mcp-debugging.md):
+  起動しないサーバーや、想定と異なるツールを公開するサーバーを診断します。
+- [フックのエラー処理](https://github.com/github/copilot-sdk/blob/main/docs/hooks/error-handling.md):
+  ツール呼び出しやハンドラーが失敗したときにセッションが何をするかを決定します。
+- [プラグインディレクトリ](https://github.com/github/copilot-sdk/blob/main/docs/features/plugin-directories.md):
+  MCP サーバー、スキル、フックをバンドルし、セッションがそれらを 1 つのユニットとして読み込めるようにします。
 
-Continue to [Step 5: Combine local and MCP tools](05-combine-tools.md).
+[ステップ 5: ローカルツールと MCP ツールを組み合わせる](05-combine-tools.md)に進みます。

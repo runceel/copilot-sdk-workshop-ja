@@ -1,35 +1,36 @@
-# Step 6: Produce a structured report
+# ステップ 6: 構造化されたレポートを生成する
 
-> **Time:** 10 minutes
+> **所要時間:** 10 分
 
-## What you'll produce
+## 生成するもの
 
-You'll produce a concise report that separates page evidence, criterion mapping, remediation, and
-the limits of the review.
+ページの根拠、基準へのマッピング、修正方法、そしてレビューの限界を切り分けた、簡潔なレポートを
+生成します。
 
-## Separate evidence from interpretation
+## 根拠と解釈を切り分ける
 
-An agent response contains **evidence** and **interpretation**. Evidence is what Playwright
-observed, such as an input with no accessible name. Interpretation is the criterion mapping and
-remediation based on that evidence and the catalog result.
+エージェントの応答には**根拠**と**解釈**が含まれます。根拠とは、アクセシブルな名前を持たない入力
+要素のように、Playwright が観測した内容のことです。解釈とは、その根拠とカタログの結果に基づいた、
+基準へのマッピングと修正方法のことです。
 
-A clear output contract tells the agent what to include, what to leave out, and how to handle
-uncertainty. It makes reports more consistent without claiming that the review is exhaustive.
+明確な出力コントラクトは、何を含め、何を除外し、不確実性をどう扱うかをエージェントに伝えます。
+これにより、レビューが網羅的であると主張することなく、レポートの一貫性を高められます。
 
-## Be useful without overstating the result
+## 結果を誇張せずに役立てる
 
-One automated snapshot cannot establish accessibility conformance. The report should stick to
-high-confidence findings without invented statistics, decorative severity labels, or a broad claim
-that the page passes or fails WCAG.
+1 回の自動スナップショットでは、アクセシビリティ適合性を立証できません。レポートは、根拠のない統計
+や飾りとしての重大度ラベル、あるいはページが WCAG に合格・不合格であるという大雑把な主張を避け、
+確度の高い指摘事項にとどめるべきです。
 
-The agent now turns `browser evidence + catalog result` into a bounded, repeatable report.
+これでエージェントは、`browser evidence + catalog result` を、限定的で再現可能なレポートへと変換
+します。
 
-## Give the report a contract
+## レポートにコントラクトを与える
 
 :::language dotnet
-### 1. Add the report contract
+### 1. レポートコントラクトを追加する
 
-Create `Helpers/Prompts.cs`:
+`Helpers/Prompts.cs` を作成します。
 
 ```csharp
 namespace HelloCopilotSDK.Helpers;
@@ -63,9 +64,9 @@ public static class Prompts
 ```
 :::
 :::language dotnet
-### 2. Use the contract
+### 2. コントラクトを使う
 
-Replace the final send call in `Program.cs`:
+`Program.cs` の最後の送信呼び出しを置き換えます。
 
 ```csharp
 Console.WriteLine($"\nAnalyzing: {targetUri.AbsoluteUri}\n");
@@ -74,9 +75,9 @@ await ResponseStreamer.SendAndPrintAsync(session, Prompts.CreateReportPrompt(tar
 :::
 
 :::language nodejs
-### 1. Add the report contract
+### 1. レポートコントラクトを追加する
 
-In `src/workshop.ts`, add or replace `reportPrompt`:
+`src/workshop.ts` に `reportPrompt` を追加、または置き換えます。
 
 ```typescript
 export function reportPrompt(target: URL): string {
@@ -100,9 +101,9 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
 ```
 :::
 :::language nodejs
-### 2. Create the report entrypoint
+### 2. レポートのエントリーポイントを作成する
 
-Create or replace `src/report.ts` with the URL parsing, session config, and prompt:
+URL の解析、セッション設定、プロンプトを含む `src/report.ts` を作成、または置き換えます。
 
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
@@ -126,9 +127,10 @@ try {
 ```
 :::
 :::language nodejs
-### 3. Point package start at the report entrypoint
+### 3. パッケージの start をレポートのエントリーポイントに向ける
 
-Replace `src/index.ts` so the package start command launches the report entrypoint:
+パッケージの start コマンドがレポートのエントリーポイントを起動するように、`src/index.ts` を
+置き換えます。
 
 ```typescript
 import "./report.js";
@@ -136,9 +138,9 @@ import "./report.js";
 :::
 
 :::language python
-### 1. Add the report contract
+### 1. レポートコントラクトを追加する
 
-In `workshop.py`, add or replace `report_prompt`:
+`workshop.py` に `report_prompt` を追加、または置き換えます。
 
 ```python
 def report_prompt(target: str) -> str:
@@ -161,9 +163,10 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
 ```
 :::
 :::language python
-### 2. Create the report entrypoint
+### 2. レポートのエントリーポイントを作成する
 
-Create or replace `report.py` with URL parsing, session config, streaming, and the report prompt:
+URL の解析、セッション設定、ストリーミング、レポートプロンプトを含む `report.py` を作成、または
+置き換えます。
 
 ```python
 import asyncio
@@ -212,9 +215,10 @@ if __name__ == "__main__":
 ```
 :::
 :::language python
-### 3. Point the documented command at the report entrypoint
+### 3. ドキュメントに記載のコマンドをレポートのエントリーポイントに向ける
 
-Replace `main.py` so the documented command launches the report entrypoint:
+ドキュメントに記載のコマンドがレポートのエントリーポイントを起動するように、`main.py` を
+置き換えます。
 
 ```python
 from report import main
@@ -227,9 +231,9 @@ if __name__ == "__main__":
 :::
 
 :::language go
-### 1. Add the report contract
+### 1. レポートコントラクトを追加する
 
-In `main.go`, add `reportPrompt`:
+`main.go` に `reportPrompt` を追加します。
 
 ```go
 func reportPrompt(target string) string {
@@ -250,10 +254,10 @@ State that this focused review is not a full WCAG conformance audit.`, target)
 ```
 :::
 :::language go
-### 2. Parse the target and use the contract
+### 2. ターゲットを解析してコントラクトを使う
 
-Replace `main` so it validates the URL argument, builds the three-tool session, and sends the report
-prompt:
+URL 引数を検証し、3 つのツールを持つセッションを構築し、レポートプロンプトを送信するように、`main`
+を置き換えます。
 
 ```go
 func main() {
@@ -311,9 +315,9 @@ func main() {
 :::
 
 :::language rust
-### 1. Add the report contract
+### 1. レポートコントラクトを追加する
 
-In `src/main.rs`, add `report_prompt`:
+`src/main.rs` に `report_prompt` を追加します。
 
 ```rust
 fn report_prompt(target: &Url) -> String {
@@ -339,10 +343,10 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
 ```
 :::
 :::language rust
-### 2. Parse the target and use the contract
+### 2. ターゲットを解析してコントラクトを使う
 
-Replace `main` so it validates the URL argument, builds the three-tool session, and sends the report
-prompt:
+URL 引数を検証し、3 つのツールを持つセッションを構築し、レポートプロンプトを送信するように、`main`
+を置き換えます。
 
 ```rust
 #[tokio::main]
@@ -417,9 +421,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 :::
 
 :::language java
-### 1. Add the report contract
+### 1. レポートコントラクトを追加する
 
-In `src/main/java/workshop/AccessibilityReport.java`, add `reportPrompt`:
+`src/main/java/workshop/AccessibilityReport.java` に `reportPrompt` を追加します。
 
 ```java
 private static String reportPrompt(URI target) {
@@ -443,16 +447,17 @@ private static String reportPrompt(URI target) {
 }
 ```
 
-Keep the Step 4 permission callback unchanged. It remains fail-closed unless you explicitly pass
-`--allow-local-demo-mcp` for the controlled workshop target. That temporary `mcp`-kind-only fallback
-does not prove the exact URL because [github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273)
-does not expose the request payload; do not use it outside a disposable local workshop demo.
+ステップ 4 のパーミッションコールバックはそのままにしておきます。管理下のワークショップ用ターゲット
+に対して明示的に `--allow-local-demo-mcp` を渡さない限り、フェイルクローズドのままです。この一時的な
+`mcp` 種別限定のフォールバックは、[github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273)
+がリクエストのペイロードを公開しないため、正確な URL を証明しません。使い捨てのローカルワークショップ
+デモ以外では使用しないでください。
 :::
 :::language java
-### 2. Parse the target and use the contract
+### 2. ターゲットを解析してコントラクトを使う
 
-Replace `main` so it validates the URL argument, builds the three-tool session, and sends the report
-prompt:
+URL 引数を検証し、3 つのツールを持つセッションを構築し、レポートプロンプトを送信するように、`main`
+を置き換えます。
 
 ```java
 private static final String LOCAL_DEMO_MCP_FLAG = "--allow-local-demo-mcp";
@@ -517,7 +522,7 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-Keep the implementation's `parseTarget` and fallback helpers next to `main`:
+実装の `parseTarget` とフォールバックのヘルパーを `main` の隣に配置しておきます。
 
 ```java
 private static URI parseTarget(String value) throws URISyntaxException {
@@ -562,14 +567,14 @@ private record RunOptions(URI target, boolean allowLocalDemoMcp) {
 ```
 :::
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
 dotnet run
 ```
 
-When the app asks for a URL, paste:
+アプリが URL を尋ねてきたら、次を貼り付けます。
 
 ```text
 {{TARGET_APP_URL}}
@@ -601,7 +606,7 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 ```
 :::
 
-The report should follow this shape:
+レポートは次のような形になるはずです。
 
 ```text
 # Accessibility review
@@ -615,40 +620,39 @@ This focused review uses browser-observable evidence and is not a full WCAG conf
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| The output contains unsupported counts | Confirm the prompt says not to report unsupported statistics. |
-| A finding has no concrete element or structure | Treat it as ungrounded; keep the evidence requirement in the report contract. |
-| The response claims WCAG compliance | Keep the required **Review limits** section and explicit prohibition. |
-| The package still runs an earlier entrypoint | Point the start command at the Step 6 report entrypoint for your language. |
-| The URL is rejected | Pass an HTTP or HTTPS URL; a missing scheme is automatically changed to `https://`. |
+| 出力に裏付けのない件数が含まれる | 裏付けのない統計を報告しないようにプロンプトで指示していることを確認します。 |
+| 指摘事項に具体的な要素や構造がない | 根拠が不十分なものとして扱い、レポートコントラクトに根拠の要件を残します。 |
+| 応答が WCAG 適合を主張する | 必須の **Review limits** セクション（レビューの限界）と明示的な禁止事項を残します。 |
+| パッケージが以前のエントリーポイントを実行し続ける | start コマンドをお使いの言語のステップ 6 のレポートエントリーポイントに向けます。 |
+| URL が拒否される | HTTP または HTTPS の URL を渡します。スキームがない場合は自動的に `https://` に変更されます。 |
 
 </details>
 
-> **You're ready for the final run when:** each finding contains specific browser evidence, a
-> catalog criterion, and a remediation, and the report ends with its limits.
+> **最終実行の準備ができたと言えるのは:** 各指摘事項に具体的なブラウザの根拠、カタログの基準、
+> 修正方法が含まれ、レポートがその限界で締めくくられているときです。
 
-## Check your understanding
+## 理解度チェック
 
-In the report, which content is direct evidence and which content is model interpretation?
+レポートの中で、どの内容が直接の根拠で、どの内容がモデルの解釈でしょうか。
 
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-The element or page structure returned by Playwright is evidence. Choosing the criterion and
-writing the remediation are interpretations based on that evidence and the catalog result.
+Playwright が返した要素やページ構造が根拠です。基準を選び、修正方法を記述することは、その根拠と
+カタログの結果に基づく解釈です。
 
 </details>
 
 :::language dotnet
 <details>
-<summary>Complete Step 6 implementation</summary>
+<summary>ステップ 6 の完成版実装</summary>
 
-For comparison, use the
-[`finished/dotnet/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/dotnet/accessibility-report)
-project.
+比較用として、[`finished/dotnet/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/dotnet/accessibility-report)
+プロジェクトを使用してください。
 
 ```csharp
 using GitHub.Copilot;
@@ -720,11 +724,10 @@ await ResponseStreamer.SendAndPrintAsync(session, Prompts.CreateReportPrompt(tar
 
 :::language nodejs
 <details>
-<summary>Complete Step 6 implementation</summary>
+<summary>ステップ 6 の完成版実装</summary>
 
-For comparison, use the
-[`finished/nodejs/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
-project.
+比較用として、[`finished/nodejs/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
+プロジェクトを使用してください。
 
 `src/index.ts`:
 
@@ -755,7 +758,7 @@ try {
 } finally { await client.stop(); }
 ```
 
-`reportPrompt` in `src/workshop.ts`:
+`reportPrompt`(`src/workshop.ts` 内):
 
 ```typescript
 export function reportPrompt(target: URL): string {
@@ -782,11 +785,10 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
 
 :::language python
 <details>
-<summary>Complete Step 6 implementation</summary>
+<summary>ステップ 6 の完成版実装</summary>
 
-For comparison, use the
-[`finished/python/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
-project.
+比較用として、[`finished/python/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
+プロジェクトを使用してください。
 
 `main.py`:
 
@@ -847,7 +849,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-`report_prompt` in `workshop.py`:
+`report_prompt`(`workshop.py` 内):
 
 ```python
 def report_prompt(target: str) -> str:
@@ -873,11 +875,10 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
 
 :::language go
 <details>
-<summary>Complete Step 6 implementation</summary>
+<summary>ステップ 6 の完成版実装</summary>
 
-For comparison, use the
-[`finished/go/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/go/accessibility-report)
-project. The report contract and entrypoint:
+比較用として、[`finished/go/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/go/accessibility-report)
+プロジェクトを使用してください。レポートコントラクトとエントリーポイントは次のとおりです。
 
 ```go
 func reportPrompt(target string) string {
@@ -953,11 +954,10 @@ func main() {
 
 :::language rust
 <details>
-<summary>Complete Step 6 implementation</summary>
+<summary>ステップ 6 の完成版実装</summary>
 
-For comparison, use the
-[`finished/rust/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/rust/accessibility-report)
-project. The report contract and entrypoint:
+比較用として、[`finished/rust/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/rust/accessibility-report)
+プロジェクトを使用してください。レポートコントラクトとエントリーポイントは次のとおりです。
 
 ```rust
 fn report_prompt(target: &Url) -> String {
@@ -1055,11 +1055,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 :::language java
 <details>
-<summary>Complete Step 6 implementation</summary>
+<summary>ステップ 6 の完成版実装</summary>
 
-For comparison, use the
-[`finished/java/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/java/accessibility-report)
-project. The report contract, argument parsing, and entrypoint:
+比較用として、[`finished/java/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/java/accessibility-report)
+プロジェクトを使用してください。レポートコントラクト、引数の解析、エントリーポイントは次のとおりです。
 
 ```java
 private static final String LOCAL_DEMO_MCP_FLAG = "--allow-local-demo-mcp";
@@ -1186,13 +1185,13 @@ private static String reportPrompt(URI target) {
 </details>
 :::
 
-## Learn more
+## さらに学ぶ
 
 - [User prompt submitted hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/user-prompt-submitted.md):
-  modifying or rejecting a prompt in code before the runtime sends it.
+  ランタイムが送信する前に、コード内でプロンプトを変更または拒否します。
 - [User prompt transformed hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/user-prompt-transformed.md):
-  inspecting the model-facing prompt the runtime actually built from your text.
+  ランタイムが実際にあなたのテキストから構築した、モデル向けのプロンプトを検査します。
 - [Citations](https://github.com/github/copilot-sdk/blob/main/docs/features/citations.md):
-  an experimental way to tie spans of a response back to the material that supports them.
+  応答の各スパンを、それを裏付ける素材に結び付ける実験的な方法です。
 
-Continue to [Step 7: Run and explain the application](07-run-explain.md).
+[ステップ 7: アプリケーションを実行して説明する](07-run-explain.md)に進みます。

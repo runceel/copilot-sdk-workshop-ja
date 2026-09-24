@@ -1,38 +1,38 @@
-# Step 2: Stream a response
+# ステップ 2: レスポンスをストリーミングする
 
-> **Time:** 10 minutes
+> **所要時間:** 10 分
 
-## What you'll see
+## 確認すること
 
-You'll configure a streaming-enabled session and make completion visible. Most language tracks
-print response text while the session is still working. The Java track enables the same streaming
-session configuration and prints the completed assistant message returned by `sendAndWait`.
+ストリーミングを有効にしたセッションを構成し、完了を可視化します。ほとんどの言語トラックでは、
+セッションがまだ処理している間にレスポンステキストを出力します。Java トラックでは同じストリーミング
+セッション構成を有効にし、`sendAndWait` が返す完了済みのアシスタントメッセージを出力します。
 
-## How streaming changes the experience
+## ストリーミングが体験をどう変えるか
 
-[**Streaming**](https://github.com/github/copilot-sdk/blob/main/docs/features/streaming-events.md)
-does not change the answer. It changes when an application that subscribes to the event stream
-receives it. Instead of waiting for one completed message, the session emits events throughout the
-turn:
+[**ストリーミング**](https://github.com/github/copilot-sdk/blob/main/docs/features/streaming-events.md)
+は回答自体を変えるものではありません。イベントストリームを購読するアプリケーションが回答を受け取る
+タイミングを変えます。1 つの完了済みメッセージを待つのではなく、セッションはターン全体を通じてイベントを
+発行します。
 
-- Assistant message delta events contain each new piece of response text.
-- The completed assistant message event contains the full message.
-- A session idle event means the turn and any tool work have finished.
-- A session error event reports a failed turn.
+- アシスタントメッセージのデルタイベントには、レスポンステキストの新しい各断片が含まれます。
+- 完了済みのアシスタントメッセージイベントには、メッセージ全体が含まれます。
+- セッションのアイドルイベントは、ターンおよびすべてのツール処理が完了したことを意味します。
+- セッションのエラーイベントは、失敗したターンを報告します。
 
-## Why progressive output feels better
+## 段階的な出力の方が快適に感じられる理由
 
-Seeing text arrive makes the application feel more responsive. Later, the same event stream will
-show activity from local and MCP tools.
+テキストが届く様子が見えることで、アプリケーションの応答性が高く感じられます。後ほど、同じイベント
+ストリームでローカルツールと MCP ツールの活動も表示されるようになります。
 
-The session flow is now `response deltas -> final message -> idle`.
+セッションのフローは現在 `response deltas -> final message -> idle` となっています。
 
 :::language dotnet
-## Stream the response in C#
+## C# でレスポンスをストリーミングする
 
-### 1. Add the streaming helper
+### 1. ストリーミングヘルパーを追加する
 
-Create `Helpers/ResponseStreamer.cs`:
+`Helpers/ResponseStreamer.cs` を作成します。
 
 ```csharp
 using GitHub.Copilot;
@@ -73,13 +73,13 @@ public static class ResponseStreamer
 }
 ```
 
-The final-message case handles a runtime that completes without sending deltas. An error completes
-the task with an exception instead of looking like a successful turn.
+最終メッセージのケースは、デルタを送信せずに完了するランタイムに対応します。エラーは、成功した
+ターンのように見せるのではなく、例外でタスクを完了させます。
 
-### 2. Use the helper
+### 2. ヘルパーを使用する
 
-In `Program.cs`, add `using HelloCopilotSDK.Helpers;`, then replace the session and
-response code with:
+`Program.cs` で `using HelloCopilotSDK.Helpers;` を追加し、セッションとレスポンスのコードを次のように
+置き換えます。
 
 ```csharp
 await using var session = await client.CreateSessionAsync(new SessionConfig
@@ -93,13 +93,13 @@ await ResponseStreamer.SendAndPrintAsync(
     "Explain accessible names in three short bullet points.");
 ```
 
-## Run it
+## 実行する
 
 ```bash
 dotnet run
 ```
 
-The bullets should start appearing progressively before the process exits:
+箇条書きは、プロセスが終了する前に段階的に表示され始めるはずです。
 
 ```text
 Connected to the Copilot runtime: ...
@@ -111,23 +111,23 @@ Copilot:
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| Text appears only at the end | Confirm `Streaming = true` is in this session's `SessionConfig`. |
-| The application exits before text appears | Confirm the helper awaits `completed.Task` after `SendAsync`. |
-| Text is printed twice | Keep the `when !receivedDelta` guard on `AssistantMessageEvent`. |
+| テキストが最後にしか表示されない | このセッションの `SessionConfig` に `Streaming = true` があることを確認します。 |
+| テキストが表示される前にアプリケーションが終了する | ヘルパーが `SendAsync` の後で `completed.Task` を await していることを確認します。 |
+| テキストが 2 回出力される | `AssistantMessageEvent` の `when !receivedDelta` ガードを維持します。 |
 
 </details>
 
-> **You're ready to add tools when:** the configured response path prints an answer and completes
-> the turn without hiding session errors.
+> **ツールを追加する準備ができているのは、次の場合です:** 構成したレスポンスパスが回答を出力し、
+> セッションエラーを隠すことなくターンを完了しているとき。
 
 <details>
-<summary>Complete Step 2 implementation</summary>
+<summary>ステップ 2 の完全な実装</summary>
 
-Compare your work with this complete Step 2 implementation.
+この完全なステップ 2 の実装と自分の作業を比較してください。
 
 `Helpers/ResponseStreamer.cs`:
 
@@ -199,13 +199,13 @@ await ResponseStreamer.SendAndPrintAsync(
 :::
 
 :::language nodejs
-## Stream the response in TypeScript
+## TypeScript でレスポンスをストリーミングする
 
-### 1. Inspect the streaming helper
+### 1. ストリーミングヘルパーを確認する
 
-Open `src/workshop.ts`. The starter already exports `streamResponse`, which subscribes
-with `session.on`, prints assistant deltas, keeps a final-message fallback, rejects session errors,
-and resolves on idle:
+`src/workshop.ts` を開きます。スターターにはすでに `streamResponse` がエクスポートされています。これは
+`session.on` で購読し、アシスタントのデルタを出力し、最終メッセージのフォールバックを保持し、セッション
+エラーを reject し、アイドル時に resolve します。
 
 ```typescript
 export async function streamResponse(session: CopilotSession, prompt: string): Promise<void> {
@@ -234,12 +234,12 @@ export async function streamResponse(session: CopilotSession, prompt: string): P
 }
 ```
 
-The tool start and completion branches stay quiet in this step and become useful once you register
-tools later.
+ツールの開始および完了の分岐は、このステップでは何も表示しませんが、後でツールを登録すると役立つように
+なります。
 
-### 2. Wire the helper into the entrypoint
+### 2. ヘルパーをエントリーポイントに組み込む
 
-Replace `src/index.ts` with:
+`src/index.ts` を次のように置き換えます。
 
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
@@ -262,37 +262,37 @@ try {
 }
 ```
 
-## Run it
+## 実行する
 
 ```bash
 npm start
 ```
 
-The one-sentence response should start appearing progressively through the event callback:
+1 文のレスポンスが、イベントコールバックを通じて段階的に表示され始めるはずです。
 
 ```text
 Streaming shows partial answers as soon as tokens arrive, so the assistant feels responsive while it works.
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| Text appears only at the end | Confirm `streaming: true` is passed to `createSession`. |
-| The process exits before text appears | Confirm `streamResponse` waits for `session.idle` before resolving. |
-| Text is printed twice | Keep the `!receivedDelta` guard on the `assistant.message` branch. |
-| Cannot find module `./workshop.js` | Import the helper as `./workshop.js` even though the source file is `workshop.ts`. |
+| テキストが最後にしか表示されない | `createSession` に `streaming: true` が渡されていることを確認します。 |
+| テキストが表示される前にプロセスが終了する | `streamResponse` が resolve する前に `session.idle` を待っていることを確認します。 |
+| テキストが 2 回出力される | `assistant.message` の分岐にある `!receivedDelta` ガードを維持します。 |
+| モジュール `./workshop.js` が見つからない | ソースファイルが `workshop.ts` であっても、ヘルパーは `./workshop.js` としてインポートします。 |
 
 </details>
 
-> **You're ready to add tools when:** the configured response path prints an answer and completes
-> the turn without hiding session errors.
+> **ツールを追加する準備ができているのは、次の場合です:** 構成したレスポンスパスが回答を出力し、
+> セッションエラーを隠すことなくターンを完了しているとき。
 
 <details>
-<summary>Complete Step 2 implementation</summary>
+<summary>ステップ 2 の完全な実装</summary>
 
-Compare your work with this complete Step 2 implementation.
+この完全なステップ 2 の実装と自分の作業を比較してください。
 
 `src/workshop.ts` (`streamResponse`):
 
@@ -350,13 +350,13 @@ try {
 :::
 
 :::language python
-## Stream the response in Python
+## Python でレスポンスをストリーミングする
 
-### 1. Subscribe to session events
+### 1. セッションイベントを購読する
 
-Replace `main.py` with an async entrypoint that enables streaming, handles
-`AssistantMessageDeltaData`, keeps an `AssistantMessageData` fallback, surfaces
-`SessionErrorData`, and waits for `SessionIdleData`:
+`main.py` を、ストリーミングを有効にし、`AssistantMessageDeltaData` を処理し、
+`AssistantMessageData` のフォールバックを保持し、`SessionErrorData` を表面化させ、
+`SessionIdleData` を待機する非同期エントリーポイントに置き換えます。
 
 ```python
 import asyncio
@@ -404,16 +404,16 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-The final-message case handles a runtime that completes without deltas. A session error sets
-`error` and completes the wait so the turn does not look successful.
+最終メッセージのケースは、デルタを送信せずに完了するランタイムに対応します。セッションエラーは
+`error` を設定して待機を完了させるため、ターンが成功したようには見えません。
 
-## Run it
+## 実行する
 
 ```bash
 python main.py
 ```
 
-The bullets should start appearing progressively through the event callback:
+箇条書きは、イベントコールバックを通じて段階的に表示され始めるはずです。
 
 ```text
 - Gives a control a programmatic identity.
@@ -422,24 +422,24 @@ The bullets should start appearing progressively through the event callback:
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| Text appears only at the end | Confirm `streaming=True` is passed to `create_session`. |
-| The process exits before text appears | Confirm you `await done.wait()` after `session.send`. |
-| Text is printed twice | Keep the `not received_delta` guard on `AssistantMessageData`. |
-| Import errors for session events | Import the event types from `copilot.session_events`. |
+| テキストが最後にしか表示されない | `create_session` に `streaming=True` が渡されていることを確認します。 |
+| テキストが表示される前にプロセスが終了する | `session.send` の後で `await done.wait()` していることを確認します。 |
+| テキストが 2 回出力される | `AssistantMessageData` の `not received_delta` ガードを維持します。 |
+| セッションイベントのインポートエラー | イベント型は `copilot.session_events` からインポートします。 |
 
 </details>
 
-> **You're ready to add tools when:** the configured response path prints an answer and completes
-> the turn without hiding session errors.
+> **ツールを追加する準備ができているのは、次の場合です:** 構成したレスポンスパスが回答を出力し、
+> セッションエラーを隠すことなくターンを完了しているとき。
 
 <details>
-<summary>Complete Step 2 implementation</summary>
+<summary>ステップ 2 の完全な実装</summary>
 
-Compare your work with this complete Step 2 implementation.
+この完全なステップ 2 の実装と自分の作業を比較してください。
 
 `main.py`:
 
@@ -486,13 +486,13 @@ if __name__ == "__main__":
 :::
 
 :::language go
-## Stream the response in Go
+## Go でレスポンスをストリーミングする
 
-### 1. Add the streaming helper
+### 1. ストリーミングヘルパーを追加する
 
-In `main.go`, replace the package contents with a `streamResponse` helper that
-subscribes with `session.On`, prints `AssistantMessageDeltaData`, keeps an `AssistantMessageData`
-fallback after `SendAndWait`, and returns send errors:
+`main.go` で、パッケージの内容を、`session.On` で購読し、`AssistantMessageDeltaData` を出力し、
+`SendAndWait` の後に `AssistantMessageData` のフォールバックを保持し、送信エラーを返す
+`streamResponse` ヘルパーに置き換えます。
 
 ```go
 package main
@@ -525,9 +525,9 @@ func streamResponse(session *copilot.Session, prompt string) error {
 }
 ```
 
-### 2. Create a streaming session and call the helper
+### 2. ストリーミングセッションを作成してヘルパーを呼び出す
 
-Add `main` below the helper:
+ヘルパーの下に `main` を追加します。
 
 ```go
 func main() {
@@ -551,13 +551,13 @@ func main() {
 }
 ```
 
-## Run it
+## 実行する
 
 ```bash
 go run .
 ```
 
-The bullets should start appearing progressively through the event callback:
+箇条書きは、イベントコールバックを通じて段階的に表示され始めるはずです。
 
 ```text
 - Gives a control a programmatic identity.
@@ -566,24 +566,24 @@ The bullets should start appearing progressively through the event callback:
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| Text appears only at the end | Confirm `Streaming: copilot.Bool(true)` is set on `SessionConfig`. |
-| The process exits without output | Confirm `streamResponse` uses `SendAndWait` and returns its error. |
-| Text is printed twice | Keep the `!receivedDelta` guard before printing `AssistantMessageData`. |
-| Import path errors | Use `copilot "github.com/github/copilot-sdk/go"`. |
+| テキストが最後にしか表示されない | `SessionConfig` に `Streaming: copilot.Bool(true)` が設定されていることを確認します。 |
+| 出力されずにプロセスが終了する | `streamResponse` が `SendAndWait` を使用し、そのエラーを返していることを確認します。 |
+| テキストが 2 回出力される | `AssistantMessageData` を出力する前の `!receivedDelta` ガードを維持します。 |
+| インポートパスのエラー | `copilot "github.com/github/copilot-sdk/go"` を使用します。 |
 
 </details>
 
-> **You're ready to add tools when:** the configured response path prints an answer and completes
-> the turn without hiding session errors.
+> **ツールを追加する準備ができているのは、次の場合です:** 構成したレスポンスパスが回答を出力し、
+> セッションエラーを隠すことなくターンを完了しているとき。
 
 <details>
-<summary>Complete Step 2 implementation</summary>
+<summary>ステップ 2 の完全な実装</summary>
 
-Compare your work with this complete Step 2 implementation.
+この完全なステップ 2 の実装と自分の作業を比較してください。
 
 `main.go`:
 
@@ -642,13 +642,13 @@ func main() {
 :::
 
 :::language rust
-## Stream the response in Rust
+## Rust でレスポンスをストリーミングする
 
-### 1. Add the streaming helper macro
+### 1. ストリーミングヘルパーマクロを追加する
 
-Replace `src/main.rs` with a `stream_response!` macro that calls
-`session.subscribe()`, prints assistant deltas with `tokio::select!`, keeps a final-message
-fallback, and waits until both send completion and `session.idle` have happened:
+`src/main.rs` を、`session.subscribe()` を呼び出し、`tokio::select!` でアシスタントのデルタを出力し、
+最終メッセージのフォールバックを保持し、送信完了と `session.idle` の両方が発生するまで待機する
+`stream_response!` マクロに置き換えます。
 
 ```rust
 use std::io::{self, Write};
@@ -703,9 +703,9 @@ macro_rules! stream_response {
 }
 ```
 
-### 2. Create a streaming session and invoke the macro
+### 2. ストリーミングセッションを作成してマクロを呼び出す
 
-Add the async entrypoint below the macro:
+マクロの下に非同期エントリーポイントを追加します。
 
 ```rust
 #[tokio::main]
@@ -725,13 +725,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-## Run it
+## 実行する
 
 ```bash
 cargo run
 ```
 
-The bullets should start appearing progressively through the event subscription:
+箇条書きは、イベント購読を通じて段階的に表示され始めるはずです。
 
 ```text
 - Gives a control a programmatic identity.
@@ -740,24 +740,24 @@ The bullets should start appearing progressively through the event subscription:
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| Text appears only at the end | Confirm `config.streaming = Some(true)` before `create_session`. |
-| The process exits before text appears | Keep the `while !sent \|\| !idle` loop and wait for `session.idle`. |
-| Text is printed twice | Keep the `if !received_delta` guard on `"assistant.message"`. |
-| Output looks buffered | Flush stdout after each `print!` of delta content. |
+| テキストが最後にしか表示されない | `create_session` の前に `config.streaming = Some(true)` があることを確認します。 |
+| テキストが表示される前にプロセスが終了する | `while !sent \|\| !idle` ループを維持し、`session.idle` を待ちます。 |
+| テキストが 2 回出力される | `"assistant.message"` の `if !received_delta` ガードを維持します。 |
+| 出力がバッファリングされているように見える | デルタ内容を `print!` するたびに stdout をフラッシュします。 |
 
 </details>
 
-> **You're ready to add tools when:** the configured response path prints an answer and completes
-> the turn without hiding session errors.
+> **ツールを追加する準備ができているのは、次の場合です:** 構成したレスポンスパスが回答を出力し、
+> セッションエラーを隠すことなくターンを完了しているとき。
 
 <details>
-<summary>Complete Step 2 implementation</summary>
+<summary>ステップ 2 の完全な実装</summary>
 
-Compare your work with this complete Step 2 implementation.
+この完全なステップ 2 の実装と自分の作業を比較してください。
 
 `src/main.rs`:
 
@@ -834,12 +834,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 :::
 
 :::language java
-## Stream the response in Java
+## Java でレスポンスをストリーミングする
 
-### 1. Enable streaming on the session
+### 1. セッションでストリーミングを有効にする
 
-The Java SDK implementation uses a streaming-enabled `SessionConfig` and `sendAndWait`, then prints the
-completed assistant message. Replace `src/main/java/workshop/AccessibilityReport.java` with:
+Java SDK の実装では、ストリーミングを有効にした `SessionConfig` と `sendAndWait` を使用し、その後
+完了済みのアシスタントメッセージを出力します。`src/main/java/workshop/AccessibilityReport.java` を
+次のように置き換えます。
 
 ```java
 package workshop;
@@ -871,17 +872,16 @@ public final class AccessibilityReport {
 }
 ```
 
-`setStreaming(true)` keeps this step aligned with the other language tracks. The Java implementation
-waits for the completed response from `sendAndWait` and prints that full message when the turn
-finishes.
+`setStreaming(true)` により、このステップを他の言語トラックと足並みをそろえます。Java の実装は
+`sendAndWait` からの完了済みレスポンスを待ち、ターンが終了したときにそのメッセージ全体を出力します。
 
-## Run it
+## 実行する
 
 ```bash
 mvn compile exec:java
 ```
 
-The completed response should print before the process exits:
+完了済みのレスポンスが、プロセスが終了する前に出力されるはずです。
 
 ```text
 - Gives a control a programmatic identity.
@@ -890,23 +890,23 @@ The completed response should print before the process exits:
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| No response is printed | Confirm `setStreaming(true)` is on `SessionConfig` and you call `sendAndWait`. |
-| The process fails with a null response | Keep the `response == null` guard and throw when the turn completes without a message. |
-| Maven cannot find the main class | Run from the starter directory with `mvn compile exec:java`. |
+| レスポンスが出力されない | `SessionConfig` に `setStreaming(true)` があり、`sendAndWait` を呼び出していることを確認します。 |
+| null レスポンスでプロセスが失敗する | `response == null` ガードを維持し、ターンがメッセージなしで完了したときにスローします。 |
+| Maven がメインクラスを見つけられない | スターターディレクトリから `mvn compile exec:java` を実行します。 |
 
 </details>
 
-> **You're ready to add tools when:** the configured response path prints an answer and completes
-> the turn without hiding session errors.
+> **ツールを追加する準備ができているのは、次の場合です:** 構成したレスポンスパスが回答を出力し、
+> セッションエラーを隠すことなくターンを完了しているとき。
 
 <details>
-<summary>Complete Step 2 implementation</summary>
+<summary>ステップ 2 の完全な実装</summary>
 
-Compare your work with this complete Step 2 implementation.
+この完全なステップ 2 の実装と自分の作業を比較してください。
 
 `src/main/java/workshop/AccessibilityReport.java`:
 
@@ -943,25 +943,25 @@ public final class AccessibilityReport {
 </details>
 :::
 
-## Check your understanding
+## 理解度チェック
 
-When would a completed-response send be a better choice than event streaming?
+完了済みレスポンスの送信が、イベントストリーミングよりも良い選択となるのはどのような場合でしょうか。
 
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Use a completed-response send for background work or simple request/response code that does not
-need progressive output or intermediate events.
+段階的な出力や中間イベントを必要としない、バックグラウンド処理やシンプルなリクエスト/レスポンスの
+コードには、完了済みレスポンスの送信を使用します。
 
 </details>
 
-## Learn more
+## さらに学ぶ
 
 - [Steering and queueing](https://github.com/github/copilot-sdk/blob/main/docs/features/steering-and-queueing.md):
-  sending another message while a turn is still running, either to redirect it or to queue work.
+  ターンがまだ実行中に別のメッセージを送信し、方向を変えたり作業をキューに入れたりします。
 - [Session limits](https://github.com/github/copilot-sdk/blob/main/docs/features/session-limits.md):
-  putting an AI Credits budget on a session before it starts producing tokens.
+  セッションがトークンを生成し始める前に AI Credits の予算を設定します。
 - [Usage and billing metrics](https://github.com/github/copilot-sdk/blob/main/docs/features/usage-and-billing.md):
-  reading token counts, context-window use, and cost from the same event stream.
+  同じイベントストリームからトークン数、コンテキストウィンドウの使用状況、コストを読み取ります。
 
-Continue to [Step 3: Add application-owned knowledge](03-local-tool.md).
+[ステップ 3: アプリケーション所有の知識を追加する](03-local-tool.md)に進みましょう。

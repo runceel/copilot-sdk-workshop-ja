@@ -848,8 +848,8 @@ def validate_rendered_language_content(markdown_file: Path) -> None:
         if markdown_file.name == "03-local-tool.md":
             for marker in (
                 *STEP_3_TRACK_MARKERS[selected_language],
-                "## Run it",
-                "Troubleshooting this run",
+                "## 実行する",
+                "この実行のトラブルシューティング",
             ):
                 require(
                     marker.casefold() in rendered_folded,
@@ -858,7 +858,7 @@ def validate_rendered_language_content(markdown_file: Path) -> None:
                 )
 
         if markdown_file.name not in {"00-preflight.md", "museum-00-preflight.md"}:
-            run_section = markdown_section(rendered, "## Run it")
+            run_section = markdown_section(rendered, "## 実行する")
             if markdown_file.name == "09-interactive-html-report.md":
                 run_markers = STEP_9_RUN_COMMAND_MARKERS
             elif markdown_file.name.startswith("museum-"):
@@ -876,7 +876,7 @@ def validate_rendered_language_content(markdown_file: Path) -> None:
 
         if markdown_file.name in PROCEDURE_MARKERS:
             procedure_marker = PROCEDURE_MARKERS[markdown_file.name][selected_language]
-            run_position = rendered.find("## Run it")
+            run_position = rendered.find("## 実行する")
             procedure_position = rendered.casefold().find(procedure_marker.casefold())
             require(
                 0 <= procedure_position < run_position,
@@ -917,7 +917,7 @@ def validate_rendered_language_content(markdown_file: Path) -> None:
 
         if markdown_file.name == "08-model-selection.md":
             require(
-                "Enter the workshop target URL, then choose a model" in rendered,
+                "ワークショップのターゲット URL を入力し、モデルを選択" in rendered,
                 f"{markdown_file.relative_to(ROOT)} does not preserve target URL input before model selection",
             )
 
@@ -1377,7 +1377,7 @@ def validate_security_invariants() -> None:
             all(marker in rendered for marker in (
                 "--allow-local-demo-mcp",
                 "https://github.com/github/copilot-sdk/issues/2273",
-                "exact",
+                "正確な",
                 "mcp",
             )),
             f"workshop/{lesson} does not document the Java local-demo MCP fallback boundary",
@@ -1390,7 +1390,7 @@ def validate_security_invariants() -> None:
             "options.allowLocalDemoWrite()",
             '"write".equals(request.getKind())',
             "builtin:apply_patch",
-            "cannot enforce the output path",
+            "出力パスを強制することはできません",
             "https://github.com/github/copilot-sdk/issues/2273",
         )),
         "workshop/09-interactive-html-report.md does not constrain the Java local-demo write fallback",
@@ -1490,7 +1490,7 @@ def validate_site_behavior() -> None:
     require("language-navigation.js" in index and "language-navigation.js" in step, "Homepage and lessons must share language navigation")
     require("resolveLanguage" in navigation and "lessonUrl" in navigation and "firstLessonUrl" in navigation, "Language navigation must preserve URL propagation")
     require("localStorage" in read(DOCS / "homepage.js") and "localStorage" in step, "Homepage and lessons must persist language selection")
-    require("Choose a workshop language" in step and "if (!language)" in step, "Lessons must not load without a valid language")
+    require("ワークショップの言語を選択してください" in step and "if (!language)" in step, "Lessons must not load without a valid language")
     require("preprocessLanguageDirectives" in step, "Lesson viewer must filter language directives")
     require("workshopTracks" in step and "activeWorkshopId" in step,
             "Lesson viewer must scope navigation to the active workshop")
@@ -1625,14 +1625,14 @@ def validate_documentation() -> None:
 
     wikipedia_lesson = read(WORKSHOP / "museum-07-wikipedia-research.md")
     for required_step in (
-        "# Step 7: Research with Wikipedia MCP",
-        "## Two sessions, two capability profiles",
-        "## Add the research session",
+        "# ステップ 7: Wikipedia MCP でリサーチする",
+        "## 2 つのセッション、2 つの機能プロファイル",
+        "## リサーチセッションを追加する",
         "wikipedia-search",
         "wikipedia-readArticle",
-        "deny-by-default",
-        "Research notes are never merged into the approved facts.",
-        "The session that writes the exhibit keeps its one-tool allowlist.",
+        "デフォルト拒否",
+        "リサーチメモが承認済みファクトにマージされることは決してありません。",
+        "展示を書くセッションは、1 ツールの許可リストを維持します。",
         "Consulted Wikipedia sources:",
     ):
         require(
@@ -1645,8 +1645,8 @@ def validate_documentation() -> None:
     )
     require(
         "id: 'museum-07-wikipedia-research'" in lesson_viewer
-        and "title: 'Research with Wikipedia MCP',\n                navTitle: 'Wikipedia research'" in lesson_viewer
-        and "kind: 'core',\n                number: 7,\n                time: '20 min'" in lesson_viewer,
+        and "title: 'Wikipedia MCP で調査する',\n                navTitle: 'Wikipedia 調査'" in lesson_viewer
+        and "kind: 'core',\n                number: 7,\n                time: '20分'" in lesson_viewer,
         "Wikipedia MCP must be registered as required 20-minute museum step 7",
     )
 
@@ -1663,14 +1663,14 @@ def validate_documentation() -> None:
         )
     require(
         "id: 'museum-08-interactive-exhibit-page'" in lesson_viewer
-        and "kind: 'optional',\n                number: 8,\n                time: '15 min'" in lesson_viewer,
+        and "kind: 'optional',\n                number: 8,\n                time: '15分'" in lesson_viewer,
         "The interactive exhibit page must be registered as optional 15-minute museum step 8",
     )
 
     landing_page = read(DOCS / "index.html")
     require(
-        "Non-SDLC tool · 90 minutes" in landing_page
-        and "90 minutes for Museum Exhibit Studio" in read(ROOT / "README.md"),
+        "SDLC 以外のツール · 90 minutes" in landing_page
+        and "Museum Exhibit Studio に 90 分" in read(ROOT / "README.md"),
         "Museum workshop duration must match the seven timed core steps",
     )
 
@@ -1726,7 +1726,8 @@ def validate_documentation() -> None:
     facts_lesson = museum_lessons["museum-04-approved-facts.md"]
     require(
         "Call approved_fact_lookup first." in facts_lesson
-        or "Call `approved_fact_lookup` first." in facts_lesson,
+        or "Call `approved_fact_lookup` first." in facts_lesson
+        or "まず `approved_fact_lookup` を呼び出す" in facts_lesson,
         "museum-04-approved-facts.md must instruct the curator to call approved_fact_lookup first",
     )
     require(
@@ -1832,7 +1833,7 @@ def validate_editor_open_guidance() -> None:
                 "its `code .` command opens",
             )
             require(
-                "editor" in neighborhood.casefold(),
+                "エディター" in neighborhood,
                 f"workshop/{lesson_name} ({language}) must tell the learner to open "
                 f"{starter_directory} in an editor, not only run `code .`",
             )
@@ -1842,7 +1843,7 @@ def validate_editor_open_guidance() -> None:
     ):
         readme_text = read(starter_readme)
         require(
-            "code ." in readme_text and "editor" in readme_text.casefold(),
+            "code ." in readme_text and "エディター" in readme_text,
             f"{starter_readme.relative_to(ROOT)} must tell learners to open the starter directory "
             "in an editor",
         )
@@ -1964,17 +1965,17 @@ def validate_learn_more_sections() -> None:
         if not lesson_path.exists():
             continue
         require(
-            "## Learn more" in read(lesson_path),
-            f"workshop/{lesson_name} is missing its required '## Learn more' section",
+            "## さらに学ぶ" in read(lesson_path),
+            f"workshop/{lesson_name} is missing its required '## さらに学ぶ' section",
         )
         for language in LANGUAGES:
             section = markdown_section(
-                render_language_markdown(lesson_path, language), "## Learn more"
+                render_language_markdown(lesson_path, language), "## さらに学ぶ"
             )
             require(
                 documentation_link.search(section) is not None,
                 f"workshop/{lesson_name} ({language}) has no documentation link in its "
-                "'## Learn more' section",
+                "'## さらに学ぶ' section",
             )
 
 
@@ -2018,6 +2019,21 @@ def validate_configuration_explainers() -> None:
                 )
 
 
+def uses_action(workflow: str, reference: str) -> bool:
+    """Report whether a workflow uses an action at the required release.
+
+    Actions may be referenced by tag (`actions/setup-node@v7`) or pinned to a commit SHA that
+    names the same release in its trailing comment (`actions/setup-node@<sha> # v7.0.0`). Both
+    forms select the same release, so both satisfy the requirement. A more specific patch tag such
+    as `v7.0.0` satisfies a `v7` requirement, while `v70` does not.
+    """
+    action, _, release = reference.partition("@")
+    pattern = re.compile(
+        rf"{re.escape(action)}@(?:[0-9a-f]{{40}}\s*#\s*)?{re.escape(release)}(?:\.\d+)*(?![\w.-])"
+    )
+    return bool(pattern.search(workflow))
+
+
 def validate_workflows() -> None:
     required_setup = (
         ("actions/setup-dotnet@v6", "dotnet-version: 10.0.x"),
@@ -2026,12 +2042,17 @@ def validate_workflows() -> None:
         ("actions/setup-go@v7", 'go-version: "1.24.x"'),
         ("dtolnay/rust-toolchain@stable", 'toolchain: "1.94.0"'),
         ("actions/setup-java@v6", 'java-version: "17"'),
-        ("mvn --version", "bash scripts/validate-workshop.sh"),
     )
+    required_commands = ("mvn --version", "bash scripts/validate-workshop.sh")
     validation_workflow = read(ROOT / ".github" / "workflows" / "validate.yml")
-    for expected in required_setup:
-        for value in expected:
-            require(value in validation_workflow, f"validate.yml is missing required validation setup: {value}")
+    for action, setting in required_setup:
+        require(uses_action(validation_workflow, action),
+                f"validate.yml is missing required validation setup: {action}")
+        require(setting in validation_workflow,
+                f"validate.yml is missing required validation setup: {setting}")
+    for command in required_commands:
+        require(command in validation_workflow,
+                f"validate.yml is missing required validation setup: {command}")
 
     deployment_workflow = read(ROOT / ".github" / "workflows" / "deploy.yml")
     for forbidden in (
@@ -2047,13 +2068,17 @@ def validate_workflows() -> None:
             forbidden not in deployment_workflow,
             f"deploy.yml should publish the prevalidated site without running {forbidden}",
         )
-    for required in (
-        "Prepare deployment",
+    require(
+        "Prepare deployment" in deployment_workflow,
+        "deploy.yml is missing deployment step: Prepare deployment",
+    )
+    for action in (
         "actions/configure-pages@v6",
         "actions/upload-pages-artifact@v5",
         "actions/deploy-pages@v5",
     ):
-        require(required in deployment_workflow, f"deploy.yml is missing deployment step: {required}")
+        require(uses_action(deployment_workflow, action),
+                f"deploy.yml is missing deployment step: {action}")
 
 
 validate_language_registry()
@@ -2064,7 +2089,7 @@ for lesson in LESSONS:
         validate_language_directives(lesson_path)
         validate_shared_language_content(lesson_path)
         validate_rendered_language_content(lesson_path)
-        for section in ("## Run it", "## Check your understanding"):
+        for section in ("## 実行する", "## 理解度チェック"):
             if lesson not in {"00-preflight.md", "museum-00-preflight.md"}:
                 require(section in read(lesson_path), f"{lesson} is missing required section: {section}")
 validate_layout()

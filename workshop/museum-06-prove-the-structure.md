@@ -1,39 +1,39 @@
-# Step 6: Prove the structure
+# ステップ 6: 構造を証明する
 
-> **Time:** 10 minutes
+> **所要時間:** 10 分
 
-## What you'll build
+## 作るもの
 
-A PASS/FAIL report printed under every exhibit. Two lines of new code: capture the text the session
-runner already returned, then hand it to the pre-built validator.
+すべての展示の下に表示される PASS/FAIL レポートです。追加するコードはわずか 2 行だけで、セッション
+ランナーがすでに返しているテキストを取得し、それを構築済みのバリデーターに渡します。
 
-## What deterministic checks can and cannot prove
+## 決定論的なチェックが証明できること・できないこと
 
-The validator in the helper module is ordinary code with no model in it. Given the same text it
-always returns the same verdict. It checks:
+ヘルパーモジュールのバリデーターは、モデルを一切含まない通常のコードです。同じテキストを与えれば
+常に同じ判定を返します。次の点をチェックします。
 
-- exactly one level-one title
-- a `## Narrative` section
-- a narrative of 100–140 words
-- a `## Visitor questions` section with exactly three numbered items
-- every numbered item ending in a question mark
-- no prohibited vocabulary (`software`, `codebase`, `repository`, `terminal`, `GitHub Copilot`)
+- レベル 1 のタイトルがちょうど 1 つあること
+- `## Narrative` セクションがあること
+- 100〜140 語の展示ストーリーであること
+- `## Visitor questions` セクションに番号付き項目がちょうど 3 つあること
+- すべての番号付き項目が疑問符で終わっていること
+- 禁止語彙（`software`、`codebase`、`repository`、`terminal`、`GitHub Copilot`）が含まれていないこと
 
-That is a **structural** contract, and it is genuinely enforceable. It is not a **factual** one.
-A perfectly structured exhibit can still contain a claim no approved fact supports. The report ends
-by saying so, and that sentence is the honest boundary of this application:
+これは**構造的な**契約であり、実際に強制できるものです。しかし**事実的な**契約ではありません。
+完璧に構造化された展示でも、承認済みファクトが裏付けない主張を含んでいる可能性があります。レポートは
+最後にそのことを明言しており、その一文がこのアプリケーションの誠実な境界線です。
 
 ```text
 Structural checks do not prove factual grounding. Unsupported claims require human review or a separate evaluator.
 ```
 
-You are not writing the validator. Learning to *react* to a machine verdict — and to know exactly
-what it does not cover — is the lesson.
+あなたはバリデーターを書くわけではありません。マシンの判定に*反応する*方法を学ぶこと、そして
+それが何をカバーしていないのかを正確に知ることが、このレッスンの主眼です。
 
-## Wire the validator
+## バリデーターを組み込む
 
 :::language dotnet
-Open `Program.cs`. Capture the returned exhibit and print the report:
+`Program.cs` を開きます。返された展示を取得してレポートを出力します。
 
 ```csharp
     Console.WriteLine();
@@ -48,20 +48,20 @@ Open `Program.cs`. Capture the returned exhibit and print the report:
     return 0;
 ```
 
-`CuratorValidation` is already in the `MuseumExhibitStudio.Helpers` namespace you imported in
-Step 2, so there is nothing new to add at the top of the file.
+`CuratorValidation` は、ステップ 2 でインポートした `MuseumExhibitStudio.Helpers` 名前空間に
+すでに含まれているため、ファイル冒頭に新たに追加するものはありません。
 
-**Look inside:** `Helpers/CuratorValidation.cs` is the concrete answer to "the application proves
-this, not the model". `ValidateExhibit` splits the text into lines, counts `TitlePattern` matches,
-locates the `## Narrative` and `## Visitor questions` headings, counts narrative words with
-`WordPattern`, collects numbered items with `QuestionPattern`, and scans the whole text for the
-five terms in `ProhibitedVocabulary`. Each failed rule appends a plain sentence to `Errors`, and
-`FormatValidation` renders those into the report you print. No model is involved at any point.
+**中を見てみましょう:** `Helpers/CuratorValidation.cs` は「これを証明するのはアプリケーションであって
+モデルではない」という主張の具体的な答えです。`ValidateExhibit` はテキストを行に分割し、`TitlePattern`
+のマッチ数を数え、`## Narrative` と `## Visitor questions` の見出しを見つけ、`WordPattern` で展示
+ストーリーの語数を数え、`QuestionPattern` で番号付き項目を収集し、`ProhibitedVocabulary` の 5 つの語を
+テキスト全体から走査します。ルールに失敗するたびにプレーンな一文を `Errors` に追加し、
+`FormatValidation` がそれらを出力するレポートに整形します。この間、モデルは一切関与しません。
 :::
 
 :::language nodejs
-Open `src/index.ts`. Add `formatValidation` and `validateExhibit` to the helper
-import, then capture the returned exhibit and print the report:
+`src/index.ts` を開きます。ヘルパーのインポートに `formatValidation` と `validateExhibit` を追加し、
+返された展示を取得してレポートを出力します。
 
 ```typescript
     console.log();
@@ -75,17 +75,17 @@ import, then capture the returned exhibit and print the report:
     console.log(formatValidation(validateExhibit(exhibit)));
 ```
 
-**Look inside:** `src/curator.ts` is the concrete answer to "the application proves this, not the
-model". `validateExhibit` splits the text into lines, counts `titlePattern` matches, locates the
-`## Narrative` and `## Visitor questions` headings, counts narrative words with `wordPattern`,
-collects numbered items with `questionPattern`, and scans the whole text for the five terms in
-`prohibitedVocabulary`. Each failed rule appends a plain sentence to `errors`, and
-`formatValidation` renders those into the report you print. No model is involved at any point.
+**中を見てみましょう:** `src/curator.ts` は「これを証明するのはアプリケーションであってモデルでは
+ない」という主張の具体的な答えです。`validateExhibit` はテキストを行に分割し、`titlePattern` の
+マッチ数を数え、`## Narrative` と `## Visitor questions` の見出しを見つけ、`wordPattern` で展示
+ストーリーの語数を数え、`questionPattern` で番号付き項目を収集し、`prohibitedVocabulary` の 5 つの語を
+テキスト全体から走査します。ルールに失敗するたびにプレーンな一文を `errors` に追加し、
+`formatValidation` がそれらを出力するレポートに整形します。この間、モデルは一切関与しません。
 :::
 
 :::language python
-Open `main.py`. Add `format_validation` and `validate_exhibit` to the helper
-import, then capture the returned exhibit and print the report:
+`main.py` を開きます。ヘルパーのインポートに `format_validation` と `validate_exhibit` を追加し、
+返された展示を取得してレポートを出力します。
 
 ```python
     try:
@@ -101,16 +101,16 @@ import, then capture the returned exhibit and print the report:
         return 0
 ```
 
-**Look inside:** `curator.py` is the concrete answer to "the application proves this, not the
-model". `validate_exhibit` splits the text into lines, counts `_TITLE_PATTERN` matches, locates the
-`## Narrative` and `## Visitor questions` headings, counts narrative words with `_WORD_PATTERN`,
-collects numbered items with `_QUESTION_PATTERN`, and scans the whole text for the five terms in
-`PROHIBITED_VOCABULARY`. Each failed rule appends a plain sentence to `errors`, and
-`format_validation` renders those into the report you print. No model is involved at any point.
+**中を見てみましょう:** `curator.py` は「これを証明するのはアプリケーションであってモデルでは
+ない」という主張の具体的な答えです。`validate_exhibit` はテキストを行に分割し、`_TITLE_PATTERN` の
+マッチ数を数え、`## Narrative` と `## Visitor questions` の見出しを見つけ、`_WORD_PATTERN` で展示
+ストーリーの語数を数え、`_QUESTION_PATTERN` で番号付き項目を収集し、`PROHIBITED_VOCABULARY` の 5 つの
+語をテキスト全体から走査します。ルールに失敗するたびにプレーンな一文を `errors` に追加し、
+`format_validation` がそれらを出力するレポートに整形します。この間、モデルは一切関与しません。
 :::
 
 :::language go
-Open `main.go`. Capture the returned exhibit and print the report:
+`main.go` を開きます。返された展示を取得してレポートを出力します。
 
 ```go
 	fmt.Println()
@@ -124,20 +124,20 @@ Open `main.go`. Capture the returned exhibit and print the report:
 	return nil
 ```
 
-`FormatValidation` and `ValidateExhibit` live in `curator.go` in the same package, so there is no
-import to add.
+`FormatValidation` と `ValidateExhibit` は同じパッケージ内の `curator.go` にあるため、追加する
+インポートはありません。
 
-**Look inside:** `curator.go` is the concrete answer to "the application proves this, not the
-model". `ValidateExhibit` splits the text into lines, counts title-pattern matches, locates the
-`## Narrative` and `## Visitor questions` headings, counts narrative words, collects numbered
-items, and scans the lowercased text for the five terms in `prohibitedVocabulary`. Each failed rule
-appends a plain sentence to `validation.Errors`, and `FormatValidation` renders those into the
-report you print. No model is involved at any point.
+**中を見てみましょう:** `curator.go` は「これを証明するのはアプリケーションであってモデルでは
+ない」という主張の具体的な答えです。`ValidateExhibit` はテキストを行に分割し、タイトルパターンの
+マッチ数を数え、`## Narrative` と `## Visitor questions` の見出しを見つけ、展示ストーリーの語数を
+数え、番号付き項目を収集し、小文字化したテキストから `prohibitedVocabulary` の 5 つの語を走査します。
+ルールに失敗するたびにプレーンな一文を `validation.Errors` に追加し、`FormatValidation` がそれらを
+出力するレポートに整形します。この間、モデルは一切関与しません。
 :::
 
 :::language rust
-Open `src/main.rs`. Add `format_validation` and `validate_exhibit` to the crate
-import, then capture the returned exhibit and print the report:
+`src/main.rs` を開きます。クレートのインポートに `format_validation` と `validate_exhibit` を追加し、
+返された展示を取得してレポートを出力します。
 
 ```rust
     println!();
@@ -154,17 +154,17 @@ import, then capture the returned exhibit and print the report:
     Ok(())
 ```
 
-**Look inside:** `src/lib.rs` is the concrete answer to "the application proves this, not the
-model". `validate_exhibit` splits the text into lines, counts title-pattern matches, locates the
-`## Narrative` and `## Visitor questions` headings, counts narrative words, collects numbered
-items, and scans the lowercased text for the five terms in `PROHIBITED_VOCABULARY`. Each failed
-rule pushes a plain sentence onto `errors`, and `format_validation` renders those into the report
-you print. No model is involved at any point.
+**中を見てみましょう:** `src/lib.rs` は「これを証明するのはアプリケーションであってモデルでは
+ない」という主張の具体的な答えです。`validate_exhibit` はテキストを行に分割し、タイトルパターンの
+マッチ数を数え、`## Narrative` と `## Visitor questions` の見出しを見つけ、展示ストーリーの語数を
+数え、番号付き項目を収集し、小文字化したテキストから `PROHIBITED_VOCABULARY` の 5 つの語を走査します。
+ルールに失敗するたびにプレーンな一文を `errors` に追加し、`format_validation` がそれらを出力する
+レポートに整形します。この間、モデルは一切関与しません。
 :::
 
 :::language java
-Open `src/main/java/workshop/MuseumExhibitStudio.java`. Capture the returned
-exhibit and print the report:
+`src/main/java/workshop/MuseumExhibitStudio.java` を開きます。返された展示を取得してレポートを
+出力します。
 
 ```java
             System.out.println();
@@ -177,17 +177,17 @@ exhibit and print the report:
             System.out.println(CuratorValidation.formatValidation(CuratorValidation.validateExhibit(exhibit)));
 ```
 
-`CuratorValidation` sits in the same `workshop` package, so there is no import to add.
+`CuratorValidation` は同じ `workshop` パッケージ内にあるため、追加するインポートはありません。
 
-**Look inside:** `CuratorValidation.java` is the concrete answer to "the application proves this,
-not the model". `validateExhibit` splits the text into lines, counts `TITLE_PATTERN` matches,
-locates the `## Narrative` and `## Visitor questions` headings, counts narrative words with
-`WORD_PATTERN`, collects numbered items with `QUESTION_PATTERN`, and scans the lowercased text for
-the five terms in `PROHIBITED_VOCABULARY`. Each failed rule adds a plain sentence to `errors`, and
-`formatValidation` renders those into the report you print. No model is involved at any point.
+**中を見てみましょう:** `CuratorValidation.java` は「これを証明するのはアプリケーションであって
+モデルではない」という主張の具体的な答えです。`validateExhibit` はテキストを行に分割し、`TITLE_PATTERN`
+のマッチ数を数え、`## Narrative` と `## Visitor questions` の見出しを見つけ、`WORD_PATTERN` で展示
+ストーリーの語数を数え、`QUESTION_PATTERN` で番号付き項目を収集し、小文字化したテキストから
+`PROHIBITED_VOCABULARY` の 5 つの語を走査します。ルールに失敗するたびにプレーンな一文を `errors` に
+追加し、`formatValidation` がそれらを出力するレポートに整形します。この間、モデルは一切関与しません。
 :::
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -220,7 +220,7 @@ mvn compile exec:java
 ```
 :::
 
-The exhibit streams as before, and then a verdict appears under it:
+展示はこれまでと同じようにストリーミングされ、その下に判定が表示されます。
 
 ```text
 Structural checks passed.
@@ -235,8 +235,8 @@ Structural checks passed.
 Structural checks do not prove factual grounding. Unsupported claims require human review or a separate evaluator.
 ```
 
-A failing run is just as informative, and you will see one eventually — narrative length is the
-usual culprit:
+失敗した実行も同じくらい有益で、いずれ目にすることになります。展示ストーリーの語数がその原因で
+あることがほとんどです。
 
 ```text
 Structural checks found issues:
@@ -252,34 +252,36 @@ Structural checks found issues:
 Structural checks do not prove factual grounding. Unsupported claims require human review or a separate evaluator.
 ```
 
-The run still exits successfully. That is deliberate: the report is for a human curator deciding
-whether to publish, not a build gate. Rerun the exhibit, or tighten the fact list, and try again.
+それでも実行は正常に終了します。これは意図的なものです。このレポートは公開するかどうかを判断する
+人間のキュレーターのためのものであり、ビルドのゲートではありません。展示を再実行するか、ファクトの
+リストを絞り込んで、もう一度試してみてください。
 
-Force a failure on purpose to see the vocabulary rule fire. Supply your own single fact:
+語彙ルールが発火する様子を見るために、意図的に失敗させてみましょう。次のような独自のファクトを 1 つ
+与えます。
 
 ```text
 The museum's ticketing terminal was installed in 1998.
 ```
 
-The exhibit will repeat the word `terminal`, and the report flags it — the check reads the output,
-not your intent.
+展示は `terminal` という語を繰り返し、レポートがそれを指摘します。このチェックはあなたの意図では
+なく、出力を読み取っているのです。
 
-## Check your understanding
+## 理解度チェック
 
-- The report says the structure passed. What has it *not* told you about the exhibit?
-- Structural failure does not stop the program. When would making it a hard failure be right, and
-  when would it be wrong?
-- The validator is deterministic. Why does that matter more for a museum than a slightly smarter
-  model-based reviewer would?
+- レポートは構造が合格したと伝えています。展示について、*何を*伝えていないでしょうか。
+- 構造上の失敗はプログラムを止めません。それをハードな失敗にするのが適切なのはどんなときで、
+  不適切なのはどんなときでしょうか。
+- このバリデーターは決定論的です。少し賢いモデルベースのレビュアーと比べて、なぜそれが博物館に
+  とってより重要なのでしょうか。
 
-## Learn more
+## さらに学ぶ
 
 - [User prompt submitted hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/user-prompt-submitted.md):
-  checking or rejecting a prompt in code before the runtime sends it.
+  ランタイムが送信する前に、コード内でプロンプトをチェックまたは拒否します。
 - [User prompt transformed hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/user-prompt-transformed.md):
-  reading the model-facing prompt the runtime actually built.
+  ランタイムが実際に構築したモデル向けのプロンプトを読み取ります。
 - [Hooks overview](https://github.com/github/copilot-sdk/blob/main/docs/hooks/hooks-overview.md):
-  where each hook sits in a turn, if you want a check the runtime enforces rather than one you run
-  afterwards.
+  後から実行するチェックではなく、ランタイムが強制するチェックが欲しい場合に、各フックがターンの
+  どこに位置するかを解説します。
 
-Continue to [Research with Wikipedia MCP](museum-07-wikipedia-research.md).
+[Research with Wikipedia MCP](museum-07-wikipedia-research.md) に進みましょう。

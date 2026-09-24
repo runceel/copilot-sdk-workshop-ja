@@ -1,32 +1,33 @@
-# Optional: Generate an interactive HTML report
+# オプション: インタラクティブな HTML レポートを生成する
 
-> **Time:** 15 minutes  
-> **Prerequisite:** Complete the seven core steps first. This extension also works after optional
-> model selection.
+> **所要時間:** 15 分  
+> **前提条件:** 先に 7 つのコアステップを完了してください。この拡張はオプションの
+> モデル選択の後でも動作します。
 
-## What you'll build
+## 作るもの
 
-The Markdown report is useful in a terminal, but its findings are easier to explore in a browser.
-You will let the same report session create one standalone `accessibility-report.html` file, then
-open it locally and filter its findings.
+Markdown レポートはターミナルで役立ちますが、その指摘事項はブラウザで探索するほうが簡単です。
+同じレポートセッションに単一のスタンドアロンな `accessibility-report.html` ファイルを作成させ、
+ローカルで開いてその指摘事項をフィルタリングします。
 
-## Add a narrow write capability
+## 限定的な書き込み機能を追加する
 
-The previous application-owned tools are read-only, and Playwright can navigate only to one exact
-URL. This extension adds one runtime built-in tool: `builtin:apply_patch`.
+これまでのアプリケーション所有のツールは読み取り専用で、Playwright は 1 つの正確な URL にしか
+移動できません。この拡張ではランタイム組み込みツールを 1 つ追加します: `builtin:apply_patch`。
 
-That does **not** mean approving every file change. Keep the existing browser-navigation rule and
-approve a write only when it targets `accessibility-report.html` directly in the application working
-directory. Reject shell commands, other file writes, and every other permission request.
+これはすべてのファイル変更を承認するという意味では **ありません**。既存のブラウザ移動ルールを維持し、
+アプリケーションの作業ディレクトリ内の `accessibility-report.html` を直接対象とする場合にのみ
+書き込みを承認してください。シェルコマンド、その他のファイル書き込み、その他すべてのパーミッション
+リクエストは拒否します。
 
-The report prompt remains evidence-based: it must navigate, read the current-run snapshot, and look
-up catalog guidance before it writes the HTML artifact.
+レポートのプロンプトは引き続き根拠ベースです。HTML の成果物を書き込む前に、移動し、現在の実行の
+スナップショットを読み取り、カタログのガイダンスを参照する必要があります。
 
 :::language dotnet
-## Scope the .NET write permission
+## .NET の書き込みパーミッションをスコープする
 
-Replace `CreateForTarget` in `Helpers/WorkshopPermissionHandler.cs`. The helper now
-also receives the application directory and permits only the one normalized report path:
+`Helpers/WorkshopPermissionHandler.cs` の `CreateForTarget` を置き換えます。このヘルパーは
+アプリケーションディレクトリも受け取るようになり、正規化された 1 つのレポートパスのみを許可します:
 
 ```csharp
 public static Func<PermissionRequest, PermissionInvocation, Task<PermissionDecision>> CreateForTarget(
@@ -56,8 +57,8 @@ public static Func<PermissionRequest, PermissionInvocation, Task<PermissionDecis
 }
 ```
 
-Keep the existing helper methods. In `Program.cs`, pass the existing `workingDirectory` and add the
-source-qualified built-in tool:
+既存のヘルパーメソッドはそのまま残します。`Program.cs` では既存の `workingDirectory` を渡し、
+ソース修飾された組み込みツールを追加します:
 
 ```csharp
 OnPermissionRequest = WorkshopPermissionHandler.CreateForTarget(targetUri, workingDirectory),
@@ -70,7 +71,7 @@ AvailableTools =
 ],
 ```
 
-Replace the body of `CreateReportPrompt` in `Helpers/Prompts.cs`:
+`Helpers/Prompts.cs` の `CreateReportPrompt` の本体を置き換えます:
 
 ```csharp
 public static string CreateReportPrompt(Uri targetUri) => $"""
@@ -96,10 +97,10 @@ public static string CreateReportPrompt(Uri targetUri) => $"""
 :::
 
 :::language nodejs
-## Scope the Node.js write permission
+## Node.js の書き込みパーミッションをスコープする
 
-In `src/workshop.ts`, replace `permissionForTarget` with a version that preserves
-exact navigation and adds only the normalized report path:
+`src/workshop.ts` で、`permissionForTarget` を、正確な移動を保持しつつ正規化された
+レポートパスのみを追加するバージョンに置き換えます:
 
 ```typescript
 export function permissionForTarget(target: URL, workingDirectory: string): PermissionHandler {
@@ -119,8 +120,8 @@ export function permissionForTarget(target: URL, workingDirectory: string): Perm
 }
 ```
 
-In `src/report.ts`, pass the working directory to the handler and append the built-in
-tool to `availableTools`:
+`src/report.ts` で、作業ディレクトリをハンドラーに渡し、組み込みツールを
+`availableTools` に追加します:
 
 ```typescript
 onPermissionRequest: permissionForTarget(target, process.cwd()),
@@ -132,7 +133,7 @@ availableTools: [
 ],
 ```
 
-Replace `reportPrompt` in `src/workshop.ts`:
+`src/workshop.ts` の `reportPrompt` を置き換えます:
 
 ```typescript
 export function reportPrompt(target: URL): string {
@@ -157,9 +158,9 @@ Created accessibility-report.html`;
 :::
 
 :::language python
-## Scope the Python write permission
+## Python の書き込みパーミッションをスコープする
 
-In `workshop.py`, replace `permission_for_target` with this path-aware version:
+`workshop.py` で、`permission_for_target` をこのパス対応バージョンに置き換えます:
 
 ```python
 def permission_for_target(target: str, working_directory: str):
@@ -179,8 +180,8 @@ def permission_for_target(target: str, working_directory: str):
     return handler
 ```
 
-In `report.py`, pass the current directory to the permission handler and append the
-source-qualified built-in tool:
+`report.py` で、現在のディレクトリをパーミッションハンドラーに渡し、
+ソース修飾された組み込みツールを追加します:
 
 ```python
 on_permission_request=permission_for_target(target, "."),
@@ -192,7 +193,7 @@ available_tools=[
 ],
 ```
 
-Replace `report_prompt` in `workshop.py`:
+`workshop.py` の `report_prompt` を置き換えます:
 
 ```python
 def report_prompt(target: str) -> str:
@@ -216,10 +217,10 @@ Created accessibility-report.html"""
 :::
 
 :::language go
-## Scope the Go write permission
+## Go の書き込みパーミッションをスコープする
 
-Replace `permissionForTarget` in `main.go`. The write branch resolves relative file
-names against the application working directory, so a sibling or parent path is rejected:
+`main.go` の `permissionForTarget` を置き換えます。書き込み分岐は相対的なファイル名を
+アプリケーションの作業ディレクトリに対して解決するため、兄弟パスや親パスは拒否されます:
 
 ```go
 func permissionForTarget(target, workingDirectory string) copilot.PermissionHandlerFunc {
@@ -252,14 +253,14 @@ func permissionForTarget(target, workingDirectory string) copilot.PermissionHand
 }
 ```
 
-Pass `workingDirectory` to the helper and append the source-qualified built-in tool:
+`workingDirectory` をヘルパーに渡し、ソース修飾された組み込みツールを追加します:
 
 ```go
 AvailableTools:      []string{"accessibility_rule_lookup", "read_latest_accessibility_snapshot", "playwright-browser_navigate", "builtin:apply_patch"},
 OnPermissionRequest: permissionForTarget(target, workingDirectory),
 ```
 
-Replace `reportPrompt`:
+`reportPrompt` を置き換えます:
 
 ```go
 func reportPrompt(target string) string {
@@ -284,12 +285,12 @@ Created accessibility-report.html`, target)
 :::
 
 :::language rust
-## Scope the Rust write permission
+## Rust の書き込みパーミッションをスコープする
 
-Add `report_path: PathBuf` to `ScopedPermissions`. Keep the Step 4 `permission_payload` extraction:
-it prefers the nested `permissionRequest` object when the SDK sends one, falls back to the direct
-object for older payloads, and rejects malformed nested values. Then add this write branch before
-its rejecting `else`:
+`ScopedPermissions` に `report_path: PathBuf` を追加します。ステップ 4 の `permission_payload`
+抽出はそのまま維持します。これは SDK がネストされた `permissionRequest` オブジェクトを送信する場合は
+それを優先し、古いペイロードでは直接のオブジェクトにフォールバックし、不正な形式のネストされた値は
+拒否します。次に、拒否する `else` の前にこの書き込み分岐を追加します:
 
 ```rust
 let file_name = permission_payload(&request.extra)
@@ -321,7 +322,7 @@ if report_write {
 }
 ```
 
-When creating the permission handler, set the new field and append the built-in tool:
+パーミッションハンドラーを作成する際に、新しいフィールドを設定し、組み込みツールを追加します:
 
 ```rust
 config.available_tools = Some(vec![
@@ -336,7 +337,7 @@ let config = config.with_permission_handler(Arc::new(ScopedPermissions {
 }));
 ```
 
-Replace `report_prompt`:
+`report_prompt` を置き換えます:
 
 ```rust
 fn report_prompt(target: &Url) -> String {
@@ -363,9 +364,9 @@ Created accessibility-report.html"#
 :::
 
 :::language java
-## Scope the Java write permission
+## Java の書き込みパーミッションをスコープする
 
-In `src/main/java/workshop/AccessibilityReport.java`, add this helper beside `isExactNavigation`:
+`src/main/java/workshop/AccessibilityReport.java` で、`isExactNavigation` の隣にこのヘルパーを追加します:
 
 ```java
 private static boolean isReportWrite(Map<String, Object> request, Path workingDirectory) {
@@ -381,17 +382,17 @@ private static boolean isReportWrite(Map<String, Object> request, Path workingDi
 }
 ```
 
-> **Prominent Java safety warning:** The default handler remains fail-closed: it approves an MCP
-> request only after exact-target validation and a write request only after
-> `accessibility-report.html` path validation. Current Java SDK releases do not expose these
-> permission request fields ([github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273)).
-> The existing `--allow-local-demo-mcp` flag is limited to the `mcp` kind. Step 9 additionally
-> requires `--allow-local-demo-write`, which is limited to the `write` kind and the
-> `builtin:apply_patch` tool allowlist but **cannot enforce the output path**. Enable both flags
-> only for this disposable, controlled local workshop target. Never use either fallback for
-> production, shared, or untrusted worktrees.
+> **Java に関する重要な安全上の警告:** デフォルトのハンドラーは引き続きフェイルクローズです。
+> 正確なターゲット検証の後にのみ MCP リクエストを承認し、`accessibility-report.html` のパス検証の
+> 後にのみ書き込みリクエストを承認します。現在の Java SDK リリースはこれらのパーミッション
+> リクエストのフィールドを公開していません ([github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273))。
+> 既存の `--allow-local-demo-mcp` フラグは `mcp` の種類に限定されます。ステップ 9 ではさらに
+> `--allow-local-demo-write` が必要で、これは `write` の種類と `builtin:apply_patch` ツールの
+> 許可リストに限定されますが、**出力パスを強制することはできません**。この使い捨ての管理された
+> ローカルワークショップのターゲットに対してのみ、両方のフラグを有効にしてください。本番環境、
+> 共有環境、または信頼できないワークツリーでは、どちらのフォールバックも決して使用しないでください。
 
-To add the separate write fallback, replace the Step 4 parser with:
+別の書き込みフォールバックを追加するには、ステップ 4 のパーサーを次のように置き換えます:
 
 ```java
 private static final String LOCAL_DEMO_MCP_FLAG = "--allow-local-demo-mcp";
@@ -432,7 +433,7 @@ private record RunOptions(URI target, boolean allowLocalDemoMcp, boolean allowLo
 }
 ```
 
-Extend the existing `setAvailableTools` call and permission callback:
+既存の `setAvailableTools` の呼び出しとパーミッションコールバックを拡張します:
 
 ```java
 .setAvailableTools(List.of(
@@ -468,7 +469,7 @@ Extend the existing `setAvailableTools` call and permission callback:
 })
 ```
 
-Replace `reportPrompt`:
+`reportPrompt` を置き換えます:
 
 ```java
 private static String reportPrompt(URI target) {
@@ -493,7 +494,7 @@ private static String reportPrompt(URI target) {
 ```
 :::
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -526,55 +527,57 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp --allow-local-demo-wri
 ```
 :::
 
-Use the workshop target:
+ワークショップのターゲットを使用します:
 
 ```text
 {{TARGET_APP_URL}}
 ```
 
-The tool transcript should include the existing navigation, snapshot, and catalog calls plus an
-`apply_patch` write. Open `accessibility-report.html` in a browser. Type a word from a
-finding, WCAG criterion, or evidence line into the filter and confirm the visible cards and result
-count update.
+ツールのトランスクリプトには、既存の移動、スナップショット、カタログの呼び出しに加えて、
+`apply_patch` の書き込みが含まれているはずです。`accessibility-report.html` をブラウザで開きます。
+指摘事項、WCAG 基準、または根拠の行から単語をフィルターに入力し、表示されるカードと結果件数が
+更新されることを確認します。
 
 <details>
-<summary>Troubleshooting this extension</summary>
+<summary>この拡張のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| The write is rejected | The default handler requires the exact `accessibility-report.html` path. If Java SDK payload fields are unavailable, use `--allow-local-demo-write` only for the controlled local demo; it approves the `write` kind but cannot prove the path. |
-| More than one file is requested | Keep only `builtin:apply_patch` in the new built-in capability. The default handler rejects other paths; the Java local-demo write fallback cannot make that guarantee. |
-| The filter does not work | The generated document must include embedded JavaScript that filters cards and updates its live result count. Rerun once if the agent omitted a required element. |
-| The report loads without styling | Keep CSS and JavaScript embedded in the one HTML file; the prompt intentionally disallows external assets and libraries. |
+| 書き込みが拒否される | デフォルトのハンドラーは正確な `accessibility-report.html` パスを必要とします。Java SDK のペイロードフィールドが利用できない場合は、管理されたローカルデモに対してのみ `--allow-local-demo-write` を使用してください。これは `write` の種類を承認しますが、パスを証明することはできません。 |
+| 複数のファイルがリクエストされる | 新しい組み込み機能には `builtin:apply_patch` のみを残してください。デフォルトのハンドラーは他のパスを拒否します。Java のローカルデモ書き込みフォールバックはその保証をできません。 |
+| フィルターが機能しない | 生成されるドキュメントには、カードをフィルタリングしてライブの結果件数を更新する組み込みの JavaScript が含まれている必要があります。エージェントが必要な要素を省略した場合は、一度再実行してください。 |
+| レポートがスタイルなしで読み込まれる | CSS と JavaScript は 1 つの HTML ファイルに埋め込んだままにしてください。プロンプトは意図的に外部アセットやライブラリを禁止しています。 |
 
 </details>
 
-> **The extension is complete when:** `accessibility-report.html` opens locally and
-> filters evidence-grounded findings. With the default exact handler, the session approves no other
-> file path; the Java local-demo write fallback deliberately cannot make that guarantee.
+> **この拡張が完了する条件:** `accessibility-report.html` がローカルで開き、
+> 根拠に基づいた指摘事項をフィルタリングできること。デフォルトの正確なハンドラーでは、
+> セッションは他のファイルパスを承認しません。Java のローカルデモ書き込みフォールバックは
+> 意図的にその保証をできません。
 
-## Check your understanding
+## 理解度チェック
 
-Why is allowing one named built-in write tool safer than broadly approving filesystem access?
+1 つの名前付き組み込み書き込みツールを許可することが、ファイルシステムへのアクセスを広く承認するよりも
+安全なのはなぜですか?
 
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-`builtin:apply_patch` exposes only the required editing capability, and the default permission
-callback binds that capability to one normalized output path. The model cannot use shell commands
-or write another file, while the existing local tools and scoped Playwright navigation remain
-unchanged. The Java local-demo fallback is an explicit exception while the SDK omits permission
-payload fields, so it must remain limited to a controlled local target.
+`builtin:apply_patch` は必要な編集機能のみを公開し、デフォルトのパーミッション
+コールバックはその機能を 1 つの正規化された出力パスに結び付けます。モデルはシェルコマンドを使ったり
+別のファイルを書き込んだりすることはできず、既存のローカルツールとスコープされた Playwright の移動は
+変更されないままです。Java のローカルデモフォールバックは、SDK がパーミッションペイロードの
+フィールドを省略している間の明示的な例外なので、管理されたローカルターゲットに限定し続ける必要があります。
 
 </details>
 
-## Learn more
+## さらに学ぶ
 
 - [Pre-tool-use hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md):
-  approving, denying, or rewriting a tool call before it runs, in code rather than in a prompt.
+  プロンプトではなくコードで、ツール呼び出しが実行される前にそれを承認、拒否、または書き換えます。
 - [Hooks reference](https://github.com/github/copilot-sdk/blob/main/docs/hooks/README.md):
-  every hook the SDK exposes, and the input each one receives.
+  SDK が公開するすべてのフックと、それぞれが受け取る入力。
 - [Local CLI setup](https://github.com/github/copilot-sdk/blob/main/docs/setup/local-cli.md):
-  controlling which CLI the SDK starts, which decides where a written file lands.
+  SDK が起動する CLI を制御し、書き込まれたファイルがどこに配置されるかを決定します。
 
-Return to [Step 7: Run and explain the application](07-run-explain.md).
+[ステップ 7: アプリケーションを実行して説明する](07-run-explain.md) に戻ります。

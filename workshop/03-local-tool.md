@@ -1,37 +1,31 @@
-# Step 3: Add application-owned knowledge
+# ステップ 3: アプリケーションが所有する知識を追加する
 
-> **Time:** 15 minutes
+> **所要時間:** 15 分
 
-## What you'll add
+## 追加するもの
 
-You'll give Copilot a typed local tool that retrieves an exact criterion and remediation from the
-application-owned Web Content Accessibility Guidelines (WCAG) catalog.
+Copilot に、アプリケーションが所有する Web Content Accessibility Guidelines (WCAG) カタログから正確な基準と是正策を取得する、型付きのローカルツールを与えます。
 
-## Give Copilot a tool your app owns
+## アプリが所有するツールを Copilot に与える
 
-**Tool calling** lets the model request a capability while it works on an answer. A
-[**local tool**](https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md#how-tools-work)
-runs inside your application process. The model decides when to request it, but your code still owns
-the data, validation, execution, and result.
+**ツール呼び出し (Tool calling)** は、モデルが回答の作成中に機能をリクエストできるようにする仕組みです。
+[**ローカルツール**](https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md#how-tools-work)
+はアプリケーションのプロセス内で実行されます。モデルはいつリクエストするかを決めますが、データ、検証、実行、結果は依然としてあなたのコードが所有します。
 
-In this step, you expose application-owned WCAG guidance as `accessibility_rule_lookup`, register
-that tool with the session, and explicitly make it available to the model.
+このステップでは、アプリケーションが所有する WCAG ガイダンスを `accessibility_rule_lookup` として公開し、そのツールをセッションに登録して、明示的にモデルが利用できるようにします。
 
-## Bring your own source of truth
+## 独自の信頼できる情報源を持ち込む
 
-The model's general knowledge is not a substitute for data your application owns. This local tool
-returns a small, exact result from deterministic code you can test instead of putting the full
-catalog in every prompt.
+モデルの一般的な知識は、アプリケーションが所有するデータの代わりにはなりません。このローカルツールは、カタログ全体をすべてのプロンプトに含める代わりに、テスト可能な決定論的コードから小さく正確な結果を返します。
 
-`skip permission` is deliberate here because the tool only reads application-owned data. The
-external MCP process in the next step will use a permission boundary instead.
+ここで `skip permission` を意図的に使っているのは、このツールがアプリケーションが所有するデータの読み取りのみを行うためです。次のステップの外部 MCP プロセスでは、代わりにパーミッション境界を使用します。
 
 :::language dotnet
-## Wire up the C# lookup
+## C# のルックアップを組み込む
 
-### 1. Add the catalog lookup tool
+### 1. カタログルックアップツールを追加する
 
-At the top of `Helpers/AccessibilityRuleCatalog.cs`, insert:
+`Helpers/AccessibilityRuleCatalog.cs` の先頭に、次を挿入します。
 
 ```csharp
 using System.ComponentModel;
@@ -39,7 +33,7 @@ using GitHub.Copilot;
 using Microsoft.Extensions.AI;
 ```
 
-Inside `AccessibilityRuleCatalog`, after the existing `Rules` array, insert:
+`AccessibilityRuleCatalog` の内部、既存の `Rules` 配列の後に、次を挿入します。
 
 ```csharp
 public static AIFunction CreateLookupTool() => CopilotTool.DefineTool(
@@ -69,9 +63,9 @@ public static AccessibilityRule Lookup(string query)
 }
 ```
 
-### 2. Show tool activity
+### 2. ツールのアクティビティを表示する
 
-In `Helpers/ResponseStreamer.cs`, insert these cases before `SessionIdleEvent`:
+`Helpers/ResponseStreamer.cs` で、`SessionIdleEvent` の前に次のケースを挿入します。
 
 ```csharp
 case ToolExecutionStartEvent tool:
@@ -82,9 +76,9 @@ case ToolExecutionCompleteEvent tool:
     break;
 ```
 
-### 3. Register and request the tool
+### 3. ツールを登録してリクエストする
 
-Replace the session configuration and send call in `Program.cs`:
+`Program.cs` のセッション設定と送信呼び出しを次のように置き換えます。
 
 ```csharp
 await using var session = await client.CreateSessionAsync(new SessionConfig
@@ -100,13 +94,13 @@ await ResponseStreamer.SendAndPrintAsync(
     "Use accessibility_rule_lookup to explain how to fix an input with no accessible name.");
 ```
 
-## Run it
+## 実行する
 
 ```bash
 dotnet run
 ```
 
-Look for the tool name and its mapping to 4.1.2:
+ツール名と、それが 4.1.2 にマッピングされていることを確認します。
 
 ```text
 [tool:start] accessibility_rule_lookup
@@ -116,20 +110,20 @@ WCAG 4.1.2 Name, Role, Value ...
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| No tool event appears | Keep the explicit `Use accessibility_rule_lookup` instruction in this learning step. |
-| The compiler cannot find `AIFunction` | Add `using Microsoft.Extensions.AI;` to the catalog file. |
-| The result says no exact match | Confirm the prompt contains `accessible name`, a keyword in the starter data. |
+| ツールイベントが表示されない | この学習ステップでは明示的な `Use accessibility_rule_lookup` の指示を残してください。 |
+| コンパイラが `AIFunction` を見つけられない | カタログファイルに `using Microsoft.Extensions.AI;` を追加してください。 |
+| 結果が「no exact match」と表示される | プロンプトにスターターデータのキーワードである `accessible name` が含まれていることを確認してください。 |
 
 </details>
 
 <details>
-<summary>Complete Step 3 implementation</summary>
+<summary>ステップ 3 の完成実装</summary>
 
-Compare your version with this complete Step 3 implementation.
+この完成したステップ 3 の実装と、あなたのバージョンを比較してください。
 
 `Program.cs`:
 
@@ -158,18 +152,18 @@ await ResponseStreamer.SendAndPrintAsync(
     "Use accessibility_rule_lookup to explain how to fix an input with no accessible name.");
 ```
 
-The catalog tool and lookup live in `Helpers/AccessibilityRuleCatalog.cs`. Tool start and completion
-printing live in `Helpers/ResponseStreamer.cs`.
+カタログツールとルックアップは `Helpers/AccessibilityRuleCatalog.cs` にあります。ツールの開始と完了の
+表示は `Helpers/ResponseStreamer.cs` にあります。
 
 </details>
 :::
 
 :::language nodejs
-## Wire up the TypeScript lookup
+## TypeScript のルックアップを組み込む
 
-### 1. Inspect the prebuilt typed tool
+### 1. 事前に用意された型付きツールを確認する
 
-Open `src/workshop.ts`. The starter already imports the catalog and defines this local tool:
+`src/workshop.ts` を開きます。スターターには既にカタログのインポートと、次のローカルツールの定義があります。
 
 ```typescript
 export const accessibilityRuleLookup = defineTool("accessibility_rule_lookup", {
@@ -183,30 +177,29 @@ export const accessibilityRuleLookup = defineTool("accessibility_rule_lookup", {
 });
 ```
 
-The Zod schema gives the model a typed `query` argument. The handler searches
-`accessibilityRules`, which remains application-owned. `skipPermission: true` is intentional because
-this tool only returns application-owned read-only data.
+Zod スキーマは、モデルに型付きの `query` 引数を提供します。ハンドラーは
+`accessibilityRules` を検索し、これはアプリケーションが所有したままです。このツールはアプリケーションが所有する読み取り専用データのみを返すため、`skipPermission: true` は意図的なものです。
 
-### 2. Confirm tool activity printing
+### 2. ツールのアクティビティ表示を確認する
 
-In the same file, `streamResponse` already prints tool lifecycle events:
+同じファイルで、`streamResponse` は既にツールのライフサイクルイベントを表示しています。
 
 ```typescript
 else if (event.type === "tool.execution_start") console.log(`\n[tool:start] ${event.data.toolName}`);
 else if (event.type === "tool.execution_complete") console.log(`[tool:done] success=${event.data.success}`);
 ```
 
-Keep those branches so you can see when the model calls the local tool.
+モデルがローカルツールを呼び出すタイミングを確認できるように、これらの分岐は残しておいてください。
 
-### 3. Register and request the tool
+### 3. ツールを登録してリクエストする
 
-In `src/index.ts`, import the tool with the streaming helper:
+`src/index.ts` で、ストリーミングヘルパーとともにツールをインポートします。
 
 ```typescript
 import { accessibilityRuleLookup, streamResponse } from "./workshop.js";
 ```
 
-Replace the session creation and send call:
+セッションの作成と送信呼び出しを置き換えます。
 
 ```typescript
 const session = await client.createSession({
@@ -224,15 +217,15 @@ try {
 }
 ```
 
-`tools` registers the implementation. `availableTools` is the allowlist the model may call.
+`tools` は実装を登録します。`availableTools` はモデルが呼び出せる許可リストです。
 
-## Run it
+## 実行する
 
 ```bash
 npm start
 ```
 
-Look for the tool name and guidance for WCAG 4.1.2:
+ツール名と WCAG 4.1.2 に関するガイダンスを確認します。
 
 ```text
 [tool:start] accessibility_rule_lookup
@@ -242,21 +235,21 @@ WCAG 4.1.2 Name, Role, Value ...
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| TypeScript cannot resolve `zod` | Run `npm install` in the starter directory. |
-| No tool event appears | Keep the tool name in both `tools` and `availableTools`, and keep the explicit instruction in the prompt. |
-| The lookup returns no match | Ask about `4.1.2` or `accessible name`, both represented in the catalog. |
-| Tool events never print | Confirm `streamResponse` still handles `tool.execution_start` and `tool.execution_complete`. |
+| TypeScript が `zod` を解決できない | スターターディレクトリで `npm install` を実行してください。 |
+| ツールイベントが表示されない | ツール名を `tools` と `availableTools` の両方に残し、プロンプトに明示的な指示を残してください。 |
+| ルックアップがマッチを返さない | カタログに含まれている `4.1.2` または `accessible name` について尋ねてください。 |
+| ツールイベントが表示されない | `streamResponse` が `tool.execution_start` と `tool.execution_complete` を引き続き処理していることを確認してください。 |
 
 </details>
 
 <details>
-<summary>Complete Step 3 implementation</summary>
+<summary>ステップ 3 の完成実装</summary>
 
-Compare your version with this complete Step 3 implementation.
+この完成したステップ 3 の実装と、あなたのバージョンを比較してください。
 
 `src/index.ts`:
 
@@ -282,17 +275,17 @@ try {
 }
 ```
 
-The typed tool definition and tool-activity printing live in `src/workshop.ts`.
+型付きのツール定義とツールアクティビティの表示は `src/workshop.ts` にあります。
 
 </details>
 :::
 
 :::language python
-## Wire up the Python lookup
+## Python のルックアップを組み込む
 
-### 1. Inspect the prebuilt typed tool
+### 1. 事前に用意された型付きツールを確認する
 
-Open `workshop.py`. The starter already defines the parameter model and local tool:
+`workshop.py` を開きます。スターターには既にパラメーターモデルとローカルツールの定義があります。
 
 ```python
 class LookupParams(BaseModel):
@@ -308,19 +301,18 @@ def accessibility_rule_lookup(params: LookupParams) -> dict[str, object]:
     return rule.__dict__
 ```
 
-Pydantic describes the model-visible argument while the handler searches
-`ACCESSIBILITY_RULES`, which remains application-owned. `skip_permission=True` is intentional
-because this tool only returns application-owned read-only data.
+Pydantic はモデルから見える引数を記述し、ハンドラーは
+`ACCESSIBILITY_RULES` を検索します。これはアプリケーションが所有したままです。このツールはアプリケーションが所有する読み取り専用データのみを返すため、`skip_permission=True` は意図的なものです。
 
-### 2. Register and request the tool
+### 2. ツールを登録してリクエストする
 
-In `main.py`, import the tool:
+`main.py` で、ツールをインポートします。
 
 ```python
 from workshop import accessibility_rule_lookup
 ```
 
-Replace the session creation and send call. Keep the Step 2 event handler inside the session block:
+セッションの作成と送信呼び出しを置き換えます。ステップ 2 のイベントハンドラーはセッションブロック内に残しておきます。
 
 ```python
 async with await client.create_session(
@@ -355,15 +347,15 @@ async with await client.create_session(
         raise error
 ```
 
-`tools` registers the implementation. `available_tools` is the allowlist the model may call.
+`tools` は実装を登録します。`available_tools` はモデルが呼び出せる許可リストです。
 
-## Run it
+## 実行する
 
 ```bash
 python main.py
 ```
 
-The response should use the catalog's WCAG 4.1.2 title and recommendation:
+応答は、カタログの WCAG 4.1.2 のタイトルと推奨事項を使用するはずです。
 
 ```text
 WCAG 4.1.2 Name, Role, Value ...
@@ -371,21 +363,21 @@ Associate a visible <label> with the input ...
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| Python cannot import `pydantic` | Activate the preflight virtual environment and reinstall `requirements.txt`. |
-| The tool is not called | Keep it in both `tools` and `available_tools`, and keep the explicit instruction in the prompt. |
-| The lookup returns no match | Ask about `4.1.2` or `accessible name`, both represented in the catalog. |
-| Import error for `accessibility_rule_lookup` | Confirm `from workshop import accessibility_rule_lookup` is present in `main.py`. |
+| Python が `pydantic` をインポートできない | 事前準備の仮想環境をアクティブにして `requirements.txt` を再インストールしてください。 |
+| ツールが呼び出されない | `tools` と `available_tools` の両方に残し、プロンプトに明示的な指示を残してください。 |
+| ルックアップがマッチを返さない | カタログに含まれている `4.1.2` または `accessible name` について尋ねてください。 |
+| `accessibility_rule_lookup` のインポートエラー | `main.py` に `from workshop import accessibility_rule_lookup` があることを確認してください。 |
 
 </details>
 
 <details>
-<summary>Complete Step 3 implementation</summary>
+<summary>ステップ 3 の完成実装</summary>
 
-Compare your version with this complete Step 3 implementation.
+この完成したステップ 3 の実装と、あなたのバージョンを比較してください。
 
 `main.py`:
 
@@ -434,17 +426,17 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-The typed tool definition lives in `workshop.py`.
+型付きのツール定義は `workshop.py` にあります。
 
 </details>
 :::
 
 :::language go
-## Wire up the Go lookup
+## Go のルックアップを組み込む
 
-### 1. Add the typed lookup
+### 1. 型付きルックアップを追加する
 
-Add `strings` to the imports in `main.go`, then add these declarations before `streamResponse`:
+`main.go` のインポートに `strings` を追加し、`streamResponse` の前に次の宣言を追加します。
 
 ```go
 type lookupParams struct {
@@ -467,9 +459,9 @@ func accessibilityRuleLookup(params lookupParams, _ copilot.ToolInvocation) (any
 }
 ```
 
-### 2. Define and register the tool
+### 2. ツールを定義して登録する
 
-At the start of `main`, create the tool:
+`main` の先頭で、ツールを作成します。
 
 ```go
 lookup := copilot.DefineTool(
@@ -480,7 +472,7 @@ lookup := copilot.DefineTool(
 lookup.SkipPermission = true
 ```
 
-Replace the session configuration and final send:
+セッション設定と最後の送信を置き換えます。
 
 ```go
 session, err := client.CreateSession(context.Background(), &copilot.SessionConfig{
@@ -501,17 +493,16 @@ if err := streamResponse(
 }
 ```
 
-`Tools` registers the implementation. `AvailableTools` is the allowlist the model may call.
-`SkipPermission = true` is intentional because this tool only returns application-owned read-only
-data.
+`Tools` は実装を登録します。`AvailableTools` はモデルが呼び出せる許可リストです。
+このツールはアプリケーションが所有する読み取り専用データのみを返すため、`SkipPermission = true` は意図的なものです。
 
-## Run it
+## 実行する
 
 ```bash
 go run .
 ```
 
-The streamed response should use the lookup result for WCAG 4.1.2:
+ストリーミングされる応答は、WCAG 4.1.2 のルックアップ結果を使用するはずです。
 
 ```text
 WCAG 4.1.2 Name, Role, Value ...
@@ -519,21 +510,21 @@ Associate each input with a visible label.
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `strings` is undefined | Add the standard-library `strings` import. |
-| The model cannot see the tool | Keep the tool in `Tools` and its exact name in `AvailableTools`. |
-| The lookup returns no match | Ask about `4.1.2` or `accessible name`. |
-| Build fails on `DefineTool` | Confirm the handler signature is `(lookupParams, copilot.ToolInvocation) (any, error)`. |
+| `strings` が未定義 | 標準ライブラリの `strings` インポートを追加してください。 |
+| モデルがツールを認識できない | ツールを `Tools` に残し、その正確な名前を `AvailableTools` に残してください。 |
+| ルックアップがマッチを返さない | `4.1.2` または `accessible name` について尋ねてください。 |
+| `DefineTool` でビルドが失敗する | ハンドラーのシグネチャが `(lookupParams, copilot.ToolInvocation) (any, error)` であることを確認してください。 |
 
 </details>
 
 <details>
-<summary>Complete Step 3 implementation</summary>
+<summary>ステップ 3 の完成実装</summary>
 
-Compare your version with this complete Step 3 implementation.
+この完成したステップ 3 の実装と、あなたのバージョンを比較してください。
 
 `main.go`:
 
@@ -620,11 +611,11 @@ func main() {
 :::
 
 :::language rust
-## Wire up the Rust lookup
+## Rust のルックアップを組み込む
 
-### 1. Add the typed handler
+### 1. 型付きハンドラーを追加する
 
-Add these imports near the top of `src/main.rs`:
+`src/main.rs` の先頭付近に、次のインポートを追加します。
 
 ```rust
 use std::sync::Arc;
@@ -636,7 +627,7 @@ use github_copilot_sdk::{Client, ClientOptions, Error, ToolResult};
 use serde::Deserialize;
 ```
 
-Replace the narrower Step 2 SDK imports, then add the typed handler before `stream_response`:
+より狭いステップ 2 の SDK インポートを置き換え、`stream_response` の前に型付きハンドラーを追加します。
 
 ```rust
 #[derive(Deserialize, JsonSchema)]
@@ -661,9 +652,9 @@ impl ToolHandler for AccessibilityRuleLookup {
 }
 ```
 
-### 2. Define and register the tool
+### 2. ツールを定義して登録する
 
-At the start of `main`, create the tool and add it to the session configuration:
+`main` の先頭で、ツールを作成してセッション設定に追加します。
 
 ```rust
 let lookup = Tool::new("accessibility_rule_lookup")
@@ -685,18 +676,16 @@ stream_response!(
 );
 ```
 
-Keep the Step 2 disconnect and client shutdown after the macro call.
-`config.tools` registers the implementation. `config.available_tools` is the allowlist the model may
-call. `with_skip_permission(true)` is intentional because this tool only returns application-owned
-read-only data.
+マクロ呼び出しの後には、ステップ 2 の disconnect とクライアントのシャットダウンを残しておきます。
+`config.tools` は実装を登録します。`config.available_tools` はモデルが呼び出せる許可リストです。このツールはアプリケーションが所有する読み取り専用データのみを返すため、`with_skip_permission(true)` は意図的なものです。
 
-## Run it
+## 実行する
 
 ```bash
 cargo run
 ```
 
-The streamed response should use the lookup result for WCAG 4.1.2:
+ストリーミングされる応答は、WCAG 4.1.2 のルックアップ結果を使用するはずです。
 
 ```text
 WCAG 4.1.2 Name, Role, Value ...
@@ -704,21 +693,21 @@ Associate each input with a visible label.
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| A trait or derive is unresolved | Keep the `async_trait`, `serde`, schema, and tool imports shown above. |
-| The model cannot see the tool | Set both `config.tools` and `config.available_tools`. |
-| The lookup returns no match | Ask explicitly about `4.1.2`. |
-| Handler type errors | Confirm `ToolHandler::call` returns `Result<ToolResult, Error>`. |
+| トレイトまたは derive が解決できない | 上記の `async_trait`、`serde`、スキーマ、ツールのインポートを残してください。 |
+| モデルがツールを認識できない | `config.tools` と `config.available_tools` の両方を設定してください。 |
+| ルックアップがマッチを返さない | 明示的に `4.1.2` について尋ねてください。 |
+| ハンドラーの型エラー | `ToolHandler::call` が `Result<ToolResult, Error>` を返すことを確認してください。 |
 
 </details>
 
 <details>
-<summary>Complete Step 3 implementation</summary>
+<summary>ステップ 3 の完成実装</summary>
 
-Compare your version with this complete Step 3 implementation.
+この完成したステップ 3 の実装と、あなたのバージョンを比較してください。
 
 `src/main.rs`:
 
@@ -828,11 +817,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 :::
 
 :::language java
-## Wire up the Java lookup
+## Java のルックアップを組み込む
 
-### 1. Add the typed lookup
+### 1. 型付きルックアップを追加する
 
-Add these imports to `src/main/java/workshop/AccessibilityReport.java`:
+`src/main/java/workshop/AccessibilityReport.java` に、次のインポートを追加します。
 
 ```java
 import com.github.copilot.rpc.ToolDefinition;
@@ -841,7 +830,7 @@ import com.github.copilot.tool.Param;
 import java.util.List;
 ```
 
-Add this method before the class's closing brace:
+クラスの閉じ括弧の前に、次のメソッドを追加します。
 
 ```java
 private static String lookupRule(String query) {
@@ -854,9 +843,9 @@ private static String lookupRule(String query) {
 }
 ```
 
-### 2. Define and register the tool
+### 2. ツールを定義して登録する
 
-At the start of `main`, define the tool and session configuration:
+`main` の先頭で、ツールとセッション設定を定義します。
 
 ```java
 var lookup = ToolDefinition.from(
@@ -872,7 +861,7 @@ var config = new SessionConfig()
         .setOnPermissionRequest(PermissionHandler.APPROVE_ALL);
 ```
 
-Replace session creation and the prompt inside the client block:
+クライアントブロック内で、セッションの作成とプロンプトを置き換えます。
 
 ```java
 var session = client.createSession(config).get();
@@ -885,19 +874,15 @@ if (response == null) {
 System.out.println(response.getData().content());
 ```
 
-`setTools` registers the implementation. `setAvailableTools` is the allowlist the model may call.
-`skipPermission(true)` is intentional because this tool only returns application-owned read-only
-data. Keep the Step 1 permission handler until Step 4 replaces it with the scoped Playwright
-handler. The Java implementation uses a streaming-enabled session with `sendAndWait`, so it prints the
-completed response when the turn finishes.
+`setTools` は実装を登録します。`setAvailableTools` はモデルが呼び出せる許可リストです。このツールはアプリケーションが所有する読み取り専用データのみを返すため、`skipPermission(true)` は意図的なものです。ステップ 4 でスコープ付きの Playwright ハンドラーに置き換えられるまで、ステップ 1 のパーミッションハンドラーを残しておきます。Java の実装はストリーミングを有効にしたセッションで `sendAndWait` を使用するため、ターンが終了すると完成した応答を表示します。
 
-## Run it
+## 実行する
 
 ```bash
 mvn compile exec:java
 ```
 
-The response should use the lookup result for WCAG 4.1.2:
+応答は、WCAG 4.1.2 のルックアップ結果を使用するはずです。
 
 ```text
 WCAG 4.1.2 Name, Role, Value ...
@@ -905,21 +890,21 @@ Associate each input with a visible label.
 ```
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>この実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `ToolDefinition` or `Param` is unresolved | Add the two Copilot tool imports shown above. |
-| The model cannot see the tool | Keep `setTools` and `setAvailableTools` on the same session configuration. |
-| The lookup returns no match | Ask explicitly about `4.1.2`. |
-| Method reference fails | Confirm `lookupRule` is `private static` and accepts a single `String`. |
+| `ToolDefinition` または `Param` が解決できない | 上記の 2 つの Copilot ツールのインポートを追加してください。 |
+| モデルがツールを認識できない | `setTools` と `setAvailableTools` を同じセッション設定に残してください。 |
+| ルックアップがマッチを返さない | 明示的に `4.1.2` について尋ねてください。 |
+| メソッド参照が失敗する | `lookupRule` が `private static` で、単一の `String` を受け取ることを確認してください。 |
 
 </details>
 
 <details>
-<summary>Complete Step 3 implementation</summary>
+<summary>ステップ 3 の完成実装</summary>
 
-Compare your version with this complete Step 3 implementation.
+この完成したステップ 3 の実装と、あなたのバージョンを比較してください。
 
 `AccessibilityReport.java`:
 
@@ -978,28 +963,26 @@ public final class AccessibilityReport {
 </details>
 :::
 
-> **You're ready for Playwright when:** the answer uses criterion 4.1.2 from the application catalog.
+> **Playwright に進む準備ができたら:** 応答がアプリケーションカタログの基準 4.1.2 を使用しています。
 
-## Check your understanding
+## 理解度チェック
 
-Should calculating an order total from application-owned line items be a local tool or an MCP
-server?
+アプリケーションが所有する明細項目から注文合計を計算する処理は、ローカルツールと MCP サーバーのどちらにすべきでしょうか?
 
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Usually a local tool. The application owns the line items and the deterministic calculation, so an
-in-process function is easier to test and does not cross a process boundary.
+通常はローカルツールです。アプリケーションが明細項目と決定論的な計算を所有しているため、プロセス内の関数の方がテストしやすく、プロセス境界を越える必要もありません。
 
 </details>
 
-## Learn more
+## さらに学ぶ
 
 - [Working with hooks](https://github.com/github/copilot-sdk/blob/main/docs/features/hooks.md):
-  callbacks the runtime invokes around each tool call, for auditing or policy you own.
+  各ツール呼び出しの前後にランタイムが呼び出すコールバックで、あなたが所有する監査やポリシーに使用できます。
 - [Post-tool-use hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/post-tool-use.md):
-  inspecting or rewriting a tool result before the model sees it.
+  モデルが見る前にツールの結果を検査または書き換えます。
 - [Custom skills](https://github.com/github/copilot-sdk/blob/main/docs/features/skills.md):
-  packaging reusable instructions that load beside the tools a session registers.
+  セッションが登録するツールと並んで読み込まれる、再利用可能な命令をパッケージ化します。
 
-Continue to [Step 4: Connect an external tool safely](04-mcp-safety.md).
+[ステップ 4: 外部ツールを安全に接続する](04-mcp-safety.md) に進みます。

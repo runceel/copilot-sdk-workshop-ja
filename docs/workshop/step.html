@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Self-guided, multilingual workshops for building agents with the GitHub Copilot SDK.">
+    <meta name="description" content="GitHub Copilot SDK でエージェントを構築するための、自習形式・多言語対応のワークショップです。">
     <title>Copilot SDK Workshop</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
     <script src="../markdown-language-preprocessor.js"></script>
 </head>
 <body>
-    <a class="skip-link" href="#lessonContent">Skip to lesson</a>
+    <a class="skip-link" href="#lessonContent">レッスン本文へスキップ</a>
 
     <header class="header">
         <div class="header-content">
@@ -29,18 +29,18 @@
                 type="button"
                 aria-expanded="false"
                 aria-controls="navigationPanel"
-                aria-label="Open sections">☰</button>
+                aria-label="セクションを開く">☰</button>
 
-            <a href="../index.html" class="header-brand" id="homeLink" aria-label="Copilot SDK Workshop home">
+            <a href="../index.html" class="header-brand" id="homeLink" aria-label="Copilot SDK Workshop のホーム">
                 <span class="header-icon" aria-hidden="true">🤖</span>
                 <span class="header-title">Copilot SDK Workshop</span>
-                <span class="visually-hidden" id="headerLessonTitle">Loading lesson</span>
+                <span class="visually-hidden" id="headerLessonTitle">レッスンを読み込み中</span>
             </a>
 
-            <nav class="header-nav" aria-label="Lesson actions">
-                <label class="language-select-label" for="languageSelector">Language</label>
-                <select class="language-select" id="languageSelector" aria-label="Workshop language">
-                    <option value="">Choose language</option>
+            <nav class="header-nav" aria-label="レッスンの操作">
+                <label class="language-select-label" for="languageSelector">言語</label>
+                <select class="language-select" id="languageSelector" aria-label="ワークショップの言語">
+                    <option value="">言語を選択</option>
                     <option value="dotnet">.NET</option>
                     <option value="go">Go</option>
                     <option value="java">Java</option>
@@ -48,25 +48,25 @@
                     <option value="python">Python</option>
                     <option value="rust">Rust</option>
                 </select>
-                <a href="../index.html" class="nav-btn" id="hubLink">🏠 Hub</a>
-                <a class="nav-btn" id="headerDocsLink" target="_blank" rel="noopener" hidden>📚 Docs ↗</a>
+                <a href="../index.html" class="nav-btn" id="hubLink">🏠 ホーム</a>
+                <a class="nav-btn" id="headerDocsLink" target="_blank" rel="noopener" hidden>📚 ドキュメント ↗</a>
                 <button class="theme-toggle" type="button" onclick="toggleTheme()">☀️ Light</button>
-                <a class="nav-btn" id="previousHeaderLink" href="#" hidden>← Prev</a>
-                <a class="nav-btn" id="nextHeaderLink" href="#" hidden>Next →</a>
+                <a class="nav-btn" id="previousHeaderLink" href="#" hidden>← 前へ</a>
+                <a class="nav-btn" id="nextHeaderLink" href="#" hidden>次へ →</a>
             </nav>
         </div>
     </header>
 
     <div class="lesson-progress">
         <div class="progress-copy">
-            <span id="stepPosition">Loading</span>
+            <span id="stepPosition">読み込み中</span>
             <span id="stepEstimate"></span>
         </div>
         <div
             class="progress-track"
             id="progressTrack"
             role="progressbar"
-            aria-label="Core workshop progress"
+            aria-label="コアワークショップの進捗"
             aria-valuemin="0"
             aria-valuemax="7"
             aria-valuenow="0">
@@ -82,24 +82,24 @@
             aria-labelledby="navigationTitle"
             tabindex="-1">
             <div class="flyout-header">
-                <span class="flyout-title" id="navigationTitle">🤖 Workshop Steps</span>
+                <span class="flyout-title" id="navigationTitle">🤖 ワークショップのステップ</span>
                 <button
                     class="flyout-close"
                     id="closeNavigationButton"
                     type="button"
-                    aria-label="Close sections">✕</button>
+                    aria-label="セクションを閉じる">✕</button>
             </div>
-            <nav class="flyout-nav" id="workshopNavigation" aria-label="Workshop steps"></nav>
+            <nav class="flyout-nav" id="workshopNavigation" aria-label="ワークショップのステップ"></nav>
         </aside>
 
         <main class="main lesson-main">
             <div class="lesson-shell">
                 <div class="lesson-content" id="lessonContent">
-                    <p class="visually-hidden" id="lessonStatus" role="status" aria-live="polite">Loading lesson.</p>
+                    <p class="visually-hidden" id="lessonStatus" role="status" aria-live="polite">レッスンを読み込み中です。</p>
                     <div id="markdownContent" aria-busy="true">
-                        <p class="loading-message">Loading lesson...</p>
+                        <p class="loading-message">レッスンを読み込み中...</p>
                     </div>
-                    <nav class="nav-footer" id="lessonFooter" aria-label="Lesson pagination"></nav>
+                    <nav class="nav-footer" id="lessonFooter" aria-label="レッスンのページ送り"></nav>
                 </div>
             </div>
         </main>
@@ -110,89 +110,89 @@
             {
                 id: '00-preflight',
                 file: 'workshop/00-preflight.md',
-                title: 'Prepare your machine',
-                navTitle: 'Preflight',
+                title: '開発環境を準備する',
+                navTitle: '事前準備',
                 kind: 'preflight',
-                time: 'Untimed'
+                time: '時間制限なし'
             },
             {
                 id: '01-first-session',
                 file: 'workshop/01-first-session.md',
-                title: 'Create your first Copilot session',
-                navTitle: 'First session',
+                title: '最初の Copilot セッションを作る',
+                navTitle: '最初のセッション',
                 kind: 'core',
                 number: 1,
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: '02-streaming',
                 file: 'workshop/02-streaming.md',
-                title: 'Stream a response',
-                navTitle: 'Streaming',
+                title: 'レスポンスをストリーミングする',
+                navTitle: 'ストリーミング',
                 kind: 'core',
                 number: 2,
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: '03-local-tool',
                 file: 'workshop/03-local-tool.md',
-                title: 'Add application-owned knowledge',
-                navTitle: 'Local tool',
+                title: 'アプリケーションが持つ知識を追加する',
+                navTitle: 'ローカルツール',
                 kind: 'core',
                 number: 3,
-                time: '15 min'
+                time: '15分'
             },
             {
                 id: '04-mcp-safety',
                 file: 'workshop/04-mcp-safety.md',
-                title: 'Connect an external tool safely',
-                navTitle: 'MCP and permissions',
+                title: '外部ツールを安全につなぐ',
+                navTitle: 'MCP とパーミッション',
                 kind: 'core',
                 number: 4,
-                time: '20 min'
+                time: '20分'
             },
             {
                 id: '05-combine-tools',
                 file: 'workshop/05-combine-tools.md',
-                title: 'Combine local and MCP tools',
-                navTitle: 'Combine tools',
+                title: 'ローカルツールと MCP ツールを組み合わせる',
+                navTitle: 'ツールの組み合わせ',
                 kind: 'core',
                 number: 5,
-                time: '15 min'
+                time: '15分'
             },
             {
                 id: '06-structured-report',
                 file: 'workshop/06-structured-report.md',
-                title: 'Produce a structured report',
-                navTitle: 'Structured report',
+                title: '構造化されたレポートを作る',
+                navTitle: '構造化レポート',
                 kind: 'core',
                 number: 6,
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: '07-run-explain',
                 file: 'workshop/07-run-explain.md',
-                title: 'Run and explain the application',
-                navTitle: 'Run and explain',
+                title: 'アプリケーションを実行して説明する',
+                navTitle: '実行と説明',
                 kind: 'core',
                 number: 7,
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: '08-model-selection',
                 file: 'workshop/08-model-selection.md',
-                title: 'Select a model',
-                navTitle: 'Model selection',
+                title: 'モデルを選択する',
+                navTitle: 'モデル選択',
                 kind: 'optional',
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: '09-interactive-html-report',
                 file: 'workshop/09-interactive-html-report.md',
-                title: 'Generate an interactive HTML report',
-                navTitle: 'Interactive report',
+                title: 'インタラクティブな HTML レポートを生成する',
+                navTitle: 'インタラクティブレポート',
                 kind: 'optional',
-                time: '15 min'
+                time: '15分'
             }
         ];
 
@@ -200,82 +200,82 @@
             {
                 id: 'museum-00-preflight',
                 file: 'workshop/museum-00-preflight.md',
-                title: 'Prepare Museum Exhibit Studio',
-                navTitle: 'Preflight',
+                title: 'Museum Exhibit Studio を準備する',
+                navTitle: '事前準備',
                 kind: 'preflight',
-                time: 'Untimed'
+                time: '時間制限なし'
             },
             {
                 id: 'museum-01-first-curator-session',
                 file: 'workshop/museum-01-first-curator-session.md',
-                title: 'Your first curator session',
-                navTitle: 'First session',
+                title: '最初のキュレーターセッション',
+                navTitle: '最初のセッション',
                 kind: 'core',
                 number: 1,
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: 'museum-02-stream-the-curator',
                 file: 'workshop/museum-02-stream-the-curator.md',
-                title: 'Stream the curator',
-                navTitle: 'Streaming',
+                title: 'キュレーターをストリーミングする',
+                navTitle: 'ストリーミング',
                 kind: 'core',
                 number: 2,
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: 'museum-03-curator-voice',
                 file: 'workshop/museum-03-curator-voice.md',
-                title: 'Give the curator a voice',
-                navTitle: 'Curator voice',
+                title: 'キュレーターに語り口を与える',
+                navTitle: 'キュレーターの語り口',
                 kind: 'core',
                 number: 3,
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: 'museum-04-approved-facts',
                 file: 'workshop/museum-04-approved-facts.md',
-                title: 'Ground it in approved facts',
-                navTitle: 'Approved facts',
+                title: '承認済みファクトに基づかせる',
+                navTitle: '承認済みファクト',
                 kind: 'core',
                 number: 4,
-                time: '15 min'
+                time: '15分'
             },
             {
                 id: 'museum-05-guardrails',
                 file: 'workshop/museum-05-guardrails.md',
-                title: 'Set the guardrails',
-                navTitle: 'Guardrails',
+                title: 'ガードレールを設定する',
+                navTitle: 'ガードレール',
                 kind: 'core',
                 number: 5,
-                time: '15 min'
+                time: '15分'
             },
             {
                 id: 'museum-06-prove-the-structure',
                 file: 'workshop/museum-06-prove-the-structure.md',
-                title: 'Prove the structure',
-                navTitle: 'Structural checks',
+                title: '構造を検証する',
+                navTitle: '構造チェック',
                 kind: 'core',
                 number: 6,
-                time: '10 min'
+                time: '10分'
             },
             {
                 id: 'museum-07-wikipedia-research',
                 file: 'workshop/museum-07-wikipedia-research.md',
-                title: 'Research with Wikipedia MCP',
-                navTitle: 'Wikipedia research',
+                title: 'Wikipedia MCP で調査する',
+                navTitle: 'Wikipedia 調査',
                 kind: 'core',
                 number: 7,
-                time: '20 min'
+                time: '20分'
             },
             {
                 id: 'museum-08-interactive-exhibit-page',
                 file: 'workshop/museum-08-interactive-exhibit-page.md',
-                title: 'Publish an interactive exhibit page',
-                navTitle: 'Exhibit page',
+                title: 'インタラクティブな展示ページを公開する',
+                navTitle: '展示ページ',
                 kind: 'optional',
                 number: 8,
-                time: '15 min'
+                time: '15分'
             }
         ];
 
@@ -400,7 +400,7 @@
             navigationPanel.classList.toggle('open', shouldOpen);
             navigationOverlay.classList.toggle('open', shouldOpen);
             menuButton.setAttribute('aria-expanded', String(shouldOpen));
-            menuButton.setAttribute('aria-label', `${shouldOpen ? 'Close' : 'Open'} sections`);
+            menuButton.setAttribute('aria-label', `セクションを${shouldOpen ? '閉じる' : '開く'}`);
             document.body.classList.toggle('navigation-open', shouldOpen);
             const hideNavigation = compactNavigation.matches && !shouldOpen;
             navigationPanel.toggleAttribute('inert', hideNavigation);
@@ -454,9 +454,9 @@
 
         function buildNavigation() {
             const groups = [
-                { label: 'Before you begin', steps: steps.filter(step => step.kind === 'preflight') },
-                { label: 'Core workshop', steps: steps.filter(step => step.kind === 'core') },
-                { label: 'Optional extension', steps: steps.filter(step => step.kind === 'optional') }
+                { label: '始める前に', steps: steps.filter(step => step.kind === 'preflight') },
+                { label: 'コアワークショップ', steps: steps.filter(step => step.kind === 'core') },
+                { label: 'オプションの発展課題', steps: steps.filter(step => step.kind === 'optional') }
             ];
 
             document.getElementById('workshopNavigation').innerHTML = groups.map(group => `
@@ -492,23 +492,23 @@
             nextHeaderLink.hidden = !next;
             if (previous) {
                 previousHeaderLink.href = stepUrl(previous);
-                previousHeaderLink.textContent = '← Prev';
-                previousHeaderLink.setAttribute('aria-label', `Previous: ${previous.title}`);
+                previousHeaderLink.textContent = '← 前へ';
+                previousHeaderLink.setAttribute('aria-label', `前のレッスン: ${previous.title}`);
             }
             if (next) {
                 nextHeaderLink.href = stepUrl(next);
-                nextHeaderLink.textContent = 'Next →';
-                nextHeaderLink.setAttribute('aria-label', `Next: ${next.title}`);
+                nextHeaderLink.textContent = '次へ →';
+                nextHeaderLink.setAttribute('aria-label', `次のレッスン: ${next.title}`);
             }
 
             const footer = document.getElementById('lessonFooter');
             footer.innerHTML = `
                 ${previous
                     ? `<a href="${stepUrl(previous)}" class="nav-footer-btn">← ${previous.navTitle}</a>`
-                    : '<span class="nav-footer-btn disabled" aria-disabled="true">← Previous</span>'}
+                    : '<span class="nav-footer-btn disabled" aria-disabled="true">← 前へ</span>'}
                 ${next
                     ? `<a href="${stepUrl(next)}" class="nav-footer-btn">${next.navTitle} →</a>`
-                    : '<span class="nav-footer-btn disabled" aria-disabled="true">Next →</span>'}`;
+                    : '<span class="nav-footer-btn disabled" aria-disabled="true">次へ →</span>'}`;
         }
 
         function updateProgress(step) {
@@ -520,13 +520,13 @@
             let progressValue = 0;
 
             if (step.kind === 'core') {
-                position.textContent = `Step ${step.number} of ${coreStepCount}`;
+                position.textContent = `ステップ ${step.number} / ${coreStepCount}`;
                 progressValue = step.number;
             } else if (step.kind === 'optional') {
-                position.textContent = 'Optional extension';
+                position.textContent = 'オプションの発展課題';
                 progressValue = coreStepCount;
             } else {
-                position.textContent = 'Preflight';
+                position.textContent = '事前準備';
             }
 
             estimate.textContent = step.time;
@@ -565,20 +565,20 @@
                     const copied = document.execCommand('copy');
                     textArea.remove();
                     if (!copied) {
-                        throw new Error('The browser did not copy the code.');
+                        throw new Error('ブラウザーがコードをコピーできませんでした。');
                     }
                 }
 
-                button.textContent = 'Copied';
+                button.textContent = 'コピーしました';
                 button.classList.add('copied');
             } catch (error) {
-                button.textContent = 'Copy failed';
+                button.textContent = 'コピーに失敗しました';
                 button.classList.add('copy-error');
-                console.error('Unable to copy code:', error);
+                console.error('コードをコピーできませんでした:', error);
             }
 
             window.setTimeout(() => {
-                button.textContent = 'Copy';
+                button.textContent = 'コピー';
                 button.classList.remove('copied', 'copy-error');
             }, 1800);
         }
@@ -593,8 +593,8 @@
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = 'copy-code-button';
-                button.textContent = 'Copy';
-                button.setAttribute('aria-label', 'Copy code block');
+                button.textContent = 'コピー';
+                button.setAttribute('aria-label', 'コードブロックをコピー');
                 button.addEventListener('click', () => copyCode(button, codeBlock));
                 pre.append(button);
             });
@@ -674,17 +674,17 @@
             const message = document.createElement('div');
             message.className = 'load-error';
             const heading = document.createElement('h1');
-            heading.textContent = 'Unable to load this lesson';
+            heading.textContent = 'このレッスンを読み込めませんでした';
             const details = document.createElement('p');
             details.textContent = error.message;
             const guidance = document.createElement('p');
             guidance.textContent = window.location.protocol === 'file:'
-                ? 'Serve the repository with a local HTTP server; browsers block lesson fetches from file URLs.'
-                : 'Refresh the page. If the problem continues, verify that the workshop Markdown was deployed.';
+                ? 'ローカルの HTTP サーバーでリポジトリを配信してください。ブラウザーは file URL からのレッスン取得をブロックします。'
+                : 'ページを再読み込みしてください。解決しない場合は、ワークショップの Markdown がデプロイされているか確認してください。';
             message.append(heading, details, guidance);
             container.replaceChildren(message);
             container.setAttribute('aria-busy', 'false');
-            status.textContent = 'Unable to load this lesson.';
+            status.textContent = 'このレッスンを読み込めませんでした。';
         }
 
         async function loadStep() {
@@ -697,22 +697,22 @@
 
             updateLanguageControls(language);
             document.querySelector('.header-title').textContent = activeWorkshop.title;
-            document.getElementById('navigationTitle').textContent = `${activeWorkshop.title} steps`;
+            document.getElementById('navigationTitle').textContent = `${activeWorkshop.title} のステップ`;
             if (!language) {
-                document.title = 'Choose a language | Copilot SDK Workshop';
-                document.getElementById('headerLessonTitle').textContent = 'Choose a language';
+                document.title = '言語を選択 | Copilot SDK Workshop';
+                document.getElementById('headerLessonTitle').textContent = '言語を選択';
                 buildNavigation();
                 updatePagination();
                 const message = document.createElement('section');
                 message.className = 'load-error language-choice';
                 const heading = document.createElement('h1');
-                heading.textContent = 'Choose a workshop language';
+                heading.textContent = 'ワークショップの言語を選択してください';
                 const details = document.createElement('p');
-                details.textContent = 'Select one of the six supported languages above before loading a lesson.';
+                details.textContent = 'レッスンを読み込む前に、上の 6 つの対応言語から 1 つを選択してください。';
                 message.append(heading, details);
                 container.replaceChildren(message);
                 container.setAttribute('aria-busy', 'false');
-                status.textContent = 'Choose a workshop language to continue.';
+                status.textContent = '続けるにはワークショップの言語を選択してください。';
                 return;
             }
 
@@ -722,12 +722,12 @@
             buildNavigation();
             updatePagination();
             container.setAttribute('aria-busy', 'true');
-            status.textContent = `Loading ${step.title}.`;
+            status.textContent = `${step.title} を読み込み中です。`;
 
             try {
                 const response = await fetch(getMarkdownUrl(step.file));
                 if (!response.ok) {
-                    throw new Error(`Lesson request failed with HTTP ${response.status}.`);
+                    throw new Error(`レッスンの取得に失敗しました (HTTP ${response.status})。`);
                 }
 
                 const markdown = processMarkdown(await response.text());
@@ -735,7 +735,7 @@
                     `<article class="markdown">${marked.parse(markdown, { gfm: true })}</article>`;
                 prepareRenderedLesson();
                 container.setAttribute('aria-busy', 'false');
-                status.textContent = `Loaded ${step.title}.`;
+                status.textContent = `${step.title} を読み込みました。`;
             } catch (error) {
                 showLoadError(error);
             }

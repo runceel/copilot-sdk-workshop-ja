@@ -1,17 +1,17 @@
-# Step 7: Run and explain the application
+# ステップ 7: アプリケーションを実行して説明する
 
-> **Time:** 10 minutes
+> **所要時間:** 10 分
 
-## What you'll be ready to explain
+## 説明できるようになること
 
-You'll run the complete application and explain its state, tool boundaries, permission boundary,
-and report limitations.
+完成したアプリケーションを実行し、その状態、ツールの境界、パーミッションの境界、そしてレポートの
+限界を説明できるようになります。
 
-## See the whole agent system
+## エージェントシステム全体を見る
 
 :::language dotnet
-The finished application is an agent host. Its session coordinates a model, an application-owned
-function, and a browser running in another process:
+完成したアプリケーションはエージェントホストです。そのセッションは、モデル、アプリケーションが所有する
+関数、そして別プロセスで動作するブラウザを連携させます。
 
 ```text
 Console application
@@ -31,8 +31,8 @@ Console application
 :::
 
 :::language nodejs
-The finished application is an agent host. Its session coordinates a model, an application-owned
-function, and a browser running in another process:
+完成したアプリケーションはエージェントホストです。そのセッションは、モデル、アプリケーションが所有する
+関数、そして別プロセスで動作するブラウザを連携させます。
 
 ```text
 Node.js application
@@ -50,13 +50,14 @@ Node.js application
                        `-- Browser target
 ```
 
-The completed report is also in
-[`finished/nodejs/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report).
+完成したレポートは
+[`finished/nodejs/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
+にもあります。
 :::
 
 :::language python
-The finished application is an agent host. Its session coordinates a model, an application-owned
-function, and a browser running in another process:
+完成したアプリケーションはエージェントホストです。そのセッションは、モデル、アプリケーションが所有する
+関数、そして別プロセスで動作するブラウザを連携させます。
 
 ```text
 Python application
@@ -74,13 +75,14 @@ Python application
                        `-- Browser target
 ```
 
-The completed report is also in
-[`finished/python/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report).
+完成したレポートは
+[`finished/python/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
+にもあります。
 :::
 
 :::language go
-The finished application is an agent host. Its session coordinates a model, an application-owned
-function, and a browser running in another process:
+完成したアプリケーションはエージェントホストです。そのセッションは、モデル、アプリケーションが所有する
+関数、そして別プロセスで動作するブラウザを連携させます。
 
 ```text
 Go application
@@ -100,8 +102,8 @@ Go application
 :::
 
 :::language rust
-The finished application is an agent host. Its session coordinates a model, an application-owned
-function, and a browser running in another process:
+完成したアプリケーションはエージェントホストです。そのセッションは、モデル、アプリケーションが所有する
+関数、そして別プロセスで動作するブラウザを連携させます。
 
 ```text
 Rust application
@@ -121,8 +123,8 @@ Rust application
 :::
 
 :::language java
-The finished application is an agent host. Its session coordinates a model, an application-owned
-function, and a browser running in another process:
+完成したアプリケーションはエージェントホストです。そのセッションは、モデル、アプリケーションが所有する
+関数、そして別プロセスで動作するブラウザを連携させます。
 
 ```text
 Java application
@@ -141,48 +143,54 @@ Java application
 ```
 :::
 
-## Take the design beyond this workshop
+## この設計をワークショップの先へ活かす
 
-Understanding these boundaries lets you reuse the design in another application instead of only
-reproducing the workshop code. A database lookup, deployment service, or issue tracker may use
-different tools, but the same ownership and trust questions apply.
+これらの境界を理解しておくと、ワークショップのコードを再現するだけでなく、別のアプリケーションでも
+この設計を再利用できるようになります。データベースの照会、デプロイサービス、課題トラッカーでは
+異なるツールを使うかもしれませんが、所有権と信頼に関する同じ問いが当てはまります。
 
 :::language dotnet
-The complete flow is
-`URL -> Playwright inspection -> C# WCAG lookup -> structured accessibility report`.
+全体の流れは
+`URL -> Playwright inspection -> C# WCAG lookup -> structured accessibility report`
+です。
 :::
 
 :::language nodejs
-The complete flow is
-`URL -> Playwright inspection -> TypeScript WCAG lookup -> structured accessibility report`.
+全体の流れは
+`URL -> Playwright inspection -> TypeScript WCAG lookup -> structured accessibility report`
+です。
 :::
 
 :::language python
-The complete flow is
-`URL -> Playwright inspection -> Python WCAG lookup -> structured accessibility report`.
+全体の流れは
+`URL -> Playwright inspection -> Python WCAG lookup -> structured accessibility report`
+です。
 :::
 
 :::language go
-The complete flow is
-`URL -> Playwright inspection -> Go WCAG lookup -> structured accessibility report`.
+全体の流れは
+`URL -> Playwright inspection -> Go WCAG lookup -> structured accessibility report`
+です。
 :::
 
 :::language rust
-The complete flow is
-`URL -> Playwright inspection -> Rust WCAG lookup -> structured accessibility report`.
+全体の流れは
+`URL -> Playwright inspection -> Rust WCAG lookup -> structured accessibility report`
+です。
 :::
 
 :::language java
-The complete flow is
-`URL -> Playwright inspection -> Java WCAG lookup -> structured accessibility report`.
+全体の流れは
+`URL -> Playwright inspection -> Java WCAG lookup -> structured accessibility report`
+です。
 :::
 
-## Take a victory lap
+## ウイニングランを楽しむ
 
-There is no code to change. Keep the Step 6 implementation in place so this run tests the
-application you built.
+変更するコードはありません。この実行が実際に構築したアプリケーションをテストできるように、ステップ 6 の
+実装をそのまま残しておいてください。
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -214,29 +222,30 @@ cargo run -- "{{TARGET_APP_URL}}"
 mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 ```
 
-> **Java local-demo warning:** This explicit flag is a temporary workaround for
-> [github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273). Without it,
-> the callback fails closed unless it can verify the exact URL from the permission payload. With it,
-> the session approves only the `mcp` permission kind, one request at a time, under the configured
-> Playwright `browser_navigate` allowlist; it cannot enforce the exact target. Use it only for the
-> controlled local workshop target, never for production, shared, or untrusted URLs.
+> **Java local-demo 警告:** この明示的なフラグは
+> [github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273) に対する一時的な回避策です。
+> これがないと、パーミッションのペイロードから正確な URL を検証できない限り、コールバックはフェイルクローズ
+> します。これがあると、セッションは設定された Playwright の `browser_navigate` 許可リストの下で、`mcp`
+> パーミッション種別のみを 1 リクエストずつ承認しますが、正確なターゲットを強制することはできません。管理された
+> ローカルワークショップのターゲットに対してのみ使用し、本番環境、共有環境、信頼できない URL には決して
+> 使用しないでください。
 :::
-Use the workshop target:
+ワークショップのターゲットを使用します。
 
 ```text
 {{TARGET_APP_URL}}
 ```
 
-Watch for all five stages:
+5 つのステージすべてに注目してください。
 
-1. The client connects and creates one session.
-2. Playwright navigates to the exact target and creates an accessibility snapshot.
-3. The narrow local reader returns that current-run snapshot.
-4. The local catalog is called for browser-supported findings.
-5. The response follows the report contract and states its limits.
+1. クライアントが接続し、1 つのセッションを作成します。
+2. Playwright が正確なターゲットへ移動し、アクセシビリティのスナップショットを作成します。
+3. 範囲を絞ったローカルリーダーが、その現在の実行のスナップショットを返します。
+4. ブラウザで検出可能な指摘事項について、ローカルカタログが呼び出されます。
+5. レスポンスはレポートの契約に従い、その限界を明示します。
 
 :::language dotnet
-Your transcript will vary, but it should have this shape:
+実際のトランスクリプトは異なりますが、次のような形になるはずです。
 
 ```text
 === Accessibility Report Generator ===
@@ -265,7 +274,7 @@ Analyzing: {{TARGET_APP_URL}}
 :::
 
 :::language nodejs
-Your transcript will vary, but it should have this shape:
+実際のトランスクリプトは異なりますが、次のような形になるはずです。
 
 ```text
 [tool:start] browser_navigate
@@ -285,11 +294,12 @@ Your transcript will vary, but it should have this shape:
 ...
 ```
 
-`streamResponse` prints tool start/done lines and streams the assistant text to stdout.
+`streamResponse` はツールの start/done 行を出力し、アシスタントのテキストを stdout にストリーミング
+します。
 :::
 
 :::language python
-Your transcript will vary, but it should have this shape:
+実際のトランスクリプトは異なりますが、次のような形になるはずです。
 
 ```text
 [tool:start] browser_navigate
@@ -309,11 +319,11 @@ Your transcript will vary, but it should have this shape:
 ...
 ```
 
-`main.py` launches `report.main`, which waits on `session.idle` after streaming deltas.
+`main.py` は `report.main` を起動し、デルタをストリーミングした後 `session.idle` を待機します。
 :::
 
 :::language go
-Your transcript will vary, but it should have this shape:
+実際のトランスクリプトは異なりますが、次のような形になるはずです。
 
 ```text
 # Accessibility review
@@ -325,12 +335,12 @@ Your transcript will vary, but it should have this shape:
 ...
 ```
 
-Explain that `Client` owns the Copilot CLI lifecycle, the `Session` owns one conversation, and the
-permission handler gates external navigation. The expected report is evidence-bound.
+`Client` が Copilot CLI のライフサイクルを所有し、`Session` が 1 つの会話を所有し、パーミッション
+ハンドラが外部への移動を制御することを説明してください。期待されるレポートは根拠に基づいたものです。
 :::
 
 :::language rust
-Your transcript will vary, but it should have this shape:
+実際のトランスクリプトは異なりますが、次のような形になるはずです。
 
 ```text
 # Accessibility review
@@ -342,12 +352,12 @@ Your transcript will vary, but it should have this shape:
 ...
 ```
 
-Explain that `Client` manages the runtime, `Session` dispatches events, typed tools are app-owned,
-and the permission handler trusts only exact navigation.
+`Client` がランタイムを管理し、`Session` がイベントをディスパッチし、型付きツールはアプリケーションが
+所有し、パーミッションハンドラは正確な移動のみを信頼することを説明してください。
 :::
 
 :::language java
-Your transcript will vary, but it should have this shape:
+実際のトランスクリプトは異なりますが、次のような形になるはずです。
 
 ```text
 # Accessibility review
@@ -359,125 +369,128 @@ Your transcript will vary, but it should have this shape:
 ...
 ```
 
-Explain that Maven compiles the Java 17 application, `CopilotClient` manages the runtime, and tools
-remain scoped. By default the permission callback accepts only the canonical URL; with the explicit
-local-demo flag it is limited to the configured `mcp` kind but cannot verify that URL.
+Maven が Java 17 のアプリケーションをコンパイルし、`CopilotClient` がランタイムを管理し、ツールは
+範囲を絞ったままであることを説明してください。デフォルトでは、パーミッションのコールバックは正規の URL のみを
+受け入れます。明示的な local-demo フラグを使うと、設定された `mcp` 種別に限定されますが、その URL を
+検証することはできません。
 :::
 
-The controlled target intentionally includes browser-observable issues: a missing text alternative,
-no `main` landmark, an illogical heading sequence, and a textbox without an accessible name.
-Compare the report with the
-[published target HTML](https://github.com/github/copilot-sdk-workshop/blob/main/docs/target-app/index.html);
-do not accept a finding that is absent from both the snapshot and source.
+この管理されたターゲットには、ブラウザで観測可能な問題が意図的に含まれています。テキスト代替の欠落、
+`main` ランドマークの不在、不自然な見出しの順序、アクセシブルな名前を持たないテキストボックスです。
+レポートを
+[公開されているターゲットの HTML](https://github.com/github/copilot-sdk-workshop/blob/main/docs/target-app/index.html)
+と比較してください。スナップショットとソースのどちらにも存在しない指摘事項は受け入れないでください。
 
 <details>
-<summary>Troubleshooting the complete run</summary>
+<summary>この完全な実行のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| A known issue is omitted | Agent output can vary. Rerun once, but require evidence rather than forcing a predetermined answer. |
-| A reported issue is not in the page | Reject it as ungrounded; the prompt requires specific browser evidence. |
-| A tool is denied | Check that `browser_navigate` uses the exact entered target. |
-| The reader finds no snapshot | Keep the prompt order: navigate before calling `read_latest_accessibility_snapshot`. |
-| The runtime cannot start | Re-authenticate with `copilot login`, confirm the CLI is on `PATH`, and retry the run command for your language. |
+| 既知の問題が省略される | エージェントの出力は変動することがあります。一度だけ再実行してください。ただし、あらかじめ決めた答えを押し付けるのではなく、根拠を要求してください。 |
+| 報告された問題がページに存在しない | 根拠がないものとして却下してください。プロンプトは具体的なブラウザの根拠を要求します。 |
+| ツールが拒否される | `browser_navigate` が入力された正確なターゲットを使用しているか確認してください。 |
+| リーダーがスナップショットを見つけられない | プロンプトの順序を守ってください。`read_latest_accessibility_snapshot` を呼び出す前に移動してください。 |
+| ランタイムが起動できない | `copilot login` で再認証し、CLI が `PATH` にあることを確認し、お使いの言語の実行コマンドを再試行してください。 |
 
 </details>
 
-> **You have completed the core workshop when:** the report is grounded, the tool names are visible,
-> and you can answer the architecture questions below without reading the code.
+> **コアワークショップを完了したと言えるのは:** レポートが根拠に基づいており、ツール名が表示されていて、
+> コードを読まずに以下のアーキテクチャに関する質問に答えられるときです。
 
-## Check your understanding
+## 理解度チェック
 
-1. What state belongs to the session?
-2. Why is the WCAG catalog local?
-3. Why is Playwright external?
-4. Where are permissions enforced?
-5. What changes when another MCP server is added?
+1. どの状態がセッションに属しますか?
+2. なぜ WCAG カタログはローカルなのですか?
+3. なぜ Playwright は外部なのですか?
+4. パーミッションはどこで強制されますか?
+5. 別の MCP サーバーを追加すると何が変わりますか?
 
 <details>
-<summary>Compare your explanation</summary>
+<summary>自分の説明と比べる</summary>
 
-1. The session owns one conversation's messages, model response, and tool results.
-2. The application owns the catalog data and deterministic lookup, so the function stays local.
-3. Playwright is a reusable browser capability with its own Node.js process and dependencies.
-4. The MCP tool allowlist exposes only navigation, and the permission handler approves only
-   the exact target. The trusted local reader accepts no path and reads only a new generated
-   snapshot; the catalog is also read-only. Those application-owned tools skip permission.
-5. Add the server configuration, expose only needed tools, define its trust policy, and keep
-   observing its calls through the same session event stream.
+1. セッションは、1 つの会話のメッセージ、モデルのレスポンス、ツールの結果を所有します。
+2. アプリケーションがカタログのデータと決定論的な照会を所有するため、この関数はローカルのままです。
+3. Playwright は再利用可能なブラウザ機能であり、独自の Node.js プロセスと依存関係を持ちます。
+4. MCP のツール許可リストは移動のみを公開し、パーミッションハンドラは正確なターゲットのみを承認します。
+   信頼されるローカルリーダーはパスを受け付けず、新しく生成されたスナップショットのみを読み取ります。
+   カタログも読み取り専用です。これらアプリケーションが所有するツールはパーミッションをスキップします。
+5. サーバーの設定を追加し、必要なツールのみを公開し、その信頼ポリシーを定義し、同じセッションの
+   イベントストリームを通じてその呼び出しを観測し続けます。
 
 </details>
 
-## Keep exploring
+## さらに探求する
 
-Try [Optional: Select a model](08-model-selection.md) if your application needs explicit control
-over model choice, then continue to [Optional: Generate an interactive HTML report](09-interactive-html-report.md).
-You can also go straight to the HTML report extension. Otherwise, the core workshop is complete.
+アプリケーションでモデルの選択を明示的に制御する必要がある場合は
+[オプション: モデルを選択する](08-model-selection.md) を試し、その後
+[オプション: インタラクティブな HTML レポートを生成する](09-interactive-html-report.md) に進んでください。
+HTML レポートの拡張へ直接進むこともできます。それ以外の場合は、コアワークショップは完了です。
 
 :::language dotnet
-Complete references:
+完全なリファレンス:
 
-- [Finished accessibility reporter](https://github.com/github/copilot-sdk-workshop/tree/main/finished/dotnet/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/dotnet/accessibility-report)
 - [GitHub Copilot SDK for .NET](https://github.com/github/copilot-sdk/tree/main/dotnet)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 :::
 
 :::language nodejs
-Complete references:
+完全なリファレンス:
 
-- [Finished accessibility reporter](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
 - [GitHub Copilot SDK for Node.js](https://github.com/github/copilot-sdk/tree/main/nodejs)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 :::
 
 :::language python
-Complete references:
+完全なリファレンス:
 
-- [Finished accessibility reporter](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
 - [GitHub Copilot SDK for Python](https://github.com/github/copilot-sdk/tree/main/python)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 :::
 
 :::language go
-Complete references:
+完全なリファレンス:
 
-- [Finished accessibility reporter](https://github.com/github/copilot-sdk-workshop/tree/main/finished/go/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/go/accessibility-report)
 - [GitHub Copilot SDK for Go](https://github.com/github/copilot-sdk/tree/main/go)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 
-If the CLI is missing, install it rather than granting broader permissions.
+CLI が見つからない場合は、より広いパーミッションを付与するのではなく、インストールしてください。
 :::
 
 :::language rust
-Complete references:
+完全なリファレンス:
 
-- [Finished accessibility reporter](https://github.com/github/copilot-sdk-workshop/tree/main/finished/rust/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/rust/accessibility-report)
 - [GitHub Copilot SDK for Rust](https://github.com/github/copilot-sdk/tree/main/rust)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 
-If it cannot start, install and authenticate the Copilot CLI.
+起動できない場合は、Copilot CLI をインストールして認証してください。
 :::
 
 :::language java
-Complete references:
+完全なリファレンス:
 
-- [Finished accessibility reporter](https://github.com/github/copilot-sdk-workshop/tree/main/finished/java/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/java/accessibility-report)
 - [GitHub Copilot SDK for Java](https://github.com/github/copilot-sdk/tree/main/java)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 
-If the runtime is unavailable, install the Copilot CLI; do not replace Maven with JBang or Gradle.
+ランタイムが利用できない場合は、Copilot CLI をインストールしてください。Maven を JBang や Gradle に
+置き換えないでください。
 :::
 
-## Learn more
+## さらに学ぶ
 
-The workshop application runs on your machine. These pages cover what changes when the same design
-moves somewhere else.
+このワークショップのアプリケーションはご自身のマシン上で動作します。以下のページでは、同じ設計を
+別の場所に移したときに何が変わるかを扱います。
 
-- [Backend services](https://github.com/github/copilot-sdk/blob/main/docs/setup/backend-services.md):
-  running the SDK server-side against a headless CLI instead of a local one.
-- [Scaling and multi-tenancy](https://github.com/github/copilot-sdk/blob/main/docs/setup/scaling.md):
-  horizontal scaling and the isolation patterns that keep one user's session out of another's.
-- [OpenTelemetry instrumentation](https://github.com/github/copilot-sdk/blob/main/docs/observability/opentelemetry.md):
-  tracing tool calls and turns once the agent runs where you cannot watch the terminal.
-- [Microsoft Agent Framework integration](https://github.com/github/copilot-sdk/blob/main/docs/integrations/microsoft-agent-framework.md):
-  placing a Copilot session inside a larger multi-agent workflow.
+- [バックエンドサービス](https://github.com/github/copilot-sdk/blob/main/docs/setup/backend-services.md):
+  ローカルの CLI ではなくヘッドレスの CLI に対して、SDK をサーバーサイドで実行します。
+- [スケーリングとマルチテナンシー](https://github.com/github/copilot-sdk/blob/main/docs/setup/scaling.md):
+  水平スケーリングと、あるユーザーのセッションを別のユーザーから隔離しておく分離パターンです。
+- [OpenTelemetry の計装](https://github.com/github/copilot-sdk/blob/main/docs/observability/opentelemetry.md):
+  ターミナルを監視できない場所でエージェントが動作するようになったら、ツール呼び出しとターンをトレースします。
+- [Microsoft Agent Framework との統合](https://github.com/github/copilot-sdk/blob/main/docs/integrations/microsoft-agent-framework.md):
+  より大きなマルチエージェントのワークフローの中に Copilot セッションを配置します。
