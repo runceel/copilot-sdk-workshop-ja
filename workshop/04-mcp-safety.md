@@ -194,6 +194,8 @@ await ResponseStreamer.SendAndPrintAsync(
     """);
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開き、`read_latest_accessibility_snapshot` で取得した情報からページタイトルと主な内容を 1 文で報告するよう依頼しています。ツールの呼び出し順と対象 URL が意図どおりかを確認します。
+
 ## 実行する
 
 ```bash
@@ -212,6 +214,8 @@ dotnet run -- "{{TARGET_APP_URL}}"
 
 Page title: Blazor Accessibility Target
 ```
+
+> **日本語補足（出力例）:** `Page title` に対象ページのタイトルが表示されていれば成功です。ツール実行ログがある場合は、ナビゲーションとスナップショット取得が完了していることも確認します。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -450,6 +454,8 @@ try {
 }
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開いたあと、`read_latest_accessibility_snapshot` を使ってページタイトルを報告するよう依頼しています。ナビゲーション先が入力した URL に限定され、スナップショット取得後にタイトルが返るかを確認します。
+
 `availableTools` はランタイムが接頭辞を付けた MCP 名 `playwright-browser_navigate` を使用しますが、
 MCP サーバー構成では引き続き接頭辞なしの `browser_navigate` を列挙します。
 
@@ -471,6 +477,8 @@ npm start -- "{{TARGET_APP_URL}}"
 
 Page title: Blazor Accessibility Target
 ```
+
+> **日本語補足（出力例）:** `Page title` に対象ページのタイトルが表示されていれば成功です。ツール実行ログがある場合は、ナビゲーションとスナップショット取得が完了していることも確認します。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -704,6 +712,8 @@ def create_snapshot_reader(working_directory: str):
                 raise error
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開いたあと、`read_latest_accessibility_snapshot` を使ってページタイトルを報告するよう依頼しています。ナビゲーション先が入力した URL に限定され、スナップショット取得後にタイトルが返るかを確認します。
+
 `available_tools` はランタイムが接頭辞を付けた MCP 名 `playwright-browser_navigate` を使用しますが、
 MCP サーバー構成では引き続き接頭辞なしの `browser_navigate` を列挙します。
 
@@ -720,6 +730,8 @@ python main.py "{{TARGET_APP_URL}}"
 ```text
 Page title: Blazor Accessibility Target
 ```
+
+> **日本語補足（出力例）:** `Page title` に対象ページのタイトルが表示されていれば成功です。ツール実行ログがある場合は、ナビゲーションとスナップショット取得が完了していることも確認します。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -956,6 +968,8 @@ if err := streamResponse(session, fmt.Sprintf("Use browser_navigate to open %s, 
 }
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開いたあと、`read_latest_accessibility_snapshot` を使ってページタイトルを報告するよう依頼しています。ナビゲーション先が入力した URL に限定され、スナップショット取得後にタイトルが返るかを確認します。
+
 新しいヘルパーが使用するインポートを追加します: `encoding/json`、`net/url`、`path/filepath`、`sort`、
 `time`、および `"github.com/github/copilot-sdk/go/rpc"`。
 
@@ -972,6 +986,8 @@ go run . "{{TARGET_APP_URL}}"
 ```text
 Page title: Blazor Accessibility Target
 ```
+
+> **日本語補足（出力例）:** `Page title` に対象ページのタイトルが表示されていれば成功です。ツール実行ログがある場合は、ナビゲーションとスナップショット取得が完了していることも確認します。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -1267,6 +1283,8 @@ session.disconnect().await?;
 client.stop().await?;
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開いたあと、`read_latest_accessibility_snapshot` を使ってページタイトルを報告するよう依頼しています。ナビゲーション先が入力した URL に限定され、スナップショット取得後にタイトルが返るかを確認します。
+
 新しいヘルパーが使用するインポートを追加します。これには
 `github_copilot_sdk::handler::{PermissionHandler, PermissionResult}`、
 `McpServerConfig`、`McpStdioServerConfig`、`PermissionRequestData`、`PermissionRequestKind`、
@@ -1285,6 +1303,8 @@ cargo run -- "{{TARGET_APP_URL}}"
 ```text
 Page title: Blazor Accessibility Target
 ```
+
+> **日本語補足（出力例）:** `Page title` に対象ページのタイトルが表示されていれば成功です。ツール実行ログがある場合は、ナビゲーションとスナップショット取得が完了していることも確認します。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -1621,6 +1641,8 @@ try (var client = new CopilotClient()) {
 }
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、指定した URL だけを `browser_navigate` で開き、`read_latest_accessibility_snapshot` でアクセシビリティツリーを確認して、観測したページタイトルのみを返すよう依頼しています。許可ハンドラーがその正確な Playwright ナビゲーション対象だけを承認する前提も確認します。
+
 MCP とパーミッションのインポートを追加します。
 
 ```java
@@ -1643,6 +1665,8 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 ```text
 Page title: Blazor Accessibility Target
 ```
+
+> **日本語補足（出力例）:** `Page title` に対象ページのタイトルが表示されていれば成功です。ツール実行ログがある場合は、ナビゲーションとスナップショット取得が完了していることも確認します。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>

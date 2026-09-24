@@ -94,6 +94,8 @@ await ResponseStreamer.SendAndPrintAsync(
     "Use accessibility_rule_lookup to explain how to fix an input with no accessible name.");
 ```
 
+> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って、accessible name がない入力の修正方法を説明するよう依頼しています。ツール名を明示しており、応答がツール結果に基づいて具体的な修正を述べているかを確認してください。
+
 ## 実行する
 
 ```bash
@@ -108,6 +110,8 @@ dotnet run
 
 WCAG 4.1.2 Name, Role, Value ...
 ```
+
+> **日本語補足（出力例）:** ローカルツールの結果を使って WCAG 4.1.2 の情報が表示される例です。ツールイベントや基準名、推奨される修正内容が確認できれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -217,6 +221,8 @@ try {
 }
 ```
 
+> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
+
 `tools` は実装を登録します。`availableTools` はモデルが呼び出せる許可リストです。
 
 ## 実行する
@@ -233,6 +239,8 @@ npm start
 
 WCAG 4.1.2 Name, Role, Value ...
 ```
+
+> **日本語補足（出力例）:** ローカルツールの結果を使って WCAG 4.1.2 の情報が表示される例です。ツールイベントや基準名、推奨される修正内容が確認できれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -347,6 +355,8 @@ async with await client.create_session(
         raise error
 ```
 
+> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
+
 `tools` は実装を登録します。`available_tools` はモデルが呼び出せる許可リストです。
 
 ## 実行する
@@ -361,6 +371,8 @@ python main.py
 WCAG 4.1.2 Name, Role, Value ...
 Associate a visible <label> with the input ...
 ```
+
+> **日本語補足（出力例）:** ローカルツールの結果を使って WCAG 4.1.2 の情報が表示される例です。ツールイベントや基準名、推奨される修正内容が確認できれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -493,6 +505,8 @@ if err := streamResponse(
 }
 ```
 
+> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
+
 `Tools` は実装を登録します。`AvailableTools` はモデルが呼び出せる許可リストです。
 このツールはアプリケーションが所有する読み取り専用データのみを返すため、`SkipPermission = true` は意図的なものです。
 
@@ -508,6 +522,8 @@ go run .
 WCAG 4.1.2 Name, Role, Value ...
 Associate each input with a visible label.
 ```
+
+> **日本語補足（出力例）:** ローカルツールの結果を使って WCAG 4.1.2 の情報が表示される例です。ツールイベントや基準名、推奨される修正内容が確認できれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -676,6 +692,8 @@ stream_response!(
 );
 ```
 
+> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
+
 マクロ呼び出しの後には、ステップ 2 の disconnect とクライアントのシャットダウンを残しておきます。
 `config.tools` は実装を登録します。`config.available_tools` はモデルが呼び出せる許可リストです。このツールはアプリケーションが所有する読み取り専用データのみを返すため、`with_skip_permission(true)` は意図的なものです。
 
@@ -691,6 +709,8 @@ cargo run
 WCAG 4.1.2 Name, Role, Value ...
 Associate each input with a visible label.
 ```
+
+> **日本語補足（出力例）:** ローカルツールの結果を使って WCAG 4.1.2 の情報が表示される例です。ツールイベントや基準名、推奨される修正内容が確認できれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -874,6 +894,8 @@ if (response == null) {
 System.out.println(response.getData().content());
 ```
 
+> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
+
 `setTools` は実装を登録します。`setAvailableTools` はモデルが呼び出せる許可リストです。このツールはアプリケーションが所有する読み取り専用データのみを返すため、`skipPermission(true)` は意図的なものです。ステップ 4 でスコープ付きの Playwright ハンドラーに置き換えられるまで、ステップ 1 のパーミッションハンドラーを残しておきます。Java の実装はストリーミングを有効にしたセッションで `sendAndWait` を使用するため、ターンが終了すると完成した応答を表示します。
 
 ## 実行する
@@ -888,6 +910,8 @@ mvn compile exec:java
 WCAG 4.1.2 Name, Role, Value ...
 Associate each input with a visible label.
 ```
+
+> **日本語補足（出力例）:** ローカルツールの結果を使って WCAG 4.1.2 の情報が表示される例です。ツールイベントや基準名、推奨される修正内容が確認できれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>

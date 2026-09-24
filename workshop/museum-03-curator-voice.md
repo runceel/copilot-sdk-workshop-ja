@@ -90,6 +90,8 @@ await CuratorStreamer.StreamExhibitAsync(
 await client.StopAsync();
 ```
 
+> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
+
 **中身を見る:** ストリーミング呼び出しとその 120 秒のデフォルトはどちらも
 `Helpers/CuratorStreamer.cs` に由来し、そこで `GenerationTimeout` と `ResearchTimeout` が
 宣言されています。
@@ -141,6 +143,8 @@ async function main(): Promise<void> {
 void main();
 ```
 
+> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
+
 **中身を見る:** `streamExhibit` とその 120 秒のデフォルトである `generationTimeoutMs` は、どちらも
 `src/curator.ts` に宣言されており、ステップ 7 が使う 90 秒の `researchTimeoutMs` も同じ場所にあります。
 :::
@@ -190,6 +194,8 @@ async def main() -> None:
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
+> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
 
 **中身を見る:** `stream_exhibit` とその 120 秒のデフォルトである `GENERATION_TIMEOUT_SECONDS` は、
 どちらも `curator.py` に宣言されており、ステップ 7 が使う 90 秒の `RESEARCH_TIMEOUT_SECONDS` も
@@ -258,6 +264,8 @@ func main() {
 }
 ```
 
+> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
+
 **中身を見る:** `GenerationTimeout` は `curator.go` で `StreamExhibit` の隣に宣言されている 120 秒の
 定数で、ステップ 7 が使う 90 秒の `ResearchTimeout` も同じ場所にあります。
 :::
@@ -313,6 +321,8 @@ async fn main() -> Result<(), RuntimeError> {
     Ok(())
 }
 ```
+
+> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
 
 **中身を見る:** `GENERATION_TIMEOUT` は `src/lib.rs` で `stream_exhibit` の隣に宣言されている 120 秒の
 定数で、ステップ 7 が使う 90 秒の `RESEARCH_TIMEOUT` も同じ場所にあります。
@@ -375,6 +385,8 @@ public final class MuseumExhibitStudio {
 }
 ```
 
+> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
+
 **中身を見る:** 呼び出している 2 引数版の `CuratorStreamer.streamExhibit` は `GENERATION_TIMEOUT` を
 適用します。これは `CuratorStreamer.java` に宣言されている 120 秒の定数で、ステップ 7 が使う 90 秒の
 `RESEARCH_TIMEOUT` も同じ場所にあります。
@@ -420,6 +432,8 @@ Before: Apollo 11 was NASA's first crewed Moon landing mission. Here's a quick o
 After:  Fifty years on, the ladder still hangs a metre above the dust. On 20 July 1969, two
         travellers stepped down from it and the Earth held its breath.
 ```
+
+> **日本語補足（出力例）:** この出力例は、システムメッセージ適用前後で語調が変わり、前置きが消えて展示向けの文体になったことを示しています。After の文が指定したペルソナと制約に沿っているかを確認します。
 
 前置きが消え、語り口が高まり、答えはこれ以上の手助けを申し出なくなります。
 
