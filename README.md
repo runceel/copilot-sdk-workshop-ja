@@ -1,5 +1,9 @@
 # GitHub Copilot SDK ワークショップ
 
+この日本語版は、[英語版オリジナル](https://github.github.com/copilot-sdk-workshop/)の
+2026年9月24日時点の内容をもとにしたスナップショットです。SDK や手順はその後更新されている可能性があります。
+最新の内容は英語版オリジナルを確認してください。
+
 今すぐ始める: https://runceel.github.io/copilot-sdk-workshop-ja/
 
 .NET、Node.js/TypeScript、Python、Go、Rust、または Maven Java で実施する、2 つのハンズオン形式の

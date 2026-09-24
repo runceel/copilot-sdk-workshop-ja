@@ -1,0 +1,6 @@
+scripts:
+  - name: Run local workshop preview
+    command: python scripts/preview_site.py
+
+server_ready_pattern: '(http://localhost:\d+)'
+auto_open_in_browser: true
