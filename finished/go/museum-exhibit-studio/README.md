@@ -1,55 +1,55 @@
-# Museum Exhibit Studio
+# 博物館展示スタジオ
 
-This Go sample uses the GitHub Copilot SDK as a focused museum-curation harness. The app now has a
-two-file shape:
+この Go サンプルは、GitHub Copilot SDK を博物館の展示制作に特化した実行基盤として使います。
+アプリケーションは次の 2 ファイルで構成されます。
 
-- `curator.go` contains the pre-built helper API: approved fact sets, fact bounds, response
-  streaming, structural validation, Wikipedia permissions, source extraction, the optional
-  `exhibit.html` write permission, and terminal helpers.
-- `main.go` contains the learner-authored orchestration: prompts, session configuration, console
-  flow, and cleanup.
+- `curator.go` には実装済みのヘルパー API があります。承認済みの事実セット、事実の制約、応答の
+  ストリーミング、構造検証、Wikipedia の権限、出典の抽出、任意の
+  `exhibit.html` 書き込み権限、ターミナル用ヘルパーを提供します。
+- `main.go` には、学習者が作成する処理全体の制御があります。プロンプト、セッション設定、
+  コンソールでの処理の流れ、クリーンアップを含みます。
 
-## Run the sample
+## サンプルを実行する
 
-From this directory:
+このディレクトリで実行します。
 
 ```bash
 go run .
 ```
 
-Set `COPILOT_MODEL` to select the generation model; otherwise the runtime chooses its default. An
-authenticated GitHub Copilot CLI is required.
+生成モデルを選ぶには `COPILOT_MODEL` を設定します。設定しない場合はランタイムが既定のモデルを選びます。
+認証済みの GitHub Copilot CLI が必要です。
 
-Build without contacting a model or Wikipedia:
+モデルや Wikipedia に接続せずにビルドするには、次を実行します。
 
 ```bash
 go build -mod=readonly ./...
 ```
 
-## What the sample teaches
+## このサンプルで学べること
 
-Generation uses a replacement system message, an allowlist naming exactly one application-owned
-tool (`approved_fact_lookup`, which returns the bounded approved facts), event
-streaming, and a 120-second timeout. Optional Wikipedia research runs in a separate 90-second
-session with only scoped search and article-read tools plus a deny-by-default permission handler.
-Research is shown as background for the human curator only: it searches, reads, and cites consulted
-articles in a trailing `## Sources` section. It no longer uses a strict JSON contract, proposed
-additions, source URL schema validation, or an approval loop, and research findings are never merged
-into the approved facts used for exhibit generation.
+生成では、置換用のシステムメッセージ、アプリケーションが管理するツール 1 つだけの許可リスト
+（制約を適用した承認済みの事実を返す `approved_fact_lookup`）、イベントの
+ストリーミング、120 秒のタイムアウトを使います。任意の Wikipedia 調査は別の 90 秒のセッションで実行し、
+範囲を限定した検索・記事読み取りツールと、既定で拒否する権限ハンドラーだけを使います。
+調査結果は人間のキュレーター向けの背景情報としてのみ表示します。記事を検索して読み、
+参照した記事を末尾の `## Sources` セクションに引用します。厳密な JSON 契約、追加候補、
+出典 URL のスキーマ検証、承認ループは使用しなくなりました。調査結果を、
+展示生成に使う承認済みの事実に統合することはありません。
 
-After generation, deterministic validation checks one H1, required sections, a 100-140-word
-narrative, exactly three numbered visitor questions ending in `?`, and prohibited software terms.
-The consulted Wikipedia sources are printed after the exhibit, outside the generated copy.
+生成後の決定的な検証では、H1 が 1 つあること、必須セクション、100～140 語の本文、
+`?` で終わる番号付きの来館者向け質問がちょうど 3 つあること、禁止されたソフトウェア用語を確認します。
+参照した Wikipedia の出典は、生成された展示文の外側、その後に表示します。
 
-Optionally, the app can ask Copilot to create `exhibit.html` with `builtin:apply_patch`. That session
-allows only a single normalized write to `exhibit.html` in the application working directory and
-rejects every other file, shell, or MCP permission request. The HTML prompt requires a standalone
-semantic document with embedded CSS and JavaScript, a human-review caveat, and an accessible question
-filter.
+必要に応じて、アプリケーションは Copilot に `builtin:apply_patch` で `exhibit.html` を作成するよう依頼できます。
+そのセッションでは、アプリケーションの作業ディレクトリ内の `exhibit.html` に対する、正規化して確認した
+単一の書き込みだけを許可し、それ以外のファイル、シェル、MCP の権限リクエストをすべて拒否します。
+HTML プロンプトは、CSS と JavaScript を埋め込んだ単独で動作するセマンティックな文書、
+人によるレビューが必要という注意事項、アクセシブルな質問フィルターを要求します。
 
-This is the application a learner ends up with after the museum lessons, not a separate reference
-architecture. The entrypoint keeps one small session runner that starts the client, creates the
-session, enforces the timeout, rejects blank output, and cleans up on every path; the research,
-generation, and optional HTML steps reuse it with different session configurations. Follow the
-track from
+これは博物館のレッスンを終えた学習者が作り上げるアプリケーションであり、別の参照アーキテクチャではありません。
+エントリーポイントには、クライアントの起動、セッションの作成、タイムアウトの適用、空の出力の拒否、
+すべての実行経路でのクリーンアップを担う、小さなセッションランナーが 1 つあります。調査、生成、
+任意の HTML 作成ステップは、異なるセッション設定でこれを再利用します。学習トラックは次のファイルから
+始めてください。
 [`workshop/museum-00-preflight.md`](https://github.com/github/copilot-sdk-workshop/blob/main/workshop/museum-00-preflight.md).

@@ -1,62 +1,67 @@
-# GitHub Copilot SDK Workshops
+# GitHub Copilot SDK ワークショップ
 
-Start today: http://github.github.com/copilot-sdk-workshop/
+今すぐ始める: https://runceel.github.io/copilot-sdk-workshop-ja/
 
-Choose one of two hands-on GitHub Copilot SDK workshops in .NET, Node.js/TypeScript, Python, Go,
-Rust, or Maven Java:
+GitHub Copilot SDK を体験する 2 つのワークショップから選んでください。
+使用できる言語は .NET、Node.js/TypeScript、Python、Go、Rust、Maven Java です。
 
-- **Accessibility Reviewer:** build an SDLC developer tool that inspects a web page, consults
-  application-owned WCAG guidance, and produces an evidence-based report.
-- **Museum Exhibit Studio:** build a non-SDLC curator that transforms educator-approved facts into
-  visitor-ready exhibit copy behind deterministic application boundaries.
+- **アクセシビリティ レビュアー:** Web ページを調査し、アプリケーションが管理する WCAG ガイダンスを参照して、
+  根拠に基づくレポートを作成する、ソフトウェア開発ライフサイクル（SDLC）向けの開発者ツールを構築します。
+- **博物館展示スタジオ:** 教育担当者が承認した事実を来館者向けの展示文に変換する、
+  SDLC 以外の用途のキュレーターを構築します。アプリケーション側で確実に適用する制約の下で動作させます。
 
-Across the workshops, you'll:
+ワークショップでは、次のことを学びます。
 
-1. Create a Copilot client and conversation session.
-2. Separate durable agent policy from task-specific data.
-3. Choose between local tools, MCP tools, and a tightly scoped single-tool allowlist.
-4. Enforce capability, input, timeout, validation, and lifecycle boundaries in application code.
-5. Explain what the model can infer and what the application must prove.
+1. Copilot クライアントと会話セッションを作成する。
+2. 継続的に適用するエージェントの方針と、タスク固有のデータを分離する。
+3. ローカルツール、MCP ツール、対象を厳密に限定した単一ツールの許可リストを使い分ける。
+4. 機能、入力、タイムアウト、検証、ライフサイクルの制約をアプリケーションコードで強制する。
+5. モデルが推論できることと、アプリケーションが確認しなければならないことを説明する。
 
-Plan on about 90 minutes for Accessibility Reviewer or 90 minutes for Museum Exhibit Studio.
-Machine setup happens separately in an untimed preflight for each workshop.
+所要時間は、アクセシビリティ レビュアーも博物館展示スタジオも約 90 分です。
+開発環境のセットアップは、各ワークショップの事前準備で別途行います。この時間は所要時間に含まれません。
 
-## Start the workshop
+この日本語版では説明文を日本語に翻訳しています。演習の整合性を保つため、コード、プロンプトのリテラル、
+サンプル出力、および意図的に問題を含めた演習対象アプリは原文のままにしています。
 
-Open the GitHub Pages URL produced by the repository's **Deploy to GitHub Pages** workflow. Choose a
-workshop outcome, choose a language, then start the selected workshop. The site derives its Pages
-base URL at runtime, so there is no hardcoded organization or user Pages hostname.
+<a id="start-the-workshop"></a>
 
-To preview the site from a clone:
+## ワークショップを始める
+
+この日本語版の GitHub Pages サイト https://runceel.github.io/copilot-sdk-workshop-ja/ を開きます。
+作成したい成果物と言語を選び、ワークショップを開始してください。サイトは実行時に Pages の
+ベース URL を取得するため、組織やユーザーの Pages ホスト名はハードコードされていません。
+
+クローンしたリポジトリでサイトをプレビューするには、次を実行します。
 
 ```bash
-git clone https://github.com/github/copilot-sdk-workshop.git
-cd copilot-sdk-workshop
+git clone https://github.com/runceel/copilot-sdk-workshop-ja.git
+cd copilot-sdk-workshop-ja
 python3 -m http.server 8000
 ```
 
-Open <http://localhost:8000/docs/>. Do not open `step.html` with a `file://` URL; browsers block
-the Markdown requests used by the lesson viewer.
+<http://localhost:8000/docs/> を開きます。`step.html` を `file://` URL で開かないでください。
+レッスンビューアーが使用する Markdown の取得リクエストがブラウザーによってブロックされます。
 
-## Prerequisites
+## 前提条件
 
 - [.NET 10 SDK](https://learn.microsoft.com/dotnet/core/install/)
-- [Node.js 22 or newer](https://nodejs.org/)
-- [Python 3.11 or newer](https://www.python.org/downloads/)
-- [Go 1.24 or newer](https://go.dev/dl/)
-- [Rust 1.94 or newer](https://rustup.rs/)
-- [Java 17 or newer](https://adoptium.net/) and [Maven](https://maven.apache.org/install.html)
+- [Node.js 22 以降](https://nodejs.org/)
+- [Python 3.11 以降](https://www.python.org/downloads/)
+- [Go 1.24 以降](https://go.dev/dl/)
+- [Rust 1.94 以降](https://rustup.rs/)
+- [Java 17 以降](https://adoptium.net/) と [Maven](https://maven.apache.org/install.html)
 - [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)
-- GitHub Copilot subscription or trial
-- Microsoft Edge (the workshop default) or Google Chrome
+- GitHub Copilot のサブスクリプションまたは試用版
+- Microsoft Edge（ワークショップの既定ブラウザー）または Google Chrome
 
-Preflight walks through installation checks, authentication, OS-specific commands, expected
-output, and troubleshooting.
+事前準備では、インストールの確認、認証、OS ごとのコマンド、想定される出力、
+トラブルシューティングを説明します。
 
-## Repository layout
+## リポジトリの構成
 
 ```text
-copilot-sdk-workshop/
+copilot-sdk-workshop-ja/
 |-- docs/                         GitHub Pages site and controlled target page
 |-- workshop/                     Two complete workshop tracks and optional extensions
 |-- start-accessibility/          Accessibility Reviewer starters in all six languages
@@ -75,84 +80,83 @@ copilot-sdk-workshop/
 `-- .github/workflows/            Validation and Pages deployment
 ```
 
-## Validate a change
+## 変更を検証する
 
 ```bash
 bash scripts/validate-workshop.sh
 ```
 
-The command checks lesson structure, internal links, site behavior hooks, and project coverage.
-It then runs browser-independent language-selection tests and restores, builds, or syntax-checks every
-accessibility and museum starter, every finished project, and the Blazor target without authenticating
-Copilot, launching a browser, or sending a prompt. The museum projects ship no tests, mocks, or
-fixtures, so their targets only restore and build.
+このコマンドは、レッスンの構造、内部リンク、サイトの動作に必要なフック、プロジェクトの網羅性を確認します。
+続いて、ブラウザーに依存しない言語選択テストを実行し、アクセシビリティと博物館のすべてのスターター、
+すべての完成版プロジェクト、Blazor の対象アプリについて、依存関係の復元、ビルド、または構文チェックを行います。
+Copilot の認証、ブラウザーの起動、プロンプトの送信は行いません。博物館プロジェクトにはテスト、モック、
+フィクスチャが含まれないため、復元とビルドのみを行います。
 
-Pass a language ID to run one smoke-build target:
+言語 ID を渡すと、その言語のスモークビルドだけを実行できます。
 
 ```bash
 bash scripts/validate-workshop.sh nodejs
 ```
 
-Pull requests run content validation and all six language smoke builds as separate GitHub Actions
-jobs, so a failure identifies the affected SDK track.
+プルリクエストでは、コンテンツの検証と 6 言語それぞれのスモークビルドを別々の GitHub Actions ジョブで
+実行するため、失敗した場合に影響を受ける SDK の言語トラックを特定できます。
 
-## Museum Exhibit Studio workshop
+## 博物館展示スタジオのワークショップ
 
-Museum Exhibit Studio starters live under `start-museum/<language>`, with completed references under
-`finished/<language>/museum-exhibit-studio`. Each starter ships one pre-built curator helper module
-that learners never edit: approved fact sets and their bounds, a streaming printer, deterministic
-exhibit validation, the scoped Wikipedia MCP server with its deny-by-default permission handler, the
-single-file `exhibit.html` write permission, and small terminal prompts.
+博物館展示スタジオのスターターは `start-museum/<language>` に、完成版の参照実装は
+`finished/<language>/museum-exhibit-studio` にあります。各スターターには、学習者が編集する必要のない
+キュレーター用ヘルパーモジュールが含まれます。承認済みの事実セットとその制約、ストリーミング表示、
+決定的な展示検証、対象範囲を限定した Wikipedia MCP サーバーと既定で拒否する権限ハンドラー、
+`exhibit.html` 1 ファイルだけへの書き込み権限、簡単なターミナル入力プロンプトを提供します。
 
-Learners work directly in `start-museum/<language>` and grow that one project across the
-lessons, running it at every step. They write only the session setup, the curator and research
-system messages, the prompt builders, one session runner that owns the lifecycle and guardrails, and
-`main`. The finished sample is what a learner ends up with, not a separate reference architecture.
+学習者は `start-museum/<language>` で直接作業し、各ステップで実行しながら、レッスンを通して
+1 つのプロジェクトを拡張します。作成するのは、セッション設定、キュレーターと調査用のシステムメッセージ、
+プロンプトビルダー、ライフサイクルとガードレールを管理する 1 つのセッションランナー、
+および `main` だけです。完成版サンプルは学習者が最終的に作り上げるものであり、別の参照アーキテクチャではありません。
 
-The learner-facing track begins at
-[`workshop/museum-00-preflight.md`](workshop/museum-00-preflight.md), then runs through seven core
-steps — first session, streaming, curator voice, approved facts, guardrails, structural checks, and
-Wikipedia MCP research — plus an optional interactive `exhibit.html` capstone.
+学習トラックは
+[`workshop/museum-00-preflight.md`](workshop/museum-00-preflight.md) から始まり、最初のセッション、
+ストリーミング、キュレーターの語り口、承認済みの事実、ガードレール、構造チェック、
+Wikipedia MCP による調査の 7 つの基本ステップへと進みます。さらに、対話型の `exhibit.html` を作る任意の総合演習があります。
 
-Rust checks share one Cargo target directory across all workshop projects, avoiding repeated SDK
-dependency compilation.
+Rust のチェックでは、すべてのワークショッププロジェクトで 1 つの Cargo ターゲットディレクトリを共有し、
+SDK の依存関係を何度もコンパイルすることを避けています。
 
-## Deployment
+## デプロイ
 
-After validation passes, push to `main`. The
-[Pages workflow](.github/workflows/deploy.yml) publishes `docs/` plus the Markdown lessons in
-`workshop/`. Build and content validation run separately in the validation workflow.
+検証に成功したら、`main` にプッシュします。
+[Pages ワークフロー](.github/workflows/deploy.yml) は `docs/` と
+`workshop/` の Markdown レッスンを公開します。ビルドとコンテンツの検証は、検証用ワークフローで別途実行されます。
 
-Enable GitHub Pages in repository settings and choose **GitHub Actions** as the source. The
-deployment job reports the canonical workshop URL in its environment.
+リポジトリの設定で GitHub Pages を有効にし、公開元として **GitHub Actions** を選択します。
+デプロイジョブの環境に、ワークショップの正式な URL が表示されます。
 
-The deployment workflow verifies every published HTML page, site asset, and Markdown lesson. It
-checks the URL returned by GitHub Pages by default. To validate a future public or custom domain
-instead, set the repository Actions variable `WORKSHOP_SITE_URL` to that site's base URL. You can
-run the same check manually:
+デプロイワークフローは、公開されたすべての HTML ページ、サイトアセット、Markdown レッスンを検証します。
+既定では GitHub Pages が返す URL を確認します。今後使用する公開ドメインやカスタムドメインを検証する場合は、
+リポジトリの Actions 変数 `WORKSHOP_SITE_URL` にそのサイトのベース URL を設定してください。
+同じチェックを手動で実行することもできます。
 
 ```bash
 WORKSHOP_SITE_URL=https://workshop.example.com/ python3 scripts/validate_deployment.py
 ```
 
-## References
+## 参考資料
 
-- [GitHub Copilot SDK for .NET](https://github.com/github/copilot-sdk/tree/main/dotnet)
-- [GitHub Copilot SDK for Node.js/TypeScript](https://github.com/github/copilot-sdk/tree/main/nodejs)
-- [GitHub Copilot SDK for Python](https://github.com/github/copilot-sdk/tree/main/python)
-- [GitHub Copilot SDK for Go](https://github.com/github/copilot-sdk/tree/main/go)
-- [GitHub Copilot SDK for Rust](https://github.com/github/copilot-sdk/tree/main/rust)
-- [GitHub Copilot SDK for Java](https://github.com/github/copilot-sdk/tree/main/java)
-- [Copilot SDK cookbook](https://github.com/github/copilot-sdk/tree/main/cookbook)
-- [Copilot SDK API and source](https://github.com/github/copilot-sdk)
-- [Install the GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)
+- [.NET 用 GitHub Copilot SDK](https://github.com/github/copilot-sdk/tree/main/dotnet)
+- [Node.js/TypeScript 用 GitHub Copilot SDK](https://github.com/github/copilot-sdk/tree/main/nodejs)
+- [Python 用 GitHub Copilot SDK](https://github.com/github/copilot-sdk/tree/main/python)
+- [Go 用 GitHub Copilot SDK](https://github.com/github/copilot-sdk/tree/main/go)
+- [Rust 用 GitHub Copilot SDK](https://github.com/github/copilot-sdk/tree/main/rust)
+- [Java 用 GitHub Copilot SDK](https://github.com/github/copilot-sdk/tree/main/java)
+- [Copilot SDK クックブック](https://github.com/github/copilot-sdk/tree/main/cookbook)
+- [Copilot SDK の API とソースコード](https://github.com/github/copilot-sdk)
+- [GitHub Copilot CLI のインストール](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 
-## License
+## ライセンス
 
-This project is licensed under the [MIT License](LICENSE).
+このプロジェクトは [MIT ライセンス](LICENSE)で公開されています。
 
-This workshop is provided as-is for educational purposes. It is intended to
-demonstrate concepts and patterns rather than serve as a complete production
-service.
+このワークショップは、教育目的で現状のまま提供されています。
+完成した本番サービスではなく、概念やパターンを示すことを目的としています。

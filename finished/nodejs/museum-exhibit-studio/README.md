@@ -1,15 +1,15 @@
-# Museum Exhibit Studio
+# 博物館展示スタジオ
 
-This completed Node.js/TypeScript sample now has two source files:
+この Node.js/TypeScript の完成版サンプルは、2 つのソースファイルで構成されます。
 
-- `src/curator.ts` contains the pre-built helper module: approved facts, bounded
-  streaming, deterministic validation, scoped Wikipedia permissions, the optional
-  `exhibit.html` write permission, and terminal helpers.
-- `src/index.ts` contains the learner-authored orchestration: prompts, session
-  configs, fact-set selection, optional research, generation, validation, and the
-  optional HTML capstone.
+- `src/curator.ts` には実装済みのヘルパーモジュールがあります。承認済みの事実、制限付きの
+  ストリーミング、決定的な検証、範囲を限定した Wikipedia の権限、任意の
+  `exhibit.html` 書き込み権限、ターミナル用ヘルパーを提供します。
+- `src/index.ts` には、学習者が作成する処理全体の制御があります。プロンプト、セッション
+  設定、事実セットの選択、任意の調査、生成、検証、
+  任意の HTML 総合演習を含みます。
 
-## Run the sample
+## サンプルを実行する
 
 ```bash
 cd finished/nodejs/museum-exhibit-studio
@@ -17,25 +17,25 @@ npm ci
 npm start
 ```
 
-Use `npm run build` to type-check without contacting a model.
+モデルに接続せずに型チェックするには、`npm run build` を使います。
 
-## Safety shape
+## 安全性の設計
 
-Generation allowlists exactly one application-owned tool, `approved_fact_lookup`,
-which returns the bounded approved facts. Optional Wikipedia
-research runs in a separate session with scoped `search` and `readArticle` tools,
-a deny-by-default permission handler, cited `## Sources`, and no JSON contract or
-proposed-addition approval loop. Research notes are shown to the educator but are
-never merged into the approved facts.
+生成では、制約を適用した承認済みの事実を返す、アプリケーション管理のツール
+`approved_fact_lookup` 1 つだけを許可リストに登録します。任意の Wikipedia
+調査は別のセッションで実行し、範囲を限定した `search` と `readArticle` ツール、
+既定で拒否する権限ハンドラー、引用元を示す `## Sources` を使います。JSON 契約や
+追加候補の承認ループは使いません。調査メモは教育担当者に表示しますが、
+承認済みの事実に統合することはありません。
 
-After generation, deterministic checks report structure, narrative length, visitor
-questions, and prohibited vocabulary. If selected, the HTML step exposes only
-`builtin:apply_patch` and approves writing exactly `exhibit.html` in the app
-directory.
+生成後の決定的なチェックでは、構造、本文の長さ、来館者向けの質問、
+禁止語彙について報告します。HTML ステップを選択すると、
+`builtin:apply_patch` だけを公開し、アプリケーションのディレクトリ内の
+`exhibit.html` だけへの書き込みを承認します。
 
-This is the application a learner ends up with after the museum lessons, not a separate reference
-architecture. The entrypoint keeps one small session runner that starts the client, creates the
-session, enforces the timeout, rejects blank output, and cleans up on every path; the research,
-generation, and optional HTML steps reuse it with different session configurations. Follow the
-track from
+これは博物館のレッスンを終えた学習者が作り上げるアプリケーションであり、別の参照アーキテクチャではありません。
+エントリーポイントには、クライアントの起動、セッションの作成、タイムアウトの適用、空の出力の拒否、
+すべての実行経路でのクリーンアップを担う、小さなセッションランナーが 1 つあります。調査、生成、
+任意の HTML 作成ステップは、異なるセッション設定でこれを再利用します。学習トラックは次のファイルから
+始めてください。
 [`workshop/museum-00-preflight.md`](https://github.com/github/copilot-sdk-workshop/blob/main/workshop/museum-00-preflight.md).

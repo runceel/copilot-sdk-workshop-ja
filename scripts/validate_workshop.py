@@ -848,8 +848,8 @@ def validate_rendered_language_content(markdown_file: Path) -> None:
         if markdown_file.name == "03-local-tool.md":
             for marker in (
                 *STEP_3_TRACK_MARKERS[selected_language],
-                "## Run it",
-                "Troubleshooting this run",
+                "## 実行する",
+                "実行時のトラブルシューティング",
             ):
                 require(
                     marker.casefold() in rendered_folded,
@@ -858,7 +858,7 @@ def validate_rendered_language_content(markdown_file: Path) -> None:
                 )
 
         if markdown_file.name not in {"00-preflight.md", "museum-00-preflight.md"}:
-            run_section = markdown_section(rendered, "## Run it")
+            run_section = markdown_section(rendered, "## 実行する")
             if markdown_file.name == "09-interactive-html-report.md":
                 run_markers = STEP_9_RUN_COMMAND_MARKERS
             elif markdown_file.name.startswith("museum-"):
@@ -876,7 +876,7 @@ def validate_rendered_language_content(markdown_file: Path) -> None:
 
         if markdown_file.name in PROCEDURE_MARKERS:
             procedure_marker = PROCEDURE_MARKERS[markdown_file.name][selected_language]
-            run_position = rendered.find("## Run it")
+            run_position = rendered.find("## 実行する")
             procedure_position = rendered.casefold().find(procedure_marker.casefold())
             require(
                 0 <= procedure_position < run_position,
@@ -1390,7 +1390,7 @@ def validate_security_invariants() -> None:
             "options.allowLocalDemoWrite()",
             '"write".equals(request.getKind())',
             "builtin:apply_patch",
-            "cannot enforce the output path",
+            "出力パスを強制できません",
             "https://github.com/github/copilot-sdk/issues/2273",
         )),
         "workshop/09-interactive-html-report.md does not constrain the Java local-demo write fallback",
@@ -1478,6 +1478,8 @@ def validate_site_behavior() -> None:
     index = read(DOCS / "index.html")
     step = read(DOCS / "workshop" / "step.html")
     navigation = read(DOCS / "language-navigation.js")
+    for page, label in ((index, "Homepage"), (step, "Lesson viewer")):
+        require('<html lang="ja">' in page, f"{label} must declare Japanese as its document language")
     require(index.count('class="primary-action"') == 1, "Homepage must have exactly one primary action")
     require(index.count('name="workshop"') == 2, "Homepage must offer exactly two workshop choices")
     require('value="sdlc"' in index and 'value="museum"' in index,
@@ -1490,7 +1492,7 @@ def validate_site_behavior() -> None:
     require("language-navigation.js" in index and "language-navigation.js" in step, "Homepage and lessons must share language navigation")
     require("resolveLanguage" in navigation and "lessonUrl" in navigation and "firstLessonUrl" in navigation, "Language navigation must preserve URL propagation")
     require("localStorage" in read(DOCS / "homepage.js") and "localStorage" in step, "Homepage and lessons must persist language selection")
-    require("Choose a workshop language" in step and "if (!language)" in step, "Lessons must not load without a valid language")
+    require("ワークショップの実装言語を選択" in step and "if (!language)" in step, "Lessons must not load without a valid language")
     require("preprocessLanguageDirectives" in step, "Lesson viewer must filter language directives")
     require("workshopTracks" in step and "activeWorkshopId" in step,
             "Lesson viewer must scope navigation to the active workshop")
@@ -1507,6 +1509,7 @@ def validate_documentation() -> None:
         ROOT / "README.md",
         ROOT / "start-accessibility" / "README.md",
         ROOT / "start-museum" / "README.md",
+        *sorted((ROOT / "finished").glob("*/museum-exhibit-studio/README.md")),
         *WORKSHOP.glob("*.md"),
     ]:
         validate_markdown_links(markdown)
@@ -1565,7 +1568,7 @@ def validate_documentation() -> None:
 
     accessibility_preflight = read(WORKSHOP / "00-preflight.md")
     require(
-        "git clone https://github.com/github/copilot-sdk-workshop.git"
+        "git clone https://github.com/runceel/copilot-sdk-workshop-ja.git"
         in accessibility_preflight,
         "Accessibility preflight must start from a clone of the repository",
     )
@@ -1645,8 +1648,8 @@ def validate_documentation() -> None:
     )
     require(
         "id: 'museum-07-wikipedia-research'" in lesson_viewer
-        and "title: 'Research with Wikipedia MCP',\n                navTitle: 'Wikipedia research'" in lesson_viewer
-        and "kind: 'core',\n                number: 7,\n                time: '20 min'" in lesson_viewer,
+        and "title: 'Wikipedia MCP で調査する',\n                navTitle: 'Wikipedia での調査'" in lesson_viewer
+        and "kind: 'core',\n                number: 7,\n                time: '20 分'" in lesson_viewer,
         "Wikipedia MCP must be registered as required 20-minute museum step 7",
     )
 
@@ -1663,14 +1666,14 @@ def validate_documentation() -> None:
         )
     require(
         "id: 'museum-08-interactive-exhibit-page'" in lesson_viewer
-        and "kind: 'optional',\n                number: 8,\n                time: '15 min'" in lesson_viewer,
+        and "kind: 'optional',\n                number: 8,\n                time: '15 分'" in lesson_viewer,
         "The interactive exhibit page must be registered as optional 15-minute museum step 8",
     )
 
     landing_page = read(DOCS / "index.html")
     require(
-        "Non-SDLC tool · 90 minutes" in landing_page
-        and "90 minutes for Museum Exhibit Studio" in read(ROOT / "README.md"),
+        "開発支援以外のツール · 90 分" in landing_page
+        and re.search(r"Museum Exhibit Studio.{0,40}90 分", read(ROOT / "README.md")),
         "Museum workshop duration must match the seven timed core steps",
     )
 
@@ -1758,7 +1761,7 @@ def validate_documentation() -> None:
 
     museum_preflight = read(WORKSHOP / "museum-00-preflight.md")
     for clone_step in (
-        "git clone https://github.com/github/copilot-sdk-workshop.git",
+        "git clone https://github.com/runceel/copilot-sdk-workshop-ja.git",
         'test "$(git rev-parse --show-toplevel)" = "$PWD"',
     ):
         require(
@@ -1832,7 +1835,7 @@ def validate_editor_open_guidance() -> None:
                 "its `code .` command opens",
             )
             require(
-                "editor" in neighborhood.casefold(),
+                "エディター" in neighborhood,
                 f"workshop/{lesson_name} ({language}) must tell the learner to open "
                 f"{starter_directory} in an editor, not only run `code .`",
             )
@@ -1842,7 +1845,7 @@ def validate_editor_open_guidance() -> None:
     ):
         readme_text = read(starter_readme)
         require(
-            "code ." in readme_text and "editor" in readme_text.casefold(),
+            "code ." in readme_text and "エディター" in readme_text,
             f"{starter_readme.relative_to(ROOT)} must tell learners to open the starter directory "
             "in an editor",
         )
@@ -1964,17 +1967,17 @@ def validate_learn_more_sections() -> None:
         if not lesson_path.exists():
             continue
         require(
-            "## Learn more" in read(lesson_path),
-            f"workshop/{lesson_name} is missing its required '## Learn more' section",
+            "## 詳しく学ぶ" in read(lesson_path),
+            f"workshop/{lesson_name} is missing its required '## 詳しく学ぶ' section",
         )
         for language in LANGUAGES:
             section = markdown_section(
-                render_language_markdown(lesson_path, language), "## Learn more"
+                render_language_markdown(lesson_path, language), "## 詳しく学ぶ"
             )
             require(
                 documentation_link.search(section) is not None,
                 f"workshop/{lesson_name} ({language}) has no documentation link in its "
-                "'## Learn more' section",
+                "'## 詳しく学ぶ' section",
             )
 
 
@@ -2064,7 +2067,7 @@ for lesson in LESSONS:
         validate_language_directives(lesson_path)
         validate_shared_language_content(lesson_path)
         validate_rendered_language_content(lesson_path)
-        for section in ("## Run it", "## Check your understanding"):
+        for section in ("## 実行する", "## 理解度を確認する"):
             if lesson not in {"00-preflight.md", "museum-00-preflight.md"}:
                 require(section in read(lesson_path), f"{lesson} is missing required section: {section}")
 validate_layout()

@@ -1,64 +1,64 @@
-# Museum Exhibit Studio
+# 博物館展示スタジオ
 
-This completed .NET sample uses the GitHub Copilot SDK to generate a small museum exhibit from
-approved facts. The pre-built `Helpers/Curator*.cs` files provide fact sets, bounds checking,
-streaming, deterministic validation, scoped Wikipedia permissions, scoped `exhibit.html` write
-permission, and terminal input helpers. `Program.cs` stays learner-authored: it defines the curator
-and research system messages, builds prompts, creates the three session configurations inline, and
-orchestrates the console flow.
+この .NET の完成版サンプルは、GitHub Copilot SDK を使い、承認済みの事実から小規模な博物館展示を生成します。
+実装済みの `Helpers/Curator*.cs` ファイルは、事実セット、制約チェック、ストリーミング、
+決定的な検証、範囲を限定した Wikipedia の権限、`exhibit.html` への限定的な書き込み権限、
+ターミナル入力ヘルパーを提供します。`Program.cs` は学習者が作成する部分です。キュレーターと調査用の
+システムメッセージを定義し、プロンプトを組み立て、3 つのセッション設定をインラインで作成し、
+コンソールでの処理の流れを制御します。
 
-## Run the sample
+## サンプルを実行する
 
-From the repository root:
+リポジトリのルートで実行します。
 
 ```bash
 dotnet run --project finished/dotnet/museum-exhibit-studio
 ```
 
-Set `COPILOT_MODEL` before running to select a model. Otherwise, the Copilot runtime chooses its
-default. The sample requires an authenticated GitHub Copilot CLI.
+モデルを選ぶには、実行前に `COPILOT_MODEL` を設定します。設定しない場合は Copilot ランタイムが
+既定のモデルを選びます。サンプルには認証済みの GitHub Copilot CLI が必要です。
 
-Build without contacting a model:
+モデルに接続せずにビルドするには、次を実行します。
 
 ```bash
 dotnet build finished/dotnet/museum-exhibit-studio
 ```
 
-## What the sample teaches
+## このサンプルで学べること
 
-The generation session allowlists exactly one application-owned tool,
-`approved_fact_lookup`, and uses a replace-mode system message, so the model can only write exhibit
-text from facts this application handed it. `CuratorFacts.CreateApprovedFactLookup` bounds those
-facts before the model can ever see them, `CuratorFacts.BoundFacts` trims and validates facts before
-every generation or research send, and `CuratorStreamer.StreamExhibitAsync` streams
-model output with explicit timeouts.
+生成セッションは、アプリケーションが管理するツール `approved_fact_lookup` だけを許可リストに登録し、
+置換モードのシステムメッセージを使います。これにより、モデルはアプリケーションから渡された事実だけを使って
+展示文を書きます。`CuratorFacts.CreateApprovedFactLookup` はモデルに事実を渡す前に制約を適用し、
+`CuratorFacts.BoundFacts` は生成や調査の送信のたびに事実の余分な空白を除去して検証します。
+`CuratorStreamer.StreamExhibitAsync` は明示的なタイムアウトを設けて
+モデルの出力をストリーミングします。
 
-Optional Wikipedia research is intentionally lightweight: a separate session exposes only scoped
-`search` and `readArticle` MCP tools through `CuratorSafety.WikipediaPermissionHandler`. The model
-writes prose notes and a trailing `## Sources` list. The app extracts cited source titles and URLs
-for display after the exhibit; research notes are background only and are never merged into the
-approved facts.
+任意の Wikipedia 調査は、意図的に軽量な仕組みにしています。別のセッションで、
+`CuratorSafety.WikipediaPermissionHandler` を通じて範囲を限定した MCP ツール `search` と `readArticle` だけを公開します。
+モデルは文章形式のメモを書き、末尾に `## Sources` の一覧を付けます。アプリケーションは引用元のタイトルと
+URL を抽出し、展示文の後に表示します。調査メモは背景情報としてのみ扱い、
+承認済みの事実には決して統合しません。
 
-After generation, deterministic validation checks the title, `## Narrative`, 100-140 word narrative
-length, `## Visitor questions`, exactly three numbered questions, question marks, and prohibited
-vocabulary. These structural checks do not prove factual grounding, so human review remains
-required.
+生成後の決定的な検証では、タイトル、`## Narrative`、100～140 語の本文、
+`## Visitor questions`、番号付きの質問がちょうど 3 つあること、疑問符、禁止語彙を確認します。
+これらの構造チェックは事実に基づいていることを証明するものではないため、
+人によるレビューが引き続き必要です。
 
-The optional capstone creates `exhibit.html` with `builtin:apply_patch`.
-`CuratorSafety.ExhibitWritePermission` allows only that single file in the application working
-directory and rejects every other write, shell, or MCP request.
+任意の総合演習では、`builtin:apply_patch` で `exhibit.html` を作成します。
+`CuratorSafety.ExhibitWritePermission` はアプリケーションの作業ディレクトリ内のその 1 ファイルだけを許可し、
+それ以外の書き込み、シェル、MCP のリクエストをすべて拒否します。
 
-## Manual check
+## 手動での確認
 
-1. Run the sample and accept one of the built-in fact sets.
-2. Optionally run Wikipedia research and confirm sources print after the exhibit, not inside it.
-3. Confirm the exhibit contains one title, a 100-140-word narrative, and three questions.
-4. Confirm the validation summary and human-review caveat are displayed.
-5. Optionally generate `exhibit.html` and review the standalone interactive page in a browser.
+1. サンプルを実行し、組み込みの事実セットを 1 つ選びます。
+2. 必要に応じて Wikipedia 調査を実行し、出典が展示文の中ではなく、その後に表示されることを確認します。
+3. 展示に 1 つのタイトル、100～140 語の本文、3 つの質問が含まれることを確認します。
+4. 検証結果の概要と、人によるレビューが必要という注意事項が表示されることを確認します。
+5. 必要に応じて `exhibit.html` を生成し、単独で動作する対話型ページをブラウザーで確認します。
 
-This is the application a learner ends up with after the museum lessons, not a separate reference
-architecture. The entrypoint keeps one small session runner that starts the client, creates the
-session, enforces the timeout, rejects blank output, and cleans up on every path; the research,
-generation, and optional HTML steps reuse it with different session configurations. Follow the
-track from
+これは博物館のレッスンを終えた学習者が作り上げるアプリケーションであり、別の参照アーキテクチャではありません。
+エントリーポイントには、クライアントの起動、セッションの作成、タイムアウトの適用、空の出力の拒否、
+すべての実行経路でのクリーンアップを担う、小さなセッションランナーが 1 つあります。調査、生成、
+任意の HTML 作成ステップは、異なるセッション設定でこれを再利用します。学習トラックは次のファイルから
+始めてください。
 [`workshop/museum-00-preflight.md`](https://github.com/github/copilot-sdk-workshop/blob/main/workshop/museum-00-preflight.md).

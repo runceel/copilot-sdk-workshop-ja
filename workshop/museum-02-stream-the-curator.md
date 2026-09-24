@@ -1,33 +1,33 @@
-# Step 2: Stream the curator
+# ステップ 2: キュレーターの応答をストリーミングする
 
-> **Time:** 10 minutes
+> **所要時間:** 10 分
 
-## What you'll build
+## 作成するもの
 
-The same prompt, but the answer appears word by word instead of arriving after a silent pause.
+同じプロンプトを使いますが、何も表示されずに待つ代わりに、応答が少しずつ表示されるようにします。
 
-You will not write an event loop. The starter already ships a streaming printer in the pre-built
-curator helpers: it subscribes to
-[session events](https://github.com/github/copilot-sdk/blob/main/docs/features/streaming-events.md),
-writes each delta to standard output, reports tool activity, fails on session errors, enforces a
-timeout, unsubscribes on every path, and returns the full text it accumulated. Your job is to turn
-streaming on and call it.
+イベントループを作成する必要はありません。スターターの用意済みキュレーターヘルパーには、
+ストリーミング出力機能があります。
+[セッションイベント](https://github.com/github/copilot-sdk/blob/main/docs/features/streaming-events.md)を購読し、
+各差分を標準出力に書き出し、ツールの動作を報告し、セッションエラーで失敗し、タイムアウトを
+適用します。また、すべての終了経路で購読を解除し、蓄積した全文を返します。ここでは
+ストリーミングを有効にして、この機能を呼び出すだけです。
 
-## Why streaming matters for a curator
+## キュレーターにとってストリーミングが重要な理由
 
-Exhibit copy is prose a human has to read and judge. Watching it arrive tells you immediately
-whether the tone is right, whether the model is padding, and whether it is drifting off the subject
-— long before the run finishes. Streaming also gives you a place to notice tool calls, which
-matters from Step 4 onward, when the curator has to call the application's fact tool before it can
-write anything.
+展示文は、人間が読んで判断する文章です。逐次表示される様子を見れば、口調が適切か、
+モデルが無駄に長くしていないか、主題から逸れていないかを、実行の終了を待たずに
+把握できます。ストリーミングによってツール呼び出しにも気づけます。これは、
+キュレーターが文章を書く前にアプリケーションの事実ツールを呼び出す必要がある
+ステップ 4 以降で重要になります。
 
-The helper returns the whole response as a string, so from here on you always have the finished
-text to inspect after the stream ends.
+ヘルパーは応答全体を文字列で返すため、以降はストリームの終了後に、完成した
+テキストをいつでも確認できます。
 
-## Swap the blocking call for the streamer
+## 待機する呼び出しをストリーミング出力に置き換える
 
 :::language dotnet
-Replace the entire contents of `Program.cs`:
+`Program.cs` の内容全体を置き換えます。
 
 ```csharp
 using GitHub.Copilot;
@@ -54,21 +54,21 @@ await CuratorStreamer.StreamExhibitAsync(
 await client.StopAsync();
 ```
 
-Two changes: `Streaming = true` on the session config, and `CuratorStreamer.StreamExhibitAsync`
-in place of `SendAndWaitAsync`. The Step 1 permission handler stays exactly where it was. The
-helper lives in `Helpers/CuratorStreamer.cs` and you never edit it.
+変更は 2 つです。セッション設定に `Streaming = true` を指定し、`SendAndWaitAsync` の代わりに
+`CuratorStreamer.StreamExhibitAsync` を使います。ステップ 1 の権限ハンドラーはそのまま残します。
+ヘルパーは `Helpers/CuratorStreamer.cs` にあり、編集しません。
 
-**Look inside:** open `Helpers/CuratorStreamer.cs` and read `StreamExhibitAsync` once. It is the
-SDK event loop, and this is the clearest place in the workshop to see how streaming actually works.
-It subscribes with `session.On<SessionEvent>`, appends and writes each `AssistantMessageDeltaEvent`
-chunk the moment it arrives, prints a `[tool:start]` line for every `ToolExecutionStartEvent` and a
-`[tool:done]` line for every `ToolExecutionCompleteEvent`, completes on `SessionIdleEvent`, and
-faults on `SessionErrorEvent`. A `Task.Delay` race turns the timeout into a `TimeoutException`, and
-the subscription is disposed on every path.
+**内部を確認:** `Helpers/CuratorStreamer.cs` を開き、`StreamExhibitAsync` を一度読んでください。これは
+SDK のイベントループで、ストリーミングの仕組みをワークショップ内で最もわかりやすく確認できる箇所です。
+`session.On<SessionEvent>` で購読し、`AssistantMessageDeltaEvent` の各チャンクを
+到着と同時に蓄積・出力します。`ToolExecutionStartEvent` ごとに `[tool:start]`、
+`ToolExecutionCompleteEvent` ごとに `[tool:done]` の行を出力し、`SessionIdleEvent` で完了、
+`SessionErrorEvent` で失敗します。`Task.Delay` との競合によりタイムアウトが `TimeoutException` になり、
+どの終了経路でも購読が破棄されます。
 :::
 
 :::language nodejs
-Replace the entire contents of `src/index.ts`:
+`src/index.ts` の内容全体を置き換えます。
 
 ```typescript
 import { approveAll, CopilotClient } from "@github/copilot-sdk";
@@ -98,21 +98,21 @@ async function main(): Promise<void> {
 void main();
 ```
 
-Two changes: `streaming: true` on the session config, and `streamExhibit` in place of
-`sendAndWait`. The Step 1 permission handler stays exactly where it was. The helper lives in
-`src/curator.ts` and you never edit it.
+変更は 2 つです。セッション設定に `streaming: true` を指定し、`sendAndWait` の代わりに
+`streamExhibit` を使います。ステップ 1 の権限ハンドラーはそのまま残します。ヘルパーは
+`src/curator.ts` にあり、編集しません。
 
-**Look inside:** open `src/curator.ts` and read `streamExhibit` once. It is the SDK event loop, and
-this is the clearest place in the workshop to see how streaming actually works. It subscribes with
-`session.on`, writes each `assistant.message_delta` chunk to standard output the moment it arrives,
-prints a `[tool:start]` line for every `tool.execution_start` event and a `[tool:done]` line for
-every `tool.execution_complete` event, resolves its promise on `session.idle`, and rejects on
-`session.error`. A `setTimeout` rejects if neither ever arrives, and `finish` unsubscribes on every
-path.
+**内部を確認:** `src/curator.ts` を開き、`streamExhibit` を一度読んでください。これは SDK のイベントループで、
+ストリーミングの仕組みをワークショップ内で最もわかりやすく確認できる箇所です。
+`session.on` で購読し、`assistant.message_delta` の各チャンクを到着と同時に標準出力へ書き出します。
+`tool.execution_start` イベントごとに `[tool:start]`、`tool.execution_complete` イベントごとに
+`[tool:done]` の行を出力し、`session.idle` で Promise を解決、`session.error` で
+拒否します。どちらも届かない場合は `setTimeout` が拒否し、`finish` がすべての
+終了経路で購読を解除します。
 :::
 
 :::language python
-Replace the entire contents of `main.py`:
+`main.py` の内容全体を置き換えます。
 
 ```python
 import asyncio
@@ -142,21 +142,21 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-The whole event listener from Step 1 collapses into one call. `stream_exhibit` lives in
-`curator.py`, already does the matching on `AssistantMessageDeltaData`, `SessionErrorData`, and
-`SessionIdleData`, and you never edit it.
+ステップ 1 のイベントリスナー全体が 1 回の呼び出しになります。`stream_exhibit` は
+`curator.py` にあり、`AssistantMessageDeltaData`、`SessionErrorData`、
+`SessionIdleData` の照合処理も実装済みです。編集しません。
 
-**Look inside:** open `curator.py` and read `stream_exhibit` once. It is the SDK event loop, and
-this is the clearest place in the workshop to see how streaming actually works. It subscribes with
-`session.on`, prints each `AssistantMessageDeltaData` chunk the moment it arrives, prints a
-`[tool:start]` line for every `ToolExecutionStartData` and a `[tool:done]` line for every
-`ToolExecutionCompleteData`, sets its `done` event on `SessionIdleData`, and re-raises
-`SessionErrorData` as a `RuntimeError`. `asyncio.wait_for` applies the timeout, and a `finally`
-block unsubscribes on every path.
+**内部を確認:** `curator.py` を開き、`stream_exhibit` を一度読んでください。これは SDK のイベントループで、
+ストリーミングの仕組みをワークショップ内で最もわかりやすく確認できる箇所です。
+`session.on` で購読し、`AssistantMessageDeltaData` の各チャンクを到着と同時に出力します。
+`ToolExecutionStartData` ごとに `[tool:start]`、`ToolExecutionCompleteData` ごとに
+`[tool:done]` の行を出力し、`SessionIdleData` で `done` イベントを設定します。
+`SessionErrorData` は `RuntimeError` として再送出します。`asyncio.wait_for` がタイムアウトを適用し、
+`finally` ブロックがすべての終了経路で購読を解除します。
 :::
 
 :::language go
-Replace the entire contents of `main.go`:
+`main.go` の内容全体を置き換えます。
 
 ```go
 package main
@@ -199,21 +199,21 @@ func main() {
 }
 ```
 
-Two changes: `Streaming: copilot.Bool(true)` on the session config, and `StreamExhibit` in place of
-`SendAndWait`. The Step 1 permission handler stays exactly where it was. `StreamExhibit` and
-`GenerationTimeout` come from `curator.go` in the same package, and you never edit that file.
+変更は 2 つです。セッション設定に `Streaming: copilot.Bool(true)` を指定し、`SendAndWait` の代わりに
+`StreamExhibit` を使います。ステップ 1 の権限ハンドラーはそのまま残します。`StreamExhibit` と
+`GenerationTimeout` は同じパッケージの `curator.go` にあり、このファイルは編集しません。
 
-**Look inside:** open `curator.go` and read `StreamExhibit` once. It is the SDK event loop, and
-this is the clearest place in the workshop to see how streaming actually works. It subscribes with
-`session.On`, prints each `AssistantMessageDeltaData` chunk the moment it arrives, prints a
-`[tool:start]` line for every `ToolExecutionStartData` and a `[tool:done]` line for every
-`ToolExecutionCompleteData`, and records any `SessionErrorData` to return as an error. It then
-waits on `session.SendAndWait` inside a `context.WithTimeout` built from the timeout you pass, and
-a deferred `unsubscribe` runs on every path.
+**内部を確認:** `curator.go` を開き、`StreamExhibit` を一度読んでください。これは SDK のイベントループで、
+ストリーミングの仕組みをワークショップ内で最もわかりやすく確認できる箇所です。
+`session.On` で購読し、`AssistantMessageDeltaData` の各チャンクを到着と同時に出力します。
+`ToolExecutionStartData` ごとに `[tool:start]`、`ToolExecutionCompleteData` ごとに
+`[tool:done]` の行を出力し、`SessionErrorData` があれば記録してエラーとして返します。その後、
+指定したタイムアウトから作成した `context.WithTimeout` 内で `session.SendAndWait` を待機し、
+遅延実行される `unsubscribe` がすべての終了経路で動作します。
 :::
 
 :::language rust
-Replace the entire contents of `src/main.rs`:
+`src/main.rs` の内容全体を置き換えます。
 
 ```rust
 use github_copilot_sdk::permission;
@@ -245,22 +245,22 @@ async fn main() -> Result<(), RuntimeError> {
 }
 ```
 
-Two changes: `config.streaming = Some(true)`, and `stream_exhibit` in place of `send_and_wait`. The
-Step 1 permission handler stays exactly where it was. Both `stream_exhibit` and
-`GENERATION_TIMEOUT` come from the `museum_exhibit_studio` crate in `src/lib.rs`, and you never
-edit it.
+変更は 2 つです。`config.streaming = Some(true)` を指定し、`send_and_wait` の代わりに `stream_exhibit` を使います。
+ステップ 1 の権限ハンドラーはそのまま残します。`stream_exhibit` と
+`GENERATION_TIMEOUT` はどちらも `src/lib.rs` の `museum_exhibit_studio` クレートにあり、
+編集しません。
 
-**Look inside:** open `src/lib.rs` and read `stream_exhibit` once. It is the SDK event loop, and
-this is the clearest place in the workshop to see how streaming actually works. It subscribes with
-`session.subscribe`, prints and flushes each `assistant.message_delta` chunk the moment it arrives,
-prints a `[tool:start]` line for every `tool.execution_start` event and a `[tool:done]` line for
-every `tool.execution_complete` event, finishes on `session.idle`, and returns an error on
-`session.error`. It polls the send future, the event stream, and a deadline together, so the
-timeout you pass holds even if no event ever arrives.
+**内部を確認:** `src/lib.rs` を開き、`stream_exhibit` を一度読んでください。これは SDK のイベントループで、
+ストリーミングの仕組みをワークショップ内で最もわかりやすく確認できる箇所です。
+`session.subscribe` で購読し、`assistant.message_delta` の各チャンクを到着と同時に出力してフラッシュします。
+`tool.execution_start` イベントごとに `[tool:start]`、`tool.execution_complete` イベントごとに
+`[tool:done]` の行を出力し、`session.idle` で終了、`session.error` で
+エラーを返します。送信の Future、イベントストリーム、期限をまとめてポーリングするため、
+イベントがまったく届かなくても、指定したタイムアウトが機能します。
 :::
 
 :::language java
-Replace the entire contents of `src/main/java/workshop/MuseumExhibitStudio.java`:
+`src/main/java/workshop/MuseumExhibitStudio.java` の内容全体を置き換えます。
 
 ```java
 package workshop;
@@ -295,20 +295,20 @@ public final class MuseumExhibitStudio {
 }
 ```
 
-Two changes: `setStreaming(true)` on the session config, and `CuratorStreamer.streamExhibit` in
-place of `sendAndWait`. The Step 1 permission handler stays exactly where it was. The helper lives
-in `CuratorStreamer.java` beside your file, and you never edit it.
+変更は 2 つです。セッション設定に `setStreaming(true)` を指定し、`sendAndWait` の代わりに
+`CuratorStreamer.streamExhibit` を使います。ステップ 1 の権限ハンドラーはそのまま残します。ヘルパーは
+編集中のファイルの隣にある `CuratorStreamer.java` にあり、編集しません。
 
-**Look inside:** open `CuratorStreamer.java` and read `streamExhibit` once. It is the SDK event
-loop, and this is the clearest place in the workshop to see how streaming actually works. It
-registers one listener per event type: `AssistantMessageDeltaEvent` prints and accumulates each
-chunk as it arrives, `ToolExecutionStartEvent` and `ToolExecutionCompleteEvent` print the
-`[tool:start]` and `[tool:done]` lines, `SessionIdleEvent` ends the line, and `SessionErrorEvent`
-is captured and rethrown. The timeout you pass goes to `session.sendAndWait` in milliseconds, and
-every subscription is closed in a `finally` block.
+**内部を確認:** `CuratorStreamer.java` を開き、`streamExhibit` を一度読んでください。これは SDK の
+イベントループで、ストリーミングの仕組みをワークショップ内で最もわかりやすく確認できる箇所です。
+イベントの型ごとにリスナーを登録します。`AssistantMessageDeltaEvent` で到着したチャンクを出力・蓄積し、
+`ToolExecutionStartEvent` と `ToolExecutionCompleteEvent` で
+`[tool:start]` と `[tool:done]` の行を出力します。`SessionIdleEvent` では改行し、`SessionErrorEvent` は
+捕捉して再送出します。指定したタイムアウトはミリ秒単位で `session.sendAndWait` に渡され、
+すべての購読は `finally` ブロックで閉じられます。
 :::
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -341,7 +341,7 @@ mvn compile exec:java
 ```
 :::
 
-The same kind of answer appears, but this time you watch it being written:
+同じような応答ですが、今回は書かれていく様子を確認できます。
 
 ```text
 === Museum Exhibit Studio ===
@@ -349,25 +349,25 @@ The same kind of answer appears, but this time you watch it being written:
 In July 1969, three astronauts left Earth aboard Apollo 11... 
 ```
 
-The text grows in place instead of appearing all at once, and the program exits shortly after the
-last word. If you see nothing until the very end, the session is not streaming — check that you set
-the streaming flag on the session config.
+テキストは一度に表示されず、少しずつ続きが追加され、最後の単語が表示されて間もなく
+プログラムが終了します。最後まで何も表示されない場合、セッションはストリーミングしていません。
+セッション設定にストリーミングフラグを指定したか確認してください。
 
-## Check your understanding
+## 理解度を確認する
 
-- Streaming is switched on in two places conceptually: the session config and the code that reads
-  events. Which one did you write, and which one did the helper already own?
-- The helper returns the full response text even though it also printed it. Why will that return
-  value matter in Step 6?
-- If the model never becomes idle, what stops your program from waiting forever?
+- ストリーミングは、概念的にはセッション設定とイベントを読み取るコードの 2 か所で有効にします。
+  自分で書いたのはどちらで、ヘルパーにすでに用意されていたのはどちらですか?
+- ヘルパーは応答を出力するだけでなく、その全文も返します。この戻り値が
+  ステップ 6 で重要になるのはなぜでしょうか?
+- モデルがいつまでもアイドル状態にならない場合、プログラムが無限に待機するのを何が防ぎますか?
 
-## Learn more
+## さらに学ぶ
 
-- [Steering and queueing](https://github.com/github/copilot-sdk/blob/main/docs/features/steering-and-queueing.md):
-  sending another message while a turn is still streaming, instead of waiting for it to finish.
-- [Usage and billing metrics](https://github.com/github/copilot-sdk/blob/main/docs/features/usage-and-billing.md):
-  reading token counts and cost from the same events the printer is already subscribed to.
-- [Context clearing](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md):
-  replacing a conversation inside a session that you want to keep using.
+- [方向修正とキューイング](https://github.com/github/copilot-sdk/blob/main/docs/features/steering-and-queueing.md):
+  ターンの終了を待たず、ストリーミング中に別のメッセージを送信する方法です。
+- [使用量と課金の指標](https://github.com/github/copilot-sdk/blob/main/docs/features/usage-and-billing.md):
+  出力機能がすでに購読しているイベントから、トークン数やコストを読み取る方法です。
+- [コンテキストのクリア](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md):
+  継続して使いたいセッション内で、会話を置き換える方法です。
 
-Continue to [Give the curator a voice](museum-03-curator-voice.md).
+次は[キュレーターの文体を設定する](museum-03-curator-voice.md)に進みます。

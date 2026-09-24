@@ -1,18 +1,18 @@
-# Museum Exhibit Studio
+# 博物館展示スタジオ
 
-This Python sample uses the GitHub Copilot SDK as a focused museum exhibit
-studio. The finished app now has two modules:
+この Python サンプルは、GitHub Copilot SDK を博物館展示の制作に特化した
+スタジオとして使います。完成版アプリは 2 つのモジュールで構成されます。
 
-- `curator.py` contains the pre-built workshop helpers: approved fact sets,
-  bounded fact validation, streaming, deterministic structural checks, scoped
-  Wikipedia permissions, scoped `exhibit.html` write permission, and terminal
-  helpers.
-- `main.py` contains the learner-authored orchestration: prompts, session
-  configuration, console flow, validation, and optional HTML generation.
+- `curator.py` には実装済みのワークショップ用ヘルパーがあります。承認済みの事実セット、
+  事実の制約検証、ストリーミング、決定的な構造チェック、範囲を限定した
+  Wikipedia の権限、`exhibit.html` への限定的な書き込み権限、
+  ターミナル用ヘルパーを提供します。
+- `main.py` には、学習者が作成する処理全体の制御があります。プロンプト、セッション
+  設定、コンソールでの処理の流れ、検証、任意の HTML 生成を含みます。
 
-## Run the sample
+## サンプルを実行する
 
-From this directory, create an environment and install the pinned dependency:
+このディレクトリで仮想環境を作成し、バージョンが固定された依存関係をインストールします。
 
 ```powershell
 python -m venv .venv
@@ -21,58 +21,58 @@ python -m pip install -r requirements.txt
 python main.py
 ```
 
-Set `COPILOT_MODEL` to select a model; otherwise the runtime chooses its
-default. An authenticated GitHub Copilot CLI is required.
+モデルを選ぶには `COPILOT_MODEL` を設定します。設定しない場合はランタイムが
+既定のモデルを選びます。認証済みの GitHub Copilot CLI が必要です。
 
-Wikipedia research requires Node.js because the research session launches the
-pinned `wikipedia-mcp@1.0.3` package through `npx`. Declining research does not
-start the MCP server.
+Wikipedia 調査では、調査セッションが `npx` 経由でバージョンを固定した
+`wikipedia-mcp@1.0.3` パッケージを起動するため、Node.js が必要です。調査を行わない場合、
+MCP サーバーは起動しません。
 
-Check the source without contacting a model:
+モデルに接続せずにソースコードを確認するには、次を実行します。
 
 ```powershell
 python -m py_compile *.py
 ```
 
-## What the sample teaches
+## このサンプルで学べること
 
-Generation allowlists exactly one application-owned tool,
-`approved_fact_lookup`, which returns the bounded approved facts. It also uses a
-replace-mode
-curator system message, streaming, a 120-second timeout, and deterministic
-structural validation. Imported modules have no side effects; `main.py` only
-runs behind the `if __name__ == "__main__"` guard.
+生成では、制約を適用した承認済みの事実を返す、アプリケーション管理のツール
+`approved_fact_lookup` 1 つだけを許可リストに登録します。また、
+置換モードの
+キュレーター用システムメッセージ、ストリーミング、120 秒のタイムアウト、決定的な
+構造検証を使います。モジュールのインポートに副作用はありません。`main.py` は
+`if __name__ == "__main__"` のガードの下でのみ実行されます。
 
-Optional Wikipedia research is intentionally separate from generation. The
-research session exposes only scoped Wikipedia search and article-read tools,
-uses a deny-by-default permission handler, asks for a prose summary, and parses
-a trailing `## Sources` list. Research notes and cited sources are shown to the
-human, but they are never merged into the approved facts used to generate the
-exhibit. There is no strict JSON contract and no proposed-addition approval
-loop.
+任意の Wikipedia 調査は、意図的に生成処理から分離しています。
+調査セッションは、範囲を限定した Wikipedia の検索・記事読み取りツールだけを公開し、
+既定で拒否する権限ハンドラーを使い、文章形式の要約を求め、
+末尾の `## Sources` 一覧を解析します。調査メモと引用元は
+人に表示しますが、展示生成に使う承認済みの事実に
+統合することはありません。厳密な JSON 契約も、追加候補の承認
+ループもありません。
 
-After validation, the optional HTML capstone exposes only `builtin:apply_patch`
-and approves writing exactly `exhibit.html` in the application working
-directory. The prompt asks for one standalone semantic HTML file with embedded
-CSS and JavaScript, a human-review caveat, and an accessible question filter.
+検証後の任意の HTML 総合演習では、`builtin:apply_patch` だけを公開し、
+アプリケーションの作業ディレクトリ内の `exhibit.html` だけへの
+書き込みを承認します。プロンプトでは、CSS と JavaScript を埋め込んだ単独で動作するセマンティックな
+HTML ファイル、人によるレビューが必要という注意事項、アクセシブルな質問フィルターを求めます。
 
-Prompt guidance and structural validation are not authorization or grounding
-boundaries. Generated claims still require human review or a separate evaluator.
+プロンプトの指示と構造検証は、認可や事実への裏付けを保証する境界にはなりません。
+生成された主張には、人によるレビューまたは別の評価手段が引き続き必要です。
 
-## Manual check
+## 手動での確認
 
-1. Run with each built-in fact set and confirm the selected facts print before
-   generation.
-2. Confirm the exhibit has one title, a 100-140-word narrative, and three
-   visitor questions.
-3. Inspect the validation summary and grounding disclaimer.
-4. Decline research and confirm the only tool event is `approved_fact_lookup`.
-5. Opt into research and confirm sources print after the exhibit, not inside it.
-6. Opt into `exhibit.html` and confirm only that file is written.
+1. 組み込みの事実セットをそれぞれ使って実行し、選んだ事実が生成前に
+   表示されることを確認します。
+2. 展示に 1 つのタイトル、100～140 語の本文、3 つの
+   来館者向け質問が含まれることを確認します。
+3. 検証結果の概要と、事実への裏付けに関する免責事項を確認します。
+4. 調査を断り、ツールイベントが `approved_fact_lookup` だけであることを確認します。
+5. 調査を選択し、出典が展示文の中ではなく、その後に表示されることを確認します。
+6. `exhibit.html` の作成を選択し、そのファイルだけが書き込まれることを確認します。
 
-This is the application a learner ends up with after the museum lessons, not a separate reference
-architecture. The entrypoint keeps one small session runner that starts the client, creates the
-session, enforces the timeout, rejects blank output, and cleans up on every path; the research,
-generation, and optional HTML steps reuse it with different session configurations. Follow the
-track from
+これは博物館のレッスンを終えた学習者が作り上げるアプリケーションであり、別の参照アーキテクチャではありません。
+エントリーポイントには、クライアントの起動、セッションの作成、タイムアウトの適用、空の出力の拒否、
+すべての実行経路でのクリーンアップを担う、小さなセッションランナーが 1 つあります。調査、生成、
+任意の HTML 作成ステップは、異なるセッション設定でこれを再利用します。学習トラックは次のファイルから
+始めてください。
 [`workshop/museum-00-preflight.md`](https://github.com/github/copilot-sdk-workshop/blob/main/workshop/museum-00-preflight.md).

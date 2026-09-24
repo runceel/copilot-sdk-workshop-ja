@@ -1,65 +1,65 @@
-# Museum Exhibit Studio: Preflight
+# Museum Exhibit Studio: 事前準備
 
-> **Time:** Untimed  
-> **Workshop:** Non-SDLC agent
+> **所要時間:** 制限なし  
+> **ワークショップ:** SDLC 以外の用途のエージェント
 
-## What you'll build
+## 作成するもの
 
-Museum Exhibit Studio turns educator-approved facts into visitor-ready exhibit copy:
+Museum Exhibit Studio は、教育担当者が承認した事実を、来館者向けの展示文に変換します。
 
 ```text
 approved facts -> bounded prompt -> curator session -> structural checks -> human review
 ```
 
-You build one growing console application in place, inside `start-museum/<language>`. Each
-step adds one idea and ends with a real run, so the curator comes together in front of you:
+`start-museum/<language>` 内で、1 つのコンソールアプリケーションを段階的に作成します。各
+ステップで新しい要素を加えて実行し、キュレーターを少しずつ完成させます。
 
-| Step | You add | You see |
+| ステップ | 追加するもの | 確認できること |
 |---|---|---|
-| 1 | A client, a session, one prompt | Museum copy in your terminal |
-| 2 | The pre-built streaming printer | Text arriving live |
-| 3 | The curator system message | A different voice and shape |
-| 4 | The approved-fact prompt builder | Copy that tracks your facts |
-| 5 | One session runner with the guardrails | Refused tools and friendly failures |
-| 6 | The pre-built validator | A PASS/FAIL structural report |
-| 7 | A scoped Wikipedia research session | Cited background, kept out of the exhibit |
-| 8 | An optional interactive page | `exhibit.html` in your browser |
+| 1 | クライアント、セッション、1 つのプロンプト | ターミナルに表示される展示文 |
+| 2 | 用意済みのストリーミング出力機能 | 逐次表示されるテキスト |
+| 3 | キュレーターのシステムメッセージ | 文体と構成の変化 |
+| 4 | 承認済み事実のプロンプトビルダー | 事実に沿った展示文 |
+| 5 | ガードレールを備えたセッション実行関数 | ツールの拒否とわかりやすいエラー処理 |
+| 6 | 用意済みの検証機能 | PASS/FAIL による構造検証レポート |
+| 7 | 対象を限定した Wikipedia 調査セッション | 展示文には混ぜない、出典付きの背景情報 |
+| 8 | 任意のインタラクティブページ | ブラウザーで開く `exhibit.html` |
 
-The starter already ships the plumbing you should never have to write: the approved fact sets and
-their bounds, a streaming printer, deterministic exhibit validation, the scoped Wikipedia MCP server
-with its deny-by-default permission handler, the single-file `exhibit.html` write permission, and
-small terminal prompts. **You never edit the helper module.** You write the session setup, the two
-system messages, the prompt builders, one session runner, and `main`.
+スターターには、承認済みの事実セットとその制限、ストリーミング出力機能、
+決定論的な展示文の検証機能、既定で拒否する権限ハンドラーを備えた対象限定の Wikipedia MCP サーバー、
+`exhibit.html` 1 ファイルだけへの書き込み権限、小さなターミナルプロンプトが
+用意されています。**ヘルパーモジュールは編集しません。** セッションの設定、2 つの
+システムメッセージ、プロンプトビルダー、セッション実行関数、`main` を作成します。
 
-You need an authenticated GitHub Copilot CLI, your language runtime, and a terminal. You work
-directly in the minimal project under `start-museum/<language>`, not the finished app. The completed
-project under `finished/<language>/museum-exhibit-studio` is optional reference material only.
+認証済みの GitHub Copilot CLI、使用する言語のランタイム、ターミナルが必要です。完成版ではなく、
+`start-museum/<language>` にある最小構成のプロジェクトを直接編集します。
+`finished/<language>/museum-exhibit-studio` の完成版は、必要に応じて参照するためのものです。
 
-## Clone the workshop repository
+## ワークショップのリポジトリをクローンする
 
 ```bash
 git clone https://github.com/github/copilot-sdk-workshop.git
 cd copilot-sdk-workshop
 ```
 
-Confirm the terminal is at the repository root before you change into a starter:
+スターターに移動する前に、ターミナルの作業ディレクトリがリポジトリのルートであることを確認します。
 
 ```bash
 test "$(git rev-parse --show-toplevel)" = "$PWD"
 ```
 
-The command must exit successfully without output.
+何も出力されず、コマンドが正常終了することを確認してください。
 
-You build the museum application **in place**, inside the starter directory for your language.
-There is no copy step. That means you are editing tracked repository files, so your work shows up in
-`git status` as modified files. That is expected and correct. If you want to start over from a clean
-starter, run `git checkout -- .` from the repository root to discard your edits.
+使用する言語のスターターディレクトリ内で、博物館アプリケーションを**直接**作成します。
+コピーする手順はありません。リポジトリで追跡されているファイルを編集するため、
+`git status` には変更済みファイルとして表示されますが、これは想定どおりです。初期状態の
+スターターからやり直す場合は、リポジトリのルートで `git checkout -- .` を実行して編集内容を破棄します。
 
-Change into your language's starter directory now and stay there for every command in the museum
-workshop.
+ここで使用する言語のスターターディレクトリに移動し、この博物館ワークショップの
+すべてのコマンドをそこで実行してください。
 
 :::language dotnet
-Change into the .NET starter, then restore, build, and run its local entrypoint:
+.NET スターターに移動し、復元、ビルド、ローカルのエントリーポイントの実行を行います。
 
 ```bash
 cd start-museum/dotnet
@@ -68,19 +68,19 @@ dotnet build --no-restore
 dotnet run --no-build
 ```
 
-Pass condition: the build succeeds and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in Helpers/.`
+合格条件: ビルドが成功し、プログラムが `=== Museum Exhibit Studio starter ===`、
+続いて `Pre-built curator helpers are ready in Helpers/.` と表示されること。
 
-You work in `start-museum/dotnet` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+以降のワークショップでは `start-museum/dotnet` で作業するため、ターミナルはここに置いたままにします。
+このフォルダーで `code .` を実行して VS Code で開くか、お好みのエディターで開いてください。
 
-Your helper module is `Helpers/Curator*.cs` in the `MuseumExhibitStudio.Helpers` namespace. You
-will write every lesson change in `Program.cs`.
+ヘルパーモジュールは `MuseumExhibitStudio.Helpers` 名前空間の `Helpers/Curator*.cs` です。
+各レッスンの変更はすべて `Program.cs` に記述します。
 :::
 
 :::language nodejs
-Change into the Node.js starter. Its lockfile preserves SDK 1.0.11 and
-the compatible `@github/copilot` 1.0.80 platform package:
+Node.js スターターに移動します。ロックファイルには SDK 1.0.11 と、
+互換性のある `@github/copilot` 1.0.80 プラットフォームパッケージが固定されています。
 
 ```bash
 cd start-museum/nodejs
@@ -89,17 +89,17 @@ npm run build
 npm start
 ```
 
-Pass condition: the build succeeds and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in src/curator.ts.`
+合格条件: ビルドが成功し、プログラムが `=== Museum Exhibit Studio starter ===`、
+続いて `Pre-built curator helpers are ready in src/curator.ts.` と表示されること。
 
-You work in `start-museum/nodejs` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+以降のワークショップでは `start-museum/nodejs` で作業するため、ターミナルはここに置いたままにします。
+このフォルダーで `code .` を実行して VS Code で開くか、お好みのエディターで開いてください。
 
-Your helper module is `src/curator.ts`. You will write every lesson change in `src/index.ts`.
+ヘルパーモジュールは `src/curator.ts` です。各レッスンの変更はすべて `src/index.ts` に記述します。
 :::
 
 :::language python
-Change into the Python starter, create an isolated virtual environment, and install SDK 1.0.11:
+Python スターターに移動し、独立した仮想環境を作成して SDK 1.0.11 をインストールします。
 
 ```bash
 cd start-museum/python
@@ -109,19 +109,19 @@ python3 -m venv .venv
 .venv/bin/python main.py
 ```
 
-On Windows, the interpreter lives at `.venv/Scripts/python.exe`.
+Windows では、インタープリターは `.venv/Scripts/python.exe` にあります。
 
-Pass condition: the source compiles and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in curator.py.`
+合格条件: ソースがコンパイルされ、プログラムが `=== Museum Exhibit Studio starter ===`、
+続いて `Pre-built curator helpers are ready in curator.py.` と表示されること。
 
-You work in `start-museum/python` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+以降のワークショップでは `start-museum/python` で作業するため、ターミナルはここに置いたままにします。
+このフォルダーで `code .` を実行して VS Code で開くか、お好みのエディターで開いてください。
 
-Your helper module is `curator.py`. You will write every lesson change in `main.py`.
+ヘルパーモジュールは `curator.py` です。各レッスンの変更はすべて `main.py` に記述します。
 :::
 
 :::language go
-Change into the Go starter, download the locked SDK 1.0.11 dependency, and build it:
+Go スターターに移動し、固定された SDK 1.0.11 の依存関係をダウンロードしてビルドします。
 
 ```bash
 cd start-museum/go
@@ -130,18 +130,18 @@ go build -mod=readonly ./...
 go run .
 ```
 
-Pass condition: the build succeeds and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in curator.go.`
+合格条件: ビルドが成功し、プログラムが `=== Museum Exhibit Studio starter ===`、
+続いて `Pre-built curator helpers are ready in curator.go.` と表示されること。
 
-You work in `start-museum/go` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+以降のワークショップでは `start-museum/go` で作業するため、ターミナルはここに置いたままにします。
+このフォルダーで `code .` を実行して VS Code で開くか、お好みのエディターで開いてください。
 
-Your helper module is `curator.go`, in the same `main` package. You will write every lesson
-change in `main.go`.
+ヘルパーモジュールは、同じ `main` パッケージ内の `curator.go` です。各レッスンの
+変更はすべて `main.go` に記述します。
 :::
 
 :::language rust
-Change into the Rust starter, fetch locked dependencies, and check it:
+Rust スターターに移動し、固定された依存関係を取得してチェックします。
 
 ```bash
 cd start-museum/rust
@@ -150,19 +150,19 @@ cargo check --locked
 cargo run --locked
 ```
 
-Pass condition: Cargo leaves `Cargo.lock` unchanged and the program prints
-`=== Museum Exhibit Studio starter ===` followed by
-`Pre-built curator helpers are ready in src/lib.rs.`
+合格条件: Cargo が `Cargo.lock` を変更せず、プログラムが
+`=== Museum Exhibit Studio starter ===`、続いて
+`Pre-built curator helpers are ready in src/lib.rs.` と表示されること。
 
-You work in `start-museum/rust` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+以降のワークショップでは `start-museum/rust` で作業するため、ターミナルはここに置いたままにします。
+このフォルダーで `code .` を実行して VS Code で開くか、お好みのエディターで開いてください。
 
-Your helper module is the `museum_exhibit_studio` library crate in `src/lib.rs`. You will write
-every lesson change in `src/main.rs`.
+ヘルパーモジュールは、`src/lib.rs` の `museum_exhibit_studio` ライブラリクレートです。
+各レッスンの変更はすべて `src/main.rs` に記述します。
 :::
 
 :::language java
-Change into the Maven starter, resolve SDK 1.0.11, compile, and run it:
+Maven スターターに移動し、SDK 1.0.11 の依存関係を解決して、コンパイルと実行を行います。
 
 ```bash
 cd start-museum/java
@@ -171,72 +171,72 @@ mvn compile
 mvn exec:java
 ```
 
-Pass condition: Maven succeeds and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in src/main/java/workshop/.`
+合格条件: Maven が成功し、プログラムが `=== Museum Exhibit Studio starter ===`、
+続いて `Pre-built curator helpers are ready in src/main/java/workshop/.` と表示されること。
 
-You work in `start-museum/java` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+以降のワークショップでは `start-museum/java` で作業するため、ターミナルはここに置いたままにします。
+このフォルダーで `code .` を実行して VS Code で開くか、お好みのエディターで開いてください。
 
-Your helper module is `src/main/java/workshop/Curator*.java`. You will write every lesson change
-in `src/main/java/workshop/MuseumExhibitStudio.java`.
+ヘルパーモジュールは `src/main/java/workshop/Curator*.java` です。各レッスンの変更はすべて
+`src/main/java/workshop/MuseumExhibitStudio.java` に記述します。
 :::
 
-## Establish the trust boundary
+## 信頼境界を明確にする
 
-| Control | What it can do |
+| 制御手段 | できること |
 |---|---|
-| System message | Guide role, tone, scope, and output shape |
-| Tool allowlist | Decide exactly which tools exist for a session |
-| Application code | Own the data behind a tool, and enforce limits, timeout, validation, and cleanup |
-| Human review | Decide whether every historical claim is supported |
+| システムメッセージ | 役割、口調、対象範囲、出力形式を導く |
+| ツールの許可リスト | セッションで使えるツールを厳密に決める |
+| アプリケーションコード | ツールが扱うデータを管理し、制限、タイムアウト、検証、後処理を強制する |
+| 人間によるレビュー | 歴史に関するすべての記述に根拠があるか判断する |
 
-The educator's approved facts are the only approved source, and the curator reaches them through
-one application-owned tool. Model memory is not verified museum knowledge, and prompt guidance is
-not an authorization boundary: only the allowlist and the permission handler decide what the
-session may actually do.
+教育担当者が承認した事実だけが承認済みの情報源であり、キュレーターは
+アプリケーションが管理する 1 つのツールを通じてそれを取得します。モデルの記憶は検証済みの博物館知識ではなく、
+プロンプトによる指示は認可の境界ではありません。セッションが実際にできることを決めるのは、
+許可リストと権限ハンドラーだけです。
 
-## Learn more
+## さらに学ぶ
 
-The SDK behind the curator is documented outside this workshop. These pages are worth having open
-alongside it.
+キュレーターが利用する SDK のドキュメントは、このワークショップの外部にあります。
+次のページを一緒に開いておくと便利です。
 
-- [GitHub Copilot SDK how-tos](https://docs.github.com/en/copilot/how-tos/copilot-sdk): GitHub's
-  own SDK documentation, including the prerequisites this preflight covers.
-- [Copilot SDK documentation map](https://github.com/github/copilot-sdk/blob/main/docs/README.md):
-  the index for setup, authentication, features, and troubleshooting.
-- [Default setup: the bundled CLI](https://github.com/github/copilot-sdk/blob/main/docs/setup/bundled-cli.md):
-  how the SDK locates and starts the Copilot CLI, and how to point it at a different binary.
-- [Debugging guide](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/debugging.md):
-  the first place to look when a run fails before it produces any output.
+- [GitHub Copilot SDK ハウツー](https://docs.github.com/en/copilot/how-tos/copilot-sdk): この事前準備で扱う
+  前提条件も含む、GitHub 公式の SDK ドキュメントです。
+- [Copilot SDK ドキュメント一覧](https://github.com/github/copilot-sdk/blob/main/docs/README.md):
+  セットアップ、認証、機能、トラブルシューティングの索引です。
+- [既定のセットアップ: 同梱 CLI](https://github.com/github/copilot-sdk/blob/main/docs/setup/bundled-cli.md):
+  SDK が Copilot CLI を検出して起動する仕組みと、別のバイナリを指定する方法を説明しています。
+- [デバッグガイド](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/debugging.md):
+  出力が表示される前に実行が失敗したとき、最初に確認するページです。
 
 :::language dotnet
-- [.NET SDK reference](https://github.com/github/copilot-sdk/blob/main/dotnet/README.md):
-  package installation and a minimal example for the .NET SDK.
+- [.NET SDK リファレンス](https://github.com/github/copilot-sdk/blob/main/dotnet/README.md):
+  .NET SDK のパッケージのインストール方法と最小構成のサンプルです。
 :::
 
 :::language nodejs
-- [Node.js SDK reference](https://github.com/github/copilot-sdk/blob/main/nodejs/README.md):
-  package installation and a minimal example for the Node.js SDK.
+- [Node.js SDK リファレンス](https://github.com/github/copilot-sdk/blob/main/nodejs/README.md):
+  Node.js SDK のパッケージのインストール方法と最小構成のサンプルです。
 :::
 
 :::language python
-- [Python SDK reference](https://github.com/github/copilot-sdk/blob/main/python/README.md):
-  package installation and a minimal example for the Python SDK.
+- [Python SDK リファレンス](https://github.com/github/copilot-sdk/blob/main/python/README.md):
+  Python SDK のパッケージのインストール方法と最小構成のサンプルです。
 :::
 
 :::language go
-- [Go SDK reference](https://github.com/github/copilot-sdk/blob/main/go/README.md):
-  module installation and a minimal example for the Go SDK.
+- [Go SDK リファレンス](https://github.com/github/copilot-sdk/blob/main/go/README.md):
+  Go SDK のモジュールのインストール方法と最小構成のサンプルです。
 :::
 
 :::language rust
-- [Rust SDK reference](https://github.com/github/copilot-sdk/blob/main/rust/README.md):
-  crate installation and a minimal example for the Rust SDK.
+- [Rust SDK リファレンス](https://github.com/github/copilot-sdk/blob/main/rust/README.md):
+  Rust SDK のクレートのインストール方法と最小構成のサンプルです。
 :::
 
 :::language java
-- [Java SDK reference](https://github.com/github/copilot-sdk/blob/main/java/README.md):
-  dependency coordinates and a minimal example for the Java SDK.
+- [Java SDK リファレンス](https://github.com/github/copilot-sdk/blob/main/java/README.md):
+  Java SDK の依存関係の座標と最小構成のサンプルです。
 :::
 
-Continue to [Your first curator session](museum-01-first-curator-session.md).
+次は[最初のキュレーターセッション](museum-01-first-curator-session.md)に進みます。

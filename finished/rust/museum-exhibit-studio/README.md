@@ -1,32 +1,32 @@
-# Museum Exhibit Studio
+# 博物館展示スタジオ
 
-This Rust sample uses the GitHub Copilot SDK as a focused, non-software-engineering agent harness. Pre-built helpers live in `src/lib.rs`; the learner-authored orchestration lives in `src/main.rs`.
+この Rust サンプルは、GitHub Copilot SDK をソフトウェア開発以外の用途に特化したエージェント実行基盤として使います。実装済みのヘルパーは `src/lib.rs` に、学習者が作成する処理全体の制御は `src/main.rs` にあります。
 
-## Run the sample
+## サンプルを実行する
 
 ```bash
 cargo run --manifest-path finished/rust/museum-exhibit-studio/Cargo.toml --locked
 ```
 
-Set `COPILOT_MODEL` to select a generation model. The sample requires an authenticated GitHub Copilot CLI.
+生成モデルを選ぶには `COPILOT_MODEL` を設定します。サンプルには認証済みの GitHub Copilot CLI が必要です。
 
-Check without contacting a model:
+モデルに接続せずに確認するには、次を実行します。
 
 ```bash
 cargo check --locked --manifest-path finished/rust/museum-exhibit-studio/Cargo.toml
 ```
 
-## What the sample teaches
+## このサンプルで学べること
 
-The generation session uses a replacement curator system message, validates approved facts, streams with a 120-second timeout, allowlists exactly one application-owned tool (`approved_fact_lookup`, which returns the bounded approved facts), rejects blank output, and prints deterministic structural validation.
+生成セッションでは、置換用のキュレーターシステムメッセージを使い、承認済みの事実を検証し、120 秒のタイムアウト付きでストリーミングします。アプリケーション管理のツール 1 つだけ（制約を適用した承認済みの事実を返す `approved_fact_lookup`）を許可リストに登録し、空の出力を拒否し、決定的な構造検証の結果を表示します。
 
-Optional Wikipedia research is separate: it exposes only scoped `search` and `readArticle` MCP tools, uses a deny-by-default permission handler, asks for prose notes plus cited sources, and never merges research into the approved facts.
+任意の Wikipedia 調査は別に実行します。範囲を限定した MCP ツール `search` と `readArticle` だけを公開し、既定で拒否する権限ハンドラーを使い、文章形式のメモと引用元を求めます。調査結果を承認済みの事実に統合することはありません。
 
-Optional HTML generation uses `builtin:apply_patch` with a single-file permission handler that can write only `exhibit.html` in the application working directory.
+任意の HTML 生成では、アプリケーションの作業ディレクトリ内の `exhibit.html` だけに書き込める単一ファイル用の権限ハンドラーとともに、`builtin:apply_patch` を使います。
 
-This is the application a learner ends up with after the museum lessons, not a separate reference
-architecture. The entrypoint keeps one small session runner that starts the client, creates the
-session, enforces the timeout, rejects blank output, and cleans up on every path; the research,
-generation, and optional HTML steps reuse it with different session configurations. Follow the
-track from
+これは博物館のレッスンを終えた学習者が作り上げるアプリケーションであり、別の参照アーキテクチャではありません。
+エントリーポイントには、クライアントの起動、セッションの作成、タイムアウトの適用、空の出力の拒否、
+すべての実行経路でのクリーンアップを担う、小さなセッションランナーが 1 つあります。調査、生成、
+任意の HTML 作成ステップは、異なるセッション設定でこれを再利用します。学習トラックは次のファイルから
+始めてください。
 [`workshop/museum-00-preflight.md`](https://github.com/github/copilot-sdk-workshop/blob/main/workshop/museum-00-preflight.md).

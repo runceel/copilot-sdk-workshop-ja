@@ -1,38 +1,38 @@
-# Step 5: Combine local and MCP tools
+# ステップ 5: ローカルツールと MCP ツールを組み合わせる
 
-> **Time:** 15 minutes
+> **所要時間:** 15 分
 
-## What you'll orchestrate
+## このステップで連携させるもの
 
-You'll use one URL to drive an agent turn that gathers browser evidence with Playwright and gets
-remediation guidance from the local WCAG catalog.
+1 つの URL を指定してエージェントを動かし、1 回のターンで Playwright によるブラウザーの証拠収集と、
+ローカルの WCAG カタログからの改善指針の取得を行います。
 
-## Let the agent choose the right tool
+## 適切なツールの選択をエージェントに任せる
 
-**Agent orchestration** is the model choosing and sequencing capabilities to complete a goal. Your
-session exposes two different tools through one interface:
+**エージェントオーケストレーション**とは、目標を達成するためにモデルが機能を選び、実行順序を決めることです。
+セッションは、1 つのインターフェイスを通じて 2 種類のツールを公開します。
 
-- Playwright discovers facts about the live page.
-- The application-owned catalog explains a matching criterion and remediation.
+- Playwright は実際のページから事実を取得します。
+- アプリケーションが管理するカタログは、対応する達成基準と改善方法を説明します。
 
-Both tools report through tool-start and tool-completion events. Your application can observe the
-work without knowing how either tool is implemented.
+どちらのツールも、ツール開始イベントとツール完了イベントを通じて状況を報告します。
+アプリケーションは、それぞれの実装を知らなくても処理の状況を把握できます。
 
-## Keep evidence and guidance in their lanes
+## 証拠と指針の役割を分ける
 
-Each tool has one job. Playwright supplies browser evidence, while the local catalog supplies
-the application's source-of-truth guidance. The answer is grounded in those sources instead of
-asking the model to infer both.
+各ツールは 1 つの役割を担います。Playwright がブラウザーから得た証拠を提供し、
+ローカルカタログがアプリケーションにとって信頼できる正式な指針を提供します。
+両方をモデルに推測させるのではなく、これらの情報源に基づいて回答を作成します。
 
-The flow is now `URL -> Playwright evidence -> WCAG catalog lookup -> grounded response`.
+ここでの流れは `URL -> Playwright evidence -> WCAG catalog lookup -> grounded response` です。
 
-## Put both tools to work
+## 両方のツールを活用する
 
 :::language dotnet
-### 1. Read and validate a URL
+### 1. URL を読み取って検証する
 
-Remove the command-line argument validation from Step 4. After the banner and before creating the
-client, insert:
+ステップ 4 のコマンドライン引数の検証を削除します。バナー表示の後、クライアントを作成する前に、
+次を挿入します。
 
 ```csharp
 Console.Write("Enter URL to analyze: ");
@@ -57,13 +57,13 @@ if (!Uri.TryCreate(urlInput, UriKind.Absolute, out var targetUri) ||
 }
 ```
 :::
-The Step 4 handler receives this validated `targetUri`, so the URL boundary still applies.
+ステップ 4 のハンドラーは検証済みの `targetUri` を受け取るため、URL の制限は引き続き適用されます。
 
 :::language dotnet
-### 2. Give the agent a three-tool goal
+### 2. 3 つのツールを使う目標をエージェントに与える
 
-Keep the combined local tools, MCP server, allowlist, and permission handler from Step 4. Replace
-the final prompt:
+ステップ 4 で組み合わせたローカルツール、MCP サーバー、許可リスト、権限ハンドラーはそのままにします。
+最後のプロンプトを置き換えます。
 
 ```csharp
 Console.WriteLine($"\nAnalyzing: {targetUri.AbsoluteUri}\n");
@@ -79,14 +79,14 @@ await ResponseStreamer.SendAndPrintAsync(
     """);
 ```
 :::
-The prompt assigns evidence and guidance to their correct sources. It leaves the order of the
-catalog lookups to the agent.
+このプロンプトでは、証拠と指針をそれぞれ適切な情報源から取得するように指定します。
+カタログを検索する順序は、エージェントに任せます。
 
 :::language nodejs
-### 1. Keep the combined session
+### 1. ツールを組み合わせたセッションを維持する
 
-In `src/index.ts`, keep the Step 4 helpers and the combined session that registers both
-local tools plus Playwright MCP:
+`src/index.ts` では、ステップ 4 のヘルパーと、両方のローカルツールおよび Playwright MCP を
+登録したセッションをそのまま使います。
 
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
@@ -108,9 +108,9 @@ try {
   });
 ```
 
-### 2. Give the agent a three-tool goal
+### 2. 3 つのツールを使う目標をエージェントに与える
 
-Replace the final send call so the agent must navigate, read the snapshot, and call the catalog:
+最後の送信呼び出しを置き換え、ページ移動、スナップショットの読み取り、カタログの呼び出しをエージェントに必ず実行させます。
 
 ```typescript
   try {
@@ -124,10 +124,10 @@ Replace the final send call so the agent must navigate, read the snapshot, and c
 ```
 :::
 :::language python
-### 1. Keep the combined session
+### 1. ツールを組み合わせたセッションを維持する
 
-In `main.py`, keep the Step 4 helpers and the combined session that registers both
-local tools plus Playwright MCP:
+`main.py` では、ステップ 4 のヘルパーと、両方のローカルツールおよび Playwright MCP を
+登録したセッションをそのまま使います。
 
 ```python
 import asyncio
@@ -156,10 +156,10 @@ async def main() -> None:
         ) as session:
 ```
 
-### 2. Give the agent a three-tool goal
+### 2. 3 つのツールを使う目標をエージェントに与える
 
-Keep the Step 2/4 event handler inside the session block and add tool lifecycle branches so the
-run shows both local and MCP tool activity. Then replace the prompt passed to `session.send`:
+セッションブロック内にステップ 2 / 4 のイベントハンドラーを残し、ツールのライフサイクルを扱う分岐を追加して、
+ローカルツールと MCP ツールの両方の実行状況を表示します。その後、`session.send` に渡すプロンプトを置き換えます。
 
 ```python
             done = asyncio.Event()
@@ -196,10 +196,10 @@ if __name__ == "__main__":
 ```
 :::
 :::language go
-### 1. Keep the combined session
+### 1. ツールを組み合わせたセッションを維持する
 
-In `main.go`, keep the three-tool session from Step 4: local lookup, snapshot reader,
-Playwright MCP, allowlist, and exact-target permission handler:
+`main.go` では、ステップ 4 の 3 ツール構成のセッションを維持します。ローカル検索、スナップショットリーダー、
+Playwright MCP、許可リスト、対象との完全一致を確認する権限ハンドラーをそのまま使います。
 
 ```go
 	workingDirectory, err := os.Getwd()
@@ -236,9 +236,9 @@ Playwright MCP, allowlist, and exact-target permission handler:
 	defer session.Disconnect()
 ```
 
-### 2. Give the agent a three-tool goal
+### 2. 3 つのツールを使う目標をエージェントに与える
 
-Replace the final prompt so the agent must navigate, read the snapshot, and call the catalog:
+最後のプロンプトを置き換え、ページ移動、スナップショットの読み取り、カタログの呼び出しをエージェントに必ず実行させます。
 
 ```go
 	prompt := fmt.Sprintf(
@@ -251,10 +251,10 @@ Replace the final prompt so the agent must navigate, read the snapshot, and call
 ```
 :::
 :::language rust
-### 1. Keep the combined session
+### 1. ツールを組み合わせたセッションを維持する
 
-In `src/main.rs`, keep the three-tool session from Step 4: local lookup, snapshot
-reader, Playwright MCP, allowlist, and exact-target permission handler:
+`src/main.rs` では、ステップ 4 の 3 ツール構成のセッションを維持します。ローカル検索、
+スナップショットリーダー、Playwright MCP、許可リスト、対象との完全一致を確認する権限ハンドラーをそのまま使います。
 
 ```rust
     let working_directory = std::env::current_dir()?;
@@ -304,9 +304,9 @@ reader, Playwright MCP, allowlist, and exact-target permission handler:
     }));
 ```
 
-### 2. Give the agent a three-tool goal
+### 2. 3 つのツールを使う目標をエージェントに与える
 
-Add or replace the prompt helper, then pass it to the streamer:
+プロンプト用ヘルパーを追加または置き換え、その結果をストリーマーに渡します。
 
 ```rust
 fn combined_tools_prompt(target: &Url) -> String {
@@ -330,13 +330,13 @@ fn combined_tools_prompt(target: &Url) -> String {
 ```
 :::
 :::language java
-### 1. Keep the combined session
+### 1. ツールを組み合わせたセッションを維持する
 
-In `src/main/java/workshop/AccessibilityReport.java`, keep the three-tool session from
-Step 4: local lookup, snapshot reader, Playwright MCP, allowlist, and exact-target permission
-handler. Keep its default fail-closed policy and its optional `--allow-local-demo-mcp` fallback for
-the controlled workshop target while [github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273)
-prevents the SDK from exposing exact MCP request fields:
+`src/main/java/workshop/AccessibilityReport.java` では、ステップ 4 の 3 ツール構成のセッションを維持します。
+ローカル検索、スナップショットリーダー、Playwright MCP、許可リスト、対象との完全一致を確認する権限ハンドラーを
+そのまま使います。[github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273) により
+SDK が正確な MCP リクエストフィールドを公開できない間は、既定のフェイルクローズ方針と、
+管理されたワークショップの対象向けに任意で使う `--allow-local-demo-mcp` の代替手段を維持します。
 
 ```java
         RunOptions options = parseRunOptions(args);
@@ -387,9 +387,9 @@ prevents the SDK from exposing exact MCP request fields:
                 });
 ```
 
-### 2. Give the agent a three-tool goal
+### 2. 3 つのツールを使う目標をエージェントに与える
 
-Add or replace the prompt helper, then send it:
+プロンプト用ヘルパーを追加または置き換え、その結果を送信します。
 
 ```java
     private static String combinedToolsPrompt(URI target) {
@@ -414,14 +414,14 @@ Add or replace the prompt helper, then send it:
         }
 ```
 :::
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
 dotnet run
 ```
 
-Paste this URL when prompted:
+入力を求められたら、次の URL を貼り付けます。
 
 ```text
 {{TARGET_APP_URL}}
@@ -453,7 +453,7 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 ```
 :::
 
-You should see activity from both kinds of tool:
+両方の種類のツールの実行状況が表示されるはずです。
 
 ```text
 [tool:start] playwright-browser_navigate
@@ -465,41 +465,41 @@ You should see activity from both kinds of tool:
 - Recommended remediation: Associate a visible <label> ...
 ```
 
-The exact order and wording can vary. The evidence must come from Playwright, and the criterion
-must match the catalog.
+正確な順序や文言は異なる場合があります。証拠は Playwright から取得したものであり、
+達成基準はカタログと一致している必要があります。
 
 <details>
-<summary>Troubleshooting this run</summary>
+<summary>実行時のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処方法 |
 |---|---|
-| Only Playwright tools run | Keep the explicit instruction to call `accessibility_rule_lookup` for each issue. |
-| The catalog tool runs before browser inspection | This can be valid planning, but reject any final finding that lacks browser evidence. |
-| The URL is rejected | Enter an HTTP or HTTPS URL; a missing scheme is automatically changed to `https://` where the language sample does that. |
+| Playwright ツールしか実行されない | 問題ごとに `accessibility_rule_lookup` を呼び出すという明示的な指示を維持します。 |
+| ブラウザーの確認前にカタログツールが実行される | 妥当な計画の一部である場合もありますが、ブラウザーの証拠を欠く最終的な指摘は採用しないでください。 |
+| URL が拒否される | HTTP または HTTPS の URL を入力します。言語別サンプルに補完処理がある場合、スキームを省略すると自動的に `https://` が補われます。 |
 
 </details>
 
-> **You're ready to shape the report when:** one run names a Playwright tool and
-> `accessibility_rule_lookup`, then connects browser evidence to catalog guidance.
+> **レポートの形式を整える準備ができた目安:** 1 回の実行で Playwright ツールと
+> `accessibility_rule_lookup` の名前が表示され、ブラウザーの証拠とカタログの指針が結び付けられること。
 
-## Check your understanding
+## 理解度を確認する
 
-Which tool should discover an input without an accessible name, and which tool should explain the
-associated WCAG criterion?
+アクセシブルな名前のない入力欄を発見するのはどのツールで、
+関連する WCAG 達成基準を説明するのはどのツールでしょうか。
 
 <details>
-<summary>Check your answer</summary>
+<summary>解答を確認する</summary>
 
-Playwright finds the input on the live page. The local catalog returns the application's
-source-of-truth criterion and remediation.
+Playwright が実際のページ上で入力欄を見つけます。ローカルカタログは、
+アプリケーションにとって信頼できる正式な達成基準と改善方法を返します。
 
 </details>
 
 :::language dotnet
 <details>
-<summary>Complete Step 5 implementation</summary>
+<summary>ステップ 5 の完成版の実装</summary>
 
-Compare your work with this complete Step 5 implementation.
+作成したコードを、このステップ 5 の完成版の実装と比較してください。
 
 ```csharp
 using GitHub.Copilot;
@@ -580,9 +580,9 @@ await ResponseStreamer.SendAndPrintAsync(
 
 :::language nodejs
 <details>
-<summary>Complete Step 5 implementation</summary>
+<summary>ステップ 5 の完成版の実装</summary>
 
-Compare your work with this complete Step 5 implementation.
+作成したコードを、このステップ 5 の完成版の実装と比較してください。
 
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
@@ -616,9 +616,9 @@ try {
 
 :::language python
 <details>
-<summary>Complete Step 5 implementation</summary>
+<summary>ステップ 5 の完成版の実装</summary>
 
-Compare your work with this complete Step 5 implementation.
+作成したコードを、このステップ 5 の完成版の実装と比較してください。
 
 ```python
 import asyncio
@@ -682,9 +682,9 @@ if __name__ == "__main__":
 
 :::language go
 <details>
-<summary>Complete Step 5 implementation</summary>
+<summary>ステップ 5 の完成版の実装</summary>
 
-Compare your work with this complete Step 5 implementation.
+作成したコードを、このステップ 5 の完成版の実装と比較してください。
 
 ```go
 package main
@@ -875,9 +875,9 @@ func main() {
 
 :::language rust
 <details>
-<summary>Complete Step 5 implementation</summary>
+<summary>ステップ 5 の完成版の実装</summary>
 
-Compare your work with this complete Step 5 implementation.
+作成したコードを、このステップ 5 の完成版の実装と比較してください。
 
 ```rust
 use std::collections::HashSet;
@@ -1258,13 +1258,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 :::
 
 :::language java
-## Expand the Java accessibility catalog
+## Java のアクセシビリティカタログを拡充する
 
-### 1. Replace the single-rule lookup
+### 1. 単一ルールの検索を置き換える
 
-Step 3 used one criterion to focus on local-tool wiring. Before asking the model to find a
-browser-observable issue, replace `lookupRule` with this application-owned catalog and add the
-`Rule` record before `SnapshotReader`:
+ステップ 3 では、ローカルツールの接続に集中するため、達成基準を 1 つだけ使用しました。
+ブラウザーで観察できる問題を見つけるようモデルに依頼する前に、`lookupRule` をアプリケーションが管理する
+次のカタログに置き換え、`SnapshotReader` の前に `Rule` レコードを追加します。
 
 ```java
 private static String lookupRule(String query) {
@@ -1296,16 +1296,16 @@ private record Rule(String criterion, String title, String whenItApplies, String
 }
 ```
 
-The catalog still provides only application-owned guidance. Keyword matching lets the later prompt
-ask about observed issues while requiring every recommendation to use a criterion returned by this
-bounded source of truth.
+カタログが提供するのは、引き続きアプリケーション側で管理する指針だけです。キーワード照合により、
+後のプロンプトで観察した問題について問い合わせながら、すべての提案でこの範囲を限定した
+信頼できる情報源から返された達成基準を使うようにできます。
 
-### 2. Combine browser evidence with catalog guidance
+### 2. ブラウザーの証拠とカタログの指針を組み合わせる
 
 <details>
-<summary>Complete Step 5 implementation</summary>
+<summary>ステップ 5 の完成版の実装</summary>
 
-Compare your work with this complete Step 5 implementation.
+作成したコードを、このステップ 5 の完成版の実装と比較してください。
 
 ```java
 package workshop;
@@ -1562,13 +1562,13 @@ public final class AccessibilityReport {
 </details>
 :::
 
-## Learn more
+## 詳しく学ぶ
 
-- [Custom agents](https://github.com/github/copilot-sdk/blob/main/docs/features/custom-agents.md):
-  giving a specialized sub-agent its own prompt and its own narrower set of tools.
-- [Fleet mode](https://github.com/github/copilot-sdk/blob/main/docs/features/fleet-mode.md):
-  dispatching sub-agents in parallel when the work genuinely divides.
-- [Hooks overview](https://github.com/github/copilot-sdk/blob/main/docs/hooks/hooks-overview.md):
-  where each hook sits in a turn, which is where to add checks that span several tool calls.
+- [カスタムエージェント](https://github.com/github/copilot-sdk/blob/main/docs/features/custom-agents.md):
+  専門のサブエージェントに、専用のプロンプトと範囲を絞ったツール群を与える方法。
+- [フリートモード](https://github.com/github/copilot-sdk/blob/main/docs/features/fleet-mode.md):
+  作業を実際に分割できる場合に、サブエージェントを並列で動かす方法。
+- [フックの概要](https://github.com/github/copilot-sdk/blob/main/docs/hooks/hooks-overview.md):
+  ターン内での各フックの位置と、複数のツール呼び出しにまたがる確認処理を追加する場所。
 
-Continue to [Step 6: Produce a structured report](06-structured-report.md).
+[ステップ 6: 構造化されたレポートを作成する](06-structured-report.md)に進みます。

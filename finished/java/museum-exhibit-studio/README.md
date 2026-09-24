@@ -1,54 +1,54 @@
-# Museum Exhibit Studio
+# 博物館展示スタジオ
 
-This Maven CLI sample uses the GitHub Copilot SDK as a focused museum-curation agent. A museum educator chooses one of three approved fact sets or enters their own bounded facts, optionally streams scoped Wikipedia background research, generates visitor-facing exhibit copy, validates its structure, and can opt in to an `exhibit.html` capstone.
+この Maven CLI サンプルは、GitHub Copilot SDK を博物館の展示制作に特化したエージェントとして使います。博物館の教育担当者は、3 つの承認済み事実セットから 1 つを選ぶか、制約の範囲内で独自の事実を入力します。必要に応じて範囲を限定した Wikipedia の背景調査をストリーミングで実行し、来館者向けの展示文を生成して構造を検証し、さらに任意で `exhibit.html` の総合演習に進めます。
 
-## Run
+## 実行
 
-From this directory:
+このディレクトリで実行します。
 
 ```bash
 mvn compile exec:java
 ```
 
-Set `COPILOT_MODEL` to select a model; otherwise the Copilot runtime chooses its default. The sample requires an authenticated GitHub Copilot CLI.
+モデルを選ぶには `COPILOT_MODEL` を設定します。設定しない場合は Copilot ランタイムが既定のモデルを選びます。サンプルには認証済みの GitHub Copilot CLI が必要です。
 
-Compile without contacting a model:
+モデルに接続せずにコンパイルするには、次を実行します。
 
 ```bash
 mvn compile
 ```
 
-## What it demonstrates
+## このサンプルで示すこと
 
-The learner-authored `MuseumExhibitStudio` entrypoint builds sessions directly with `new CopilotClient()`. The pre-built `Curator*` helpers provide approved facts, streaming, validation, scoped permissions, source extraction, and terminal prompts.
+学習者が作成する `MuseumExhibitStudio` エントリーポイントは、`new CopilotClient()` を使って直接セッションを構築します。実装済みの `Curator*` ヘルパーは、承認済みの事実、ストリーミング、検証、範囲を限定した権限、出典の抽出、ターミナル入力プロンプトを提供します。
 
-Prompt guidance is not an authorization boundary, so the application also:
+プロンプトの指示は認可の境界にはならないため、アプリケーションでは次の対策も行います。
 
-- limits generation to exactly one application-owned tool, `approved_fact_lookup`, which returns the bounded approved facts, backed by a reject-all permission handler for everything else;
-- limits research to the configured Wikipedia MCP server and `wikipedia-search` / `wikipedia-readArticle` through a deny-by-default permission handler;
-- treats Wikipedia output as background notes only, extracts cited sources from a trailing `## Sources` section, and never merges research into the approved facts;
-- bounds input to 20 facts of at most 500 characters each before every model send;
-- uses explicit timeouts, rejects blank exhibit output, and disconnects sessions / stops clients on success and failure;
-- checks one H1, required sections, a 100-140-word narrative, exactly three numbered questions ending in `?`, and prohibited software vocabulary; and
-- optionally allows `builtin:apply_patch` to write only `exhibit.html` in the application working directory.
+- 生成に使うツールを、制約を適用した承認済みの事実を返す、アプリケーション管理の `approved_fact_lookup` 1 つだけに限定し、それ以外は権限ハンドラーですべて拒否します。
+- 既定で拒否する権限ハンドラーを使い、調査を設定済みの Wikipedia MCP サーバーと `wikipedia-search` / `wikipedia-readArticle` に限定します。
+- Wikipedia の出力は背景情報のメモとしてのみ扱い、末尾の `## Sources` セクションから引用元を抽出します。調査結果を承認済みの事実に統合することはありません。
+- モデルへの送信のたびに、入力を最大 20 件、各 500 文字以内の事実に制限します。
+- 明示的なタイムアウトを使い、空の展示出力を拒否し、成功時も失敗時もセッションの切断とクライアントの停止を行います。
+- H1 が 1 つあること、必須セクション、100～140 語の本文、`?` で終わる番号付きの質問がちょうど 3 つあること、禁止されたソフトウェア用語を確認します。
+- 任意で、`builtin:apply_patch` によるアプリケーションの作業ディレクトリ内の `exhibit.html` だけへの書き込みを許可します。
 
-The validator cannot prove semantic factual grounding. Generated claims still require human review or a separate evaluator.
+バリデーターは、内容の意味まで含めて事実に基づいていることを証明できません。生成された主張には、人によるレビューまたは別の評価手段が引き続き必要です。
 
-## Optional HTML capstone and Java SDK limitation
+## 任意の HTML 総合演習と Java SDK の制限
 
-When prompted, answer yes to generate `exhibit.html`. The default Java permission handler approves a write only when the SDK exposes a write request whose normalized `fileName` is exactly `exhibit.html` in this directory.
+確認を求められたら肯定の回答をすると、`exhibit.html` を生成できます。既定の Java 権限ハンドラーは、SDK が公開する書き込みリクエストの正規化済み `fileName` が、このディレクトリ内の `exhibit.html` と完全に一致する場合にのみ書き込みを承認します。
 
-Current Java SDK releases may not surface those write-request fields (see <https://github.com/github/copilot-sdk/issues/2273>). For the controlled local workshop only, run with:
+現在の Java SDK リリースでは、これらの書き込みリクエストのフィールドが公開されない場合があります（<https://github.com/github/copilot-sdk/issues/2273> を参照）。管理されたローカルのワークショップ環境に限り、次の方法で実行できます。
 
 ```bash
 mvn compile exec:java -Dexec.args="--allow-local-demo-write"
 ```
 
-That fallback is limited by the app to the `write` permission kind while only `builtin:apply_patch` is available, but it cannot enforce the output path. Do not use the fallback for production, shared, or untrusted worktrees.
+この代替手段では、利用可能なツールを `builtin:apply_patch` のみにし、アプリケーション側で権限の種類を `write` に限定しますが、出力先パスは強制できません。本番環境、共有の作業ツリー、信頼できない作業ツリーでは、この代替手段を使わないでください。
 
-This is the application a learner ends up with after the museum lessons, not a separate reference
-architecture. The entrypoint keeps one small session runner that starts the client, creates the
-session, enforces the timeout, rejects blank output, and cleans up on every path; the research,
-generation, and optional HTML steps reuse it with different session configurations. Follow the
-track from
+これは博物館のレッスンを終えた学習者が作り上げるアプリケーションであり、別の参照アーキテクチャではありません。
+エントリーポイントには、クライアントの起動、セッションの作成、タイムアウトの適用、空の出力の拒否、
+すべての実行経路でのクリーンアップを担う、小さなセッションランナーが 1 つあります。調査、生成、
+任意の HTML 作成ステップは、異なるセッション設定でこれを再利用します。学習トラックは次のファイルから
+始めてください。
 [`workshop/museum-00-preflight.md`](https://github.com/github/copilot-sdk-workshop/blob/main/workshop/museum-00-preflight.md).

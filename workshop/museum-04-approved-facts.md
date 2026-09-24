@@ -1,66 +1,66 @@
-# Step 4: Ground it in approved facts
+# ステップ 4: 承認済みの事実に基づかせる
 
-> **Time:** 15 minutes
+> **所要時間:** 15 分
 
-## What you'll build
+## 作成するもの
 
-Until now the curator has been writing from model memory. That is unacceptable for a museum: an
-exhibit label is an institutional claim, and "the model knew it" is not a source.
+これまでキュレーターはモデルの記憶に基づいて文章を書いていました。博物館では、それは許容できません。
+展示ラベルは組織としての表明であり、「モデルが知っていた」は出典にはならないからです。
 
-In this step the educator supplies the facts and the **application** hands them to the curator
-through a tool it owns. You register the pre-built `approved_fact_lookup` tool, make it the one
-tool the model may call, and write a prompt that orders the curator to call it before writing a
-word. You also let the educator pick one of three approved fact sets or type their own.
+このステップでは、教育担当者が事実を提供し、**アプリケーション**が自身の管理するツールを通じて
+キュレーターに渡します。用意済みの `approved_fact_lookup` ツールを登録し、モデルが呼び出せる
+唯一のツールに設定して、文章を書く前に必ず呼び出すよう指示するプロンプトを記述します。
+また、教育担当者が 3 つの承認済み事実セットから選ぶか、自分で入力できるようにします。
 
-## Why the facts belong behind a tool, not inside the prompt
+## 事実をプロンプト内ではなくツール経由で提供する理由
 
-You could paste the fact list into the prompt text. Many applications do. But then the facts are
-just more words in a request the model is free to read loosely, and every run carries the whole
-catalog whether the model needs it or not.
+事実の一覧をプロンプトに貼り付けることもできます。多くのアプリケーションがそうしています。しかし、その場合、
+事実はモデルが曖昧に解釈できる要求文の一部にすぎず、モデルが必要としているかどうかにかかわらず、
+毎回カタログ全体を送ることになります。
 
-A [**local tool**](https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md#how-tools-work)
-is different. It runs inside your process, your code decides what it returns, and the transcript
-records the moment the model asked for it. `approved_fact_lookup` is that tool. It takes no
-arguments and returns the bounded approved fact list, so two runs on the same fact set ask the same
-question and get the same answer — grounding stays deterministic.
+[**ローカルツール**](https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md#how-tools-work)は
+異なります。自分のプロセス内で動作し、返す内容を自分のコードで決め、モデルが要求した時点が
+会話履歴に記録されます。`approved_fact_lookup` がそのツールです。引数を
+取らず、制限を適用した承認済み事実の一覧を返すため、同じ事実セットで 2 回実行すれば、同じ
+質問に同じ答えが返ります。根拠となる情報の提供は決定論的なままです。
 
-The helpers already own the tool and the bounds. `boundFacts` trims every fact, drops blanks, and
-rejects the batch when it is empty, longer than 20 facts, or contains a fact over 500 characters.
-The tool factory applies those bounds to whatever it is given, so the model can never be handed an
-unbounded list. Bounds are not politeness: an unbounded fact list is unpredictable cost, latency,
-and attack surface.
+ヘルパーには、ツールと制限がすでに用意されています。`boundFacts` は各事実の前後の空白を除去し、空の項目を取り除きます。
+一覧が空、20 件超、または 500 文字を超える事実を含む場合は、一括して拒否します。
+ツールのファクトリは渡された内容すべてにこの制限を適用するため、モデルに無制限の一覧が
+渡ることはありません。制限は単なる配慮ではありません。無制限の事実一覧は、コスト、待ち時間、
+攻撃対象領域を予測できないものにします。
 
-`skip permission` is set on this tool because it only reads application-owned data that the
-educator just approved on screen. The external Wikipedia process in Step 7 gets a permission
-boundary instead.
+このツールに `skip permission` が設定されているのは、教育担当者が画面上で承認したばかりの、
+アプリケーション管理下のデータを読むだけだからです。一方、ステップ 7 の外部 Wikipedia プロセスには
+権限の境界を設けます。
 
-This is the museum equivalent of `accessibility_rule_lookup` in the accessibility track: one
-zero-argument, application-owned local tool that hands the model curated data it cannot otherwise
-reach.
+これは、アクセシビリティトラックの `accessibility_rule_lookup` に相当する博物館向けの仕組みです。
+引数を取らない、アプリケーション管理下のローカルツールが、ほかの方法では取得できない
+精選されたデータをモデルに渡します。
 
-## Two lists, two different jobs
+## 2 つのリスト、2 つの異なる役割
 
-Registering a tool takes two settings, and confusing them is the most common mistake in this
-workshop:
+ツールの登録には 2 つの設定が必要です。この 2 つの混同は、このワークショップで
+最もよくある間違いです。
 
-- **`tools`** carries the *implementation*. This is where the runtime learns that a function called
-  `approved_fact_lookup` exists and how to execute it.
-- **`availableTools`** is the *allowlist*. It names which tools the model is permitted to call in
-  this session. A tool that is registered but not allowlisted cannot be called.
+- **`tools`** は*実装*を渡します。ランタイムはここで、
+  `approved_fact_lookup` という関数の存在と実行方法を知ります。
+- **`availableTools`** は*許可リスト*です。このセッションでモデルが呼び出せる
+  ツールを名前で指定します。登録済みでも許可リストにないツールは呼び出せません。
 
-You need both. Step 5 returns to the allowlist and shows what it prevents.
+両方が必要です。ステップ 5 では許可リストを再び取り上げ、何を防ぐのかを確認します。
 
-The prompt is the third piece, and it is the weakest one: it *asks* the model to call the tool. It
-does not make the call happen, and it cannot stop a call. Keep the explicit "call
-`approved_fact_lookup` first" instruction — at this stage you want the tool call to be reliable so
-you can see it.
+プロンプトは 3 つ目の要素で、最も弱いものです。モデルにツールの呼び出しを*依頼*するだけで、
+呼び出しを強制することも、阻止することもできません。「最初に
+`approved_fact_lookup` を呼び出す」という明示的な指示は残してください。この段階では、
+ツール呼び出しを安定して発生させ、目で確認することが大切です。
 
-## Register the tool and build the prompt
+## ツールを登録し、プロンプトを作成する
 
 :::language dotnet
-Open `Program.cs`. Widen nothing at the top — you already have
-`using MuseumExhibitStudio.Helpers;`. Replace everything from the first `Console.WriteLine` to the
-end of the file:
+`Program.cs` を開きます。先頭にはすでに
+`using MuseumExhibitStudio.Helpers;` があるため、追加は不要です。最初の `Console.WriteLine` から
+ファイル末尾までを置き換えます。
 
 ```csharp
 Console.WriteLine("=== Museum Exhibit Studio ===");
@@ -148,21 +148,21 @@ static string BuildExhibitPrompt()
 }
 ```
 
-Local functions come after the top-level statements. `BuildExhibitPrompt` takes no facts at all now
-— it names the tool instead. `CreateApprovedFactLookup` calls `BoundFacts` internally, so the bound
-holds no matter who builds the tool.
+ローカル関数はトップレベルステートメントの後に置きます。`BuildExhibitPrompt` は事実を受け取らず、
+代わりにツール名を指定します。`CreateApprovedFactLookup` が内部で `BoundFacts` を呼び出すため、
+誰がツールを作成しても制限が適用されます。
 
-**Look inside:** `Helpers/CuratorFacts.cs` holds all of this, and it is worth reading because it is
-a real tool definition rather than plumbing. `CreateApprovedFactLookup` closes over the bounded
-list the educator just approved and registers it through `CopilotTool.DefineTool` under the name
-`approved_fact_lookup`. The handler takes no parameters, so the model cannot steer what comes back
-— it asks, and it receives exactly that list. `SkipPermission = true` is set right there because
-the data is application-owned. The three fact sets and the `MaximumFactCount` (20) and
-`MaximumFactLength` (500) bounds enforced by `BoundFacts` are in the same file.
+**内部を確認:** これらはすべて `Helpers/CuratorFacts.cs` にあります。単なる補助処理ではなく、
+実際のツール定義なので、読む価値があります。`CreateApprovedFactLookup` は教育担当者が承認した、
+制限適用済みの一覧をクロージャーで保持し、`CopilotTool.DefineTool` を通じて
+`approved_fact_lookup` という名前で登録します。ハンドラーは引数を取らないため、モデルは返る内容を
+誘導できず、要求するとその一覧をそのまま受け取ります。データがアプリケーション管理下にあるため、
+ここで `SkipPermission = true` を設定しています。3 つの事実セットと、`BoundFacts` が適用する
+`MaximumFactCount`（20）、`MaximumFactLength`（500）の制限も同じファイルにあります。
 :::
 
 :::language nodejs
-Open `src/index.ts` and widen the helper import:
+`src/index.ts` を開き、ヘルパーのインポートを追加します。
 
 ```typescript
 import {
@@ -178,7 +178,7 @@ import {
 } from "./curator.js";
 ```
 
-Add the prompt builder and the fact-set chooser below the system message:
+システムメッセージの下に、プロンプトビルダーと事実セットの選択関数を追加します。
 
 ```typescript
 function buildExhibitPrompt(): string {
@@ -211,7 +211,7 @@ async function chooseFactSet(): Promise<(typeof factSets)[number]> {
 }
 ```
 
-Replace `main` with:
+`main` を次の内容に置き換えます。
 
 ```typescript
 async function main(): Promise<void> {
@@ -250,21 +250,21 @@ async function main(): Promise<void> {
 }
 ```
 
-`buildExhibitPrompt` takes no facts at all now — it names the tool instead.
-`createApprovedFactLookup` calls `boundFacts` internally, so the bound holds no matter who builds
-the tool.
+`buildExhibitPrompt` は事実を受け取らず、代わりにツール名を指定します。
+`createApprovedFactLookup` が内部で `boundFacts` を呼び出すため、誰がツールを作成しても
+制限が適用されます。
 
-**Look inside:** `src/curator.ts` holds all of this, and it is worth reading because it is a real
-`defineTool` definition rather than plumbing. `createApprovedFactLookup` closes over the bounded
-list the educator just approved and defines `approved_fact_lookup` with
-`parameters: { type: "object", properties: {}, additionalProperties: false }`, so the model cannot
-steer what comes back — it asks, and it receives exactly that list. `skipPermission: true` is set
-right there because the data is application-owned. The three fact sets and the `maximumFactCount`
-(20) and `maximumFactLength` (500) bounds enforced by `boundFacts` are in the same file.
+**内部を確認:** これらはすべて `src/curator.ts` にあります。単なる補助処理ではなく、実際の
+`defineTool` 定義なので、読む価値があります。`createApprovedFactLookup` は教育担当者が承認した、
+制限適用済みの一覧をクロージャーで保持し、`approved_fact_lookup` を
+`parameters: { type: "object", properties: {}, additionalProperties: false }` で定義します。そのため、モデルは
+返る内容を誘導できず、要求するとその一覧をそのまま受け取ります。データがアプリケーション管理下にあるため、
+ここで `skipPermission: true` を設定しています。3 つの事実セットと、`boundFacts` が適用する
+`maximumFactCount`（20）、`maximumFactLength`（500）の制限も同じファイルにあります。
 :::
 
 :::language python
-Open `main.py` and widen the helper import:
+`main.py` を開き、ヘルパーのインポートを追加します。
 
 ```python
 from curator import (
@@ -279,7 +279,7 @@ from curator import (
 )
 ```
 
-Add the prompt builder below `SYSTEM_MESSAGE`:
+`SYSTEM_MESSAGE` の下にプロンプトビルダーを追加します。
 
 ```python
 def build_exhibit_prompt() -> str:
@@ -302,7 +302,7 @@ Write exactly three distinct visitor reflection questions. Do not add a preface,
 conclusion, software discussion, or facts the tool did not return."""
 ```
 
-Replace `main`:
+`main` を置き換えます。
 
 ```python
 async def main() -> None:
@@ -337,22 +337,22 @@ async def main() -> None:
             await stream_exhibit(session, build_exhibit_prompt())
 ```
 
-`build_exhibit_prompt` takes no facts at all now — it names the tool instead.
-`create_approved_fact_lookup` calls `bound_facts` internally, so the bound holds no matter who
-builds the tool.
+`build_exhibit_prompt` は事実を受け取らず、代わりにツール名を指定します。
+`create_approved_fact_lookup` が内部で `bound_facts` を呼び出すため、
+誰がツールを作成しても制限が適用されます。
 
-**Look inside:** `curator.py` holds all of this, and it is worth reading because it is a real
-`@define_tool` definition rather than plumbing. `create_approved_fact_lookup` closes over the
-bounded list the educator just approved and decorates a nested `approved_fact_lookup()` that takes
-no arguments, so the model cannot steer what comes back — it asks, and it receives exactly that
-list. `skip_permission=True` is set right there because the data is application-owned. The three
-fact sets and the `MAXIMUM_FACT_COUNT` (20) and `MAXIMUM_FACT_LENGTH` (500) bounds enforced by
-`bound_facts` are in the same file.
+**内部を確認:** これらはすべて `curator.py` にあります。単なる補助処理ではなく、実際の
+`@define_tool` 定義なので、読む価値があります。`create_approved_fact_lookup` は教育担当者が承認した、
+制限適用済みの一覧をクロージャーで保持し、引数を取らない入れ子の `approved_fact_lookup()` に
+デコレーターを適用します。そのため、モデルは返る内容を誘導できず、要求するとその
+一覧をそのまま受け取ります。データがアプリケーション管理下にあるため、ここで `skip_permission=True` を設定しています。
+3 つの事実セットと、`bound_facts` が適用する `MAXIMUM_FACT_COUNT`（20）、
+`MAXIMUM_FACT_LENGTH`（500）の制限も同じファイルにあります。
 :::
 
 :::language go
-Open `main.go`. Add `"strconv"` to the import block, then add the prompt builder
-below the system message:
+`main.go` を開きます。インポートブロックに `"strconv"` を追加し、
+システムメッセージの下にプロンプトビルダーを追加します。
 
 ```go
 func buildExhibitPrompt() string {
@@ -376,7 +376,7 @@ conclusion, software discussion, or facts the tool did not return.`, ApprovedFac
 }
 ```
 
-Replace `main`:
+`main` を置き換えます。
 
 ```go
 func main() {
@@ -443,20 +443,20 @@ func main() {
 }
 ```
 
-`buildExhibitPrompt` takes no facts at all now — it names the tool instead. `ApprovedFactLookup`
-calls `BoundFacts` internally, so the bound holds no matter who builds the tool.
+`buildExhibitPrompt` は事実を受け取らず、代わりにツール名を指定します。`ApprovedFactLookup` が
+内部で `BoundFacts` を呼び出すため、誰がツールを作成しても制限が適用されます。
 
-**Look inside:** `curator.go` holds all of this, and it is worth reading because it is a real
-`copilot.DefineTool` definition rather than plumbing. `ApprovedFactLookup` closes over the bounded
-list the educator just approved and defines a handler whose argument type is `struct{}`, so the
-model cannot steer what comes back — it asks, and it receives exactly that list.
-`lookup.SkipPermission = true` is set right there because the data is application-owned. The three
-fact sets and the `MaximumFactCount` (20) and `MaximumFactLength` (500) bounds enforced by
-`BoundFacts` are in the same file.
+**内部を確認:** これらはすべて `curator.go` にあります。単なる補助処理ではなく、実際の
+`copilot.DefineTool` 定義なので、読む価値があります。`ApprovedFactLookup` は教育担当者が承認した、
+制限適用済みの一覧をクロージャーで保持し、引数の型が `struct{}` のハンドラーを定義します。そのため、
+モデルは返る内容を誘導できず、要求するとその一覧をそのまま受け取ります。
+データがアプリケーション管理下にあるため、ここで `lookup.SkipPermission = true` を設定しています。
+3 つの事実セットと、`BoundFacts` が適用する `MaximumFactCount`（20）、
+`MaximumFactLength`（500）の制限も同じファイルにあります。
 :::
 
 :::language rust
-Open `src/main.rs` and widen the crate import:
+`src/main.rs` を開き、クレートのインポートを追加します。
 
 ```rust
 use museum_exhibit_studio::{
@@ -465,7 +465,7 @@ use museum_exhibit_studio::{
 };
 ```
 
-Add the prompt builder below `SYSTEM_MESSAGE`:
+`SYSTEM_MESSAGE` の下にプロンプトビルダーを追加します。
 
 ```rust
 fn build_exhibit_prompt() -> String {
@@ -491,7 +491,7 @@ conclusion, software discussion, or facts the tool did not return."#
 }
 ```
 
-Replace `main`:
+`main` を置き換えます。
 
 ```rust
 #[tokio::main]
@@ -549,23 +549,23 @@ async fn main() -> Result<(), RuntimeError> {
 }
 ```
 
-`build_exhibit_prompt` takes no facts at all now — it names the tool instead.
-`approved_fact_lookup` calls `bound_facts` internally, so the bound holds no matter who builds the
-tool.
+`build_exhibit_prompt` は事実を受け取らず、代わりにツール名を指定します。
+`approved_fact_lookup` が内部で `bound_facts` を呼び出すため、誰がツールを作成しても
+制限が適用されます。
 
-**Look inside:** `src/lib.rs` holds all of this, and it is worth reading because it is a real tool
-definition rather than plumbing. `approved_fact_lookup` closes over the bounded list the educator
-just approved and builds a `Tool` whose parameter schema is
-`{"type": "object", "properties": {}, "additionalProperties": false}`, so the model cannot steer
-what comes back — it asks, and it receives exactly that list. `.with_skip_permission(true)` is set
-right there because the data is application-owned. The three fact sets and the
-`MAXIMUM_FACT_COUNT` (20) and `MAXIMUM_FACT_LENGTH` (500) bounds enforced by `bound_facts` are in
-the same file.
+**内部を確認:** これらはすべて `src/lib.rs` にあります。単なる補助処理ではなく、実際のツール
+定義なので、読む価値があります。`approved_fact_lookup` は教育担当者が承認した、
+制限適用済みの一覧をクロージャーで保持し、パラメータースキーマが
+`{"type": "object", "properties": {}, "additionalProperties": false}` の `Tool` を作成します。そのため、モデルは
+返る内容を誘導できず、要求するとその一覧をそのまま受け取ります。データがアプリケーション管理下にあるため、
+ここで `.with_skip_permission(true)` を設定しています。3 つの事実セットと、
+`bound_facts` が適用する `MAXIMUM_FACT_COUNT`（20）、`MAXIMUM_FACT_LENGTH`（500）の制限も
+同じファイルにあります。
 :::
 
 :::language java
-Open `src/main/java/workshop/MuseumExhibitStudio.java`. Add
-`import java.util.List;` to the imports, then add the prompt builder to the class:
+`src/main/java/workshop/MuseumExhibitStudio.java` を開きます。
+インポートに `import java.util.List;` を追加し、クラスにプロンプトビルダーを追加します。
 
 ```java
     public static String buildExhibitPrompt() {
@@ -604,7 +604,7 @@ Open `src/main/java/workshop/MuseumExhibitStudio.java`. Add
     }
 ```
 
-Replace `main`:
+`main` を置き換えます。
 
 ```java
     public static void main(String[] args) throws Exception {
@@ -653,19 +653,19 @@ Replace `main`:
     }
 ```
 
-`buildExhibitPrompt` takes no facts at all now — it names the tool instead. `approvedFactLookup`
-calls `boundFacts` internally, so the bound holds no matter who builds the tool.
+`buildExhibitPrompt` は事実を受け取らず、代わりにツール名を指定します。`approvedFactLookup` が
+内部で `boundFacts` を呼び出すため、誰がツールを作成しても制限が適用されます。
 
-**Look inside:** `CuratorFacts.java` holds all of this, and it is worth reading because it is a
-real `ToolDefinition` rather than plumbing. `approvedFactLookup` builds a private
-`ApprovedFactReader` over the bounded list the educator just approved and binds its no-argument
-`read` method, so the model cannot steer what comes back — it asks, and it receives exactly that
-list. `.skipPermission(true)` is set right there because the data is application-owned. The three
-fact sets and the `MAXIMUM_FACT_COUNT` (20) and `MAXIMUM_FACT_LENGTH` (500) bounds enforced by
-`boundFacts` are in the same file.
+**内部を確認:** これらはすべて `CuratorFacts.java` にあります。単なる補助処理ではなく、
+実際の `ToolDefinition` なので、読む価値があります。`approvedFactLookup` は、教育担当者が承認した
+制限適用済みの一覧を使って非公開の `ApprovedFactReader` を作成し、その引数なしの
+`read` メソッドをバインドします。そのため、モデルは返る内容を誘導できず、要求するとその
+一覧をそのまま受け取ります。データがアプリケーション管理下にあるため、ここで `.skipPermission(true)` を設定しています。
+3 つの事実セットと、`boundFacts` が適用する `MAXIMUM_FACT_COUNT`（20）、
+`MAXIMUM_FACT_LENGTH`（500）の制限も同じファイルにあります。
 :::
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -698,8 +698,8 @@ mvn compile exec:java
 ```
 :::
 
-The application now interviews you before it writes anything, and the curator visibly fetches its
-facts before it writes a word:
+アプリケーションは文章を書く前に質問するようになりました。また、キュレーターが文章を書く前に
+事実を取得する様子を確認できます。
 
 ```text
 === Museum Exhibit Studio ===
@@ -728,43 +728,43 @@ Off the Queensland coast, more than two thousand nine hundred reefs...
 1. ...
 ```
 
-The `[tool:start] approved_fact_lookup` line is the whole point of this step. The curator did not
-recall the reef — it asked your application for the facts, and your application answered.
+`[tool:start] approved_fact_lookup` の行こそ、このステップの要点です。キュレーターはサンゴ礁の知識を
+思い出したのではなく、アプリケーションに事実を要求し、アプリケーションが答えました。
 
-## Prove the tool is doing the work
+## ツールが機能していることを確かめる
 
-Run it again and choose set 1 or 3. The exhibit changes subject completely, and the tool event
-appears again each time. Nothing in the prompt changed between those runs: the same prompt text
-produced a Terracotta Army exhibit because the tool returned different data. That is the difference
-between a prompt that carries data and an application that owns it.
+再実行してセット 1 または 3 を選びます。展示の主題が完全に変わり、毎回ツールイベントが
+表示されます。実行の間でプロンプトは何も変わっていません。同じプロンプトから
+兵馬俑の展示文が生成されたのは、ツールが別のデータを返したからです。これが、
+データを運ぶプロンプトと、データを管理するアプリケーションの違いです。
 
-Then answer `n` at the confirmation, type two or three facts of your own, and submit a blank line.
-The curator writes about your subject instead — your typed facts went into the tool, and the tool
-handed them back to the model.
+次に確認で `n` と答え、自分で事実を 2、3 件入力し、空行を送信します。
+キュレーターは自分の主題について書くようになります。入力した事実がツールに渡され、
+ツールがそれをモデルに返したからです。
 
-Try the failure case too. Answer `n` and immediately submit a blank line without typing any facts.
-The run stops with `Provide at least one approved fact.` — the tool factory refused to be built
-around an empty list, so no request was ever sent. Step 5 turns that crash into a civil error
-message.
+失敗するケースも試してください。`n` と答え、事実を入力せずにすぐ空行を送信します。
+`Provide at least one approved fact.` と表示され、実行が停止します。ツールのファクトリが
+空の一覧での作成を拒否したため、要求は一度も送信されていません。ステップ 5 では、この異常終了を
+わかりやすいエラーメッセージに変えます。
 
-## Check your understanding
+## 理解度を確認する
 
-- You registered the tool in two places. What would happen if you put `approved_fact_lookup` in the
-  tool list but left it out of the allowlist?
-- The prompt says "Call `approved_fact_lookup` first." Does that sentence guarantee the call
-  happens? What in this step made the tool *available* to be called at all?
-- The tool takes no arguments and always returns the same bounded list for a given fact set. What
-  would you lose if it took a free-text query argument instead?
-- The output structure is requested in the prompt. What has actually verified that the model
-  followed it so far?
+- ツールを 2 か所に登録しました。`approved_fact_lookup` をツールリストに入れても、
+  許可リストから外した場合はどうなるでしょうか?
+- プロンプトには「最初に `approved_fact_lookup` を呼び出す」とあります。この文は呼び出しを
+  保証しますか? このステップのどの設定によって、そもそもツールを呼び出し*可能*にしたのでしょうか?
+- ツールは引数を取らず、同じ事実セットには常に同じ制限適用済みの一覧を返します。
+  代わりに自由記述の検索引数を受け取るようにすると、何が失われるでしょうか?
+- 出力構成はプロンプトで要求しています。ここまでで、モデルが実際に
+  その構成に従ったことを検証しているものは何ですか?
 
-## Learn more
+## さらに学ぶ
 
-- [Working with hooks](https://github.com/github/copilot-sdk/blob/main/docs/features/hooks.md):
-  callbacks the runtime invokes around each tool call, for auditing or policy your code owns.
-- [Post-tool-use hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/post-tool-use.md):
-  inspecting or rewriting what a tool returned before the model reads it.
-- [Context clearing and terminal tools](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md):
-  what a tool can do to the conversation itself, and why most tools should not.
+- [フックの使い方](https://github.com/github/copilot-sdk/blob/main/docs/features/hooks.md):
+  各ツール呼び出しの前後にランタイムが呼び出すコールバックで、コード側の監査やポリシーに利用できます。
+- [ツール使用後フック](https://github.com/github/copilot-sdk/blob/main/docs/hooks/post-tool-use.md):
+  モデルが読む前に、ツールの戻り値を確認または書き換える方法です。
+- [コンテキストのクリアと終了ツール](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md):
+  ツールが会話そのものにできることと、多くのツールがそれを行うべきでない理由を説明しています。
 
-Continue to [Set the guardrails](museum-05-guardrails.md).
+次は[ガードレールを設定する](museum-05-guardrails.md)に進みます。
