@@ -1,6 +1,6 @@
 # GitHub Copilot SDK ワークショップ
 
-今すぐ始める: http://github.github.com/copilot-sdk-workshop/
+今すぐ始める: https://runceel.github.io/copilot-sdk-workshop-ja/
 
 .NET、Node.js/TypeScript、Python、Go、Rust、または Maven Java で実施する、2 つのハンズオン形式の
 GitHub Copilot SDK ワークショップのいずれかを選んでください:
@@ -30,8 +30,8 @@ Accessibility Reviewer に約 90 分、または Museum Exhibit Studio に 90 �
 クローンからサイトをプレビューするには:
 
 ```bash
-git clone https://github.com/github/copilot-sdk-workshop.git
-cd copilot-sdk-workshop
+git clone https://github.com/runceel/copilot-sdk-workshop-ja.git
+cd copilot-sdk-workshop-ja
 python3 -m http.server 8000
 ```
 

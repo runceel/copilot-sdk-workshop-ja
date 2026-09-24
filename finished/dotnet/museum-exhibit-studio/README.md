@@ -61,4 +61,4 @@ architecture. The entrypoint keeps one small session runner that starts the clie
 session, enforces the timeout, rejects blank output, and cleans up on every path; the research,
 generation, and optional HTML steps reuse it with different session configurations. Follow the
 track from
-[`workshop/museum-00-preflight.md`](https://github.com/github/copilot-sdk-workshop/blob/main/workshop/museum-00-preflight.md).
+[`workshop/museum-00-preflight.md`](https://github.com/runceel/copilot-sdk-workshop-ja/blob/main/workshop/museum-00-preflight.md).

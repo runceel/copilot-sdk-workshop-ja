@@ -38,8 +38,8 @@ approved facts -> bounded prompt -> curator session -> structural checks -> huma
 ## ワークショップリポジトリをクローンする
 
 ```bash
-git clone https://github.com/github/copilot-sdk-workshop.git
-cd copilot-sdk-workshop
+git clone https://github.com/runceel/copilot-sdk-workshop-ja.git
+cd copilot-sdk-workshop-ja
 ```
 
 スターターへ移動する前に、ターミナルがリポジトリのルートにあることを確認します:

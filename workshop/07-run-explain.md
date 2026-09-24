@@ -55,7 +55,7 @@ Node.js application
 > **日本語補足（構成図）:** 図は、アプリケーションが Copilot のランタイム接続と 1 つのセッションを持ち、ローカルの WCAG 照会ツールと別プロセスの Playwright MCP を使ってブラウザ対象へ到達する構成を示しています。各境界がどのプロセスや責任範囲に属するかを確認します。
 
 完成したレポートは
-[`finished/nodejs/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
+[`finished/nodejs/accessibility-report`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/nodejs/accessibility-report)
 にもあります。
 :::
 
@@ -82,7 +82,7 @@ Python application
 > **日本語補足（構成図）:** 図は、アプリケーションが Copilot のランタイム接続と 1 つのセッションを持ち、ローカルの WCAG 照会ツールと別プロセスの Playwright MCP を使ってブラウザ対象へ到達する構成を示しています。各境界がどのプロセスや責任範囲に属するかを確認します。
 
 完成したレポートは
-[`finished/python/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
+[`finished/python/accessibility-report`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/python/accessibility-report)
 にもあります。
 :::
 
@@ -402,7 +402,7 @@ Maven が Java 17 のアプリケーションをコンパイルし、`CopilotCli
 この管理されたターゲットには、ブラウザで観測可能な問題が意図的に含まれています。テキスト代替の欠落、
 `main` ランドマークの不在、不自然な見出しの順序、アクセシブルな名前を持たないテキストボックスです。
 レポートを
-[公開されているターゲットの HTML](https://github.com/github/copilot-sdk-workshop/blob/main/docs/target-app/index.html)
+[公開されているターゲットの HTML](https://github.com/runceel/copilot-sdk-workshop-ja/blob/main/docs/target-app/index.html)
 と比較してください。スナップショットとソースのどちらにも存在しない指摘事項は受け入れないでください。
 
 <details>
@@ -453,7 +453,7 @@ HTML レポートの拡張へ直接進むこともできます。それ以外の
 :::language dotnet
 完全なリファレンス:
 
-- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/dotnet/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/dotnet/accessibility-report)
 - [GitHub Copilot SDK for .NET](https://github.com/github/copilot-sdk/tree/main/dotnet)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 :::
@@ -461,7 +461,7 @@ HTML レポートの拡張へ直接進むこともできます。それ以外の
 :::language nodejs
 完全なリファレンス:
 
-- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/nodejs/accessibility-report)
 - [GitHub Copilot SDK for Node.js](https://github.com/github/copilot-sdk/tree/main/nodejs)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 :::
@@ -469,7 +469,7 @@ HTML レポートの拡張へ直接進むこともできます。それ以外の
 :::language python
 完全なリファレンス:
 
-- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/python/accessibility-report)
 - [GitHub Copilot SDK for Python](https://github.com/github/copilot-sdk/tree/main/python)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 :::
@@ -477,7 +477,7 @@ HTML レポートの拡張へ直接進むこともできます。それ以外の
 :::language go
 完全なリファレンス:
 
-- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/go/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/go/accessibility-report)
 - [GitHub Copilot SDK for Go](https://github.com/github/copilot-sdk/tree/main/go)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 
@@ -487,7 +487,7 @@ CLI が見つからない場合は、より広いパーミッションを付与�
 :::language rust
 完全なリファレンス:
 
-- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/rust/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/rust/accessibility-report)
 - [GitHub Copilot SDK for Rust](https://github.com/github/copilot-sdk/tree/main/rust)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 
@@ -497,7 +497,7 @@ CLI が見つからない場合は、より広いパーミッションを付与�
 :::language java
 完全なリファレンス:
 
-- [完成したアクセシビリティレポーター](https://github.com/github/copilot-sdk-workshop/tree/main/finished/java/accessibility-report)
+- [完成したアクセシビリティレポーター](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/java/accessibility-report)
 - [GitHub Copilot SDK for Java](https://github.com/github/copilot-sdk/tree/main/java)
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp)
 

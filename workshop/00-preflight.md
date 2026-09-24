@@ -171,8 +171,8 @@ GitHub Copilot CLI ...
 ## 1. リポジトリをクローンしてスターターを選ぶ
 
 ```bash
-git clone https://github.com/github/copilot-sdk-workshop.git
-cd copilot-sdk-workshop
+git clone https://github.com/runceel/copilot-sdk-workshop-ja.git
+cd copilot-sdk-workshop-ja
 ```
 
 作業は**リポジトリ内で直接**行います。コピー手順はありません。自分の言語のスターター
@@ -456,7 +456,7 @@ go build -mod=readonly ./...
 > 対象ページが開くとき。
 
 ステップ1の後で参照点が欲しい場合は、
-[`finished/go/hello-copilot-sdk`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/go/hello-copilot-sdk)
+[`finished/go/hello-copilot-sdk`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/go/hello-copilot-sdk)
 と比較してください。
 :::
 
@@ -517,7 +517,7 @@ cargo check --locked
 > 対象ページが開くとき。
 
 ステップ1の後で参照点が欲しい場合は、
-[`finished/rust/hello-copilot-sdk`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/rust/hello-copilot-sdk)
+[`finished/rust/hello-copilot-sdk`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/rust/hello-copilot-sdk)
 と比較してください。
 :::
 
@@ -576,7 +576,7 @@ mvn compile
 > 対象ページが開くとき。
 
 ステップ1の後で参照点が欲しい場合は、
-[`finished/java/hello-copilot-sdk`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/java/hello-copilot-sdk)
+[`finished/java/hello-copilot-sdk`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/java/hello-copilot-sdk)
 と比較してください。
 :::
 

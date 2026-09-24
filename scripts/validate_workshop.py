@@ -744,8 +744,8 @@ def validate_markdown_links(markdown_file: Path) -> None:
     for target_text in re.findall(r"!?\[[^\]]*\]\(([^)]+)\)", read(markdown_file)):
         target_value = target_text.split(maxsplit=1)[0].strip("<>")
         prefixes = (
-            "https://github.com/github/copilot-sdk-workshop/tree/main/",
-            "https://github.com/github/copilot-sdk-workshop/blob/main/",
+            "https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/",
+            "https://github.com/runceel/copilot-sdk-workshop-ja/blob/main/",
         )
         prefix = next((candidate for candidate in prefixes if target_value.startswith(candidate)), None)
         if prefix:
@@ -1565,7 +1565,7 @@ def validate_documentation() -> None:
 
     accessibility_preflight = read(WORKSHOP / "00-preflight.md")
     require(
-        "git clone https://github.com/github/copilot-sdk-workshop.git"
+        "git clone https://github.com/runceel/copilot-sdk-workshop-ja.git"
         in accessibility_preflight,
         "Accessibility preflight must start from a clone of the repository",
     )
@@ -1759,7 +1759,7 @@ def validate_documentation() -> None:
 
     museum_preflight = read(WORKSHOP / "museum-00-preflight.md")
     for clone_step in (
-        "git clone https://github.com/github/copilot-sdk-workshop.git",
+        "git clone https://github.com/runceel/copilot-sdk-workshop-ja.git",
         'test "$(git rev-parse --show-toplevel)" = "$PWD"',
     ):
         require(
