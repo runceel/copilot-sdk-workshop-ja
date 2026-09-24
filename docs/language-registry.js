@@ -13,42 +13,42 @@
             displayName: '.NET',
             docsUrl: 'https://github.com/github/copilot-sdk/tree/main/dotnet',
             installCommand: 'dotnet add package GitHub.Copilot.SDK',
-            runtimeNote: 'Requires the .NET SDK and a supported C# runtime.'
+            runtimeNote: '.NET SDK と対応する C# ランタイムが必要です。'
         },
         {
             id: 'go',
             displayName: 'Go',
             docsUrl: 'https://github.com/github/copilot-sdk/tree/main/go',
             installCommand: 'go get github.com/github/copilot-sdk/go',
-            runtimeNote: 'Requires a supported Go toolchain and module.'
+            runtimeNote: '対応する Go ツールチェーンとモジュールが必要です。'
         },
         {
             id: 'java',
             displayName: 'Java',
             docsUrl: 'https://github.com/github/copilot-sdk/tree/main/java',
             installCommand: 'mvn dependency:get -Dartifact=com.github:copilot-sdk-java:1.0.11',
-            runtimeNote: 'Requires a supported JDK and a Maven or Gradle project.'
+            runtimeNote: '対応する JDK と Maven または Gradle プロジェクトが必要です。'
         },
         {
             id: 'nodejs',
             displayName: 'Node.js',
             docsUrl: 'https://github.com/github/copilot-sdk/tree/main/nodejs',
             installCommand: 'npm install @github/copilot-sdk',
-            runtimeNote: 'Requires a current Node.js LTS release.'
+            runtimeNote: '最新の Node.js LTS リリースが必要です。'
         },
         {
             id: 'python',
             displayName: 'Python',
             docsUrl: 'https://github.com/github/copilot-sdk/tree/main/python',
             installCommand: 'pip install github-copilot-sdk',
-            runtimeNote: 'Requires Python and an isolated virtual environment.'
+            runtimeNote: 'Python と独立した仮想環境が必要です。'
         },
         {
             id: 'rust',
             displayName: 'Rust',
             docsUrl: 'https://github.com/github/copilot-sdk/tree/main/rust',
             installCommand: 'cargo add copilot-sdk',
-            runtimeNote: 'Requires Rust and Cargo from rustup.'
+            runtimeNote: 'rustup で導入した Rust と Cargo が必要です。'
         }
     ]);
 

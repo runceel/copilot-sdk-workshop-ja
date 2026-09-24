@@ -1,87 +1,85 @@
-# Optional: Select a model
+# オプション: モデルを選択する
 
-> **Time:** 10 minutes  
-> **Prerequisite:** Complete the seven core steps first.
+> **所要時間:** 10 分  
+> **前提条件:** まず 7 つのコアステップを完了してください。
 
-## What you'll customize
+## カスタマイズする内容
 
-You'll list the models available to the signed-in user and use the selected model for the report
-session.
+サインイン中のユーザーが利用できるモデルを一覧表示し、選択したモデルをレポートのセッションで使用します。
 
-## How model selection works
+## モデル選択の仕組み
 
-A **model** is the specific large language model the runtime sends each turn to. The
-[models available through GitHub Copilot](https://docs.github.com/en/copilot/reference/ai-models/supported-models)
-change over time and differ by account, so an application asks the runtime which ones it may use
-instead of hard-coding a name.
+**モデル**とは、ランタイムが各ターンで送信先とする具体的な大規模言語モデルのことです。
+[GitHub Copilot で利用できるモデル](https://docs.github.com/en/copilot/reference/ai-models/supported-models)
+は時間とともに変化し、アカウントによっても異なります。そのため、アプリケーションは名前をハードコーディングするのではなく、
+使用してよいモデルをランタイムに問い合わせます。
 
 :::language dotnet
-The Copilot runtime may expose more than one model. `ListModelsAsync` returns the models available
-for the current account. `SessionConfig.Model` selects one when you create a session.
+Copilot ランタイムは複数のモデルを公開している場合があります。`ListModelsAsync` は現在のアカウントで利用できるモデルを返します。
+セッションを作成する際に `SessionConfig.Model` で 1 つを選択します。
 :::
 
 :::language nodejs
-The Copilot runtime may expose more than one model. `client.listModels()` returns the models
-available for the current account. Pass the chosen id as `model` when you call `createSession`.
+Copilot ランタイムは複数のモデルを公開している場合があります。`client.listModels()` は現在のアカウントで利用できる
+モデルを返します。`createSession` を呼び出すときに、選択した id を `model` として渡します。
 :::
 
 :::language python
-The Copilot runtime may expose more than one model. `await client.list_models()` returns the models
-available for the current account. Pass the chosen id as `model` when you call `create_session`.
+Copilot ランタイムは複数のモデルを公開している場合があります。`await client.list_models()` は現在のアカウントで利用できる
+モデルを返します。`create_session` を呼び出すときに、選択した id を `model` として渡します。
 :::
 
 :::language go
-The Copilot runtime may expose more than one model. `client.ListModels(ctx)` returns the models
-available for the current account. Set `SessionConfig.Model` when you create a session.
+Copilot ランタイムは複数のモデルを公開している場合があります。`client.ListModels(ctx)` は現在のアカウントで利用できる
+モデルを返します。セッションを作成する際に `SessionConfig.Model` を設定します。
 :::
 
 :::language rust
-The Copilot runtime may expose more than one model. `client.list_models().await?` returns the models
-available for the current account (it uses `models().list()` under the hood). Set
-`SessionConfig.model` when you create a session.
+Copilot ランタイムは複数のモデルを公開している場合があります。`client.list_models().await?` は現在のアカウントで利用できる
+モデルを返します（内部では `models().list()` を使用します）。セッションを作成する際に
+`SessionConfig.model` を設定します。
 :::
 
 :::language java
-The Copilot runtime may expose more than one model. `client.listModels()` returns the models
-available for the current account. Call `SessionConfig.setModel(selectedId)` when you create a
-session.
+Copilot ランタイムは複数のモデルを公開している場合があります。`client.listModels()` は現在のアカウントで利用できる
+モデルを返します。セッションを作成する際に `SessionConfig.setModel(selectedId)` を呼び出します。
 :::
 
-## Swap models without changing the architecture
+## アーキテクチャを変えずにモデルを差し替える
 
-Changing the model can affect latency, capability, and billing. It does not change the local tools,
-MCP configuration, or permission policy, which is why this topic comes after the core architecture.
+モデルを変更すると、レイテンシ、能力、課金に影響することがあります。ただしローカルツール、
+MCP 設定、パーミッションポリシーは変わりません。だからこそ、このトピックはコアアーキテクチャの後に扱います。
 
 :::language dotnet
-Model selection configures `CopilotSession`. It does not replace the client or either tool boundary.
+モデル選択は `CopilotSession` を構成します。クライアントやいずれのツール境界も置き換えません。
 :::
 
 :::language nodejs
-Model selection configures the session created by `createSession`. It does not replace the client or
-either tool boundary.
+モデル選択は `createSession` で作成したセッションを構成します。クライアントやいずれのツール境界も
+置き換えません。
 :::
 
 :::language python
-Model selection configures the session created by `create_session`. It does not replace the client
-or either tool boundary.
+モデル選択は `create_session` で作成したセッションを構成します。クライアントやいずれのツール境界も
+置き換えません。
 :::
 
 :::language go
-Model selection configures `SessionConfig`. It does not replace the client or either tool boundary.
+モデル選択は `SessionConfig` を構成します。クライアントやいずれのツール境界も置き換えません。
 :::
 
 :::language rust
-Model selection configures `SessionConfig`. It does not replace the client or either tool boundary.
+モデル選択は `SessionConfig` を構成します。クライアントやいずれのツール境界も置き換えません。
 :::
 
 :::language java
-Model selection configures `SessionConfig`. It does not replace the client or either tool boundary.
+モデル選択は `SessionConfig` を構成します。クライアントやいずれのツール境界も置き換えません。
 :::
 
 :::language dotnet
-## Add a model picker
+## モデルピッカーを追加する
 
-Create `Helpers/ModelSelector.cs`:
+`Helpers/ModelSelector.cs` を作成します。
 
 ```csharp
 using GitHub.Copilot;
@@ -118,14 +116,14 @@ public static class ModelSelector
 ```
 :::
 :::language dotnet
-After `PingAsync` in `Program.cs`, insert:
+`Program.cs` の `PingAsync` の後に、次を挿入します。
 
 ```csharp
 var selectedModel = await ModelSelector.SelectAsync(client);
 ```
 :::
 :::language dotnet
-Then add `Model = selectedModel` to `SessionConfig`:
+続いて、`SessionConfig` に `Model = selectedModel` を追加します。
 
 ```csharp
 await using var session = await client.CreateSessionAsync(new SessionConfig
@@ -136,12 +134,12 @@ await using var session = await client.CreateSessionAsync(new SessionConfig
 });
 ```
 :::
-Do not remove the rest of the Step 6 session configuration.
+Step 6 のセッション設定の残りの部分は削除しないでください。
 
 :::language nodejs
-## Add a model picker
+## モデルピッカーを追加する
 
-Create `src/model-selector.ts`:
+`src/model-selector.ts` を作成します。
 
 ```typescript
 import type { CopilotClient } from "@github/copilot-sdk";
@@ -177,7 +175,7 @@ export async function selectModel(client: CopilotClient): Promise<string | undef
 }
 ```
 
-In `src/report.ts`, import the helper and call it after `client.start()`:
+`src/report.ts` でヘルパーをインポートし、`client.start()` の後に呼び出します。
 
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
@@ -230,13 +228,13 @@ try {
 }
 ```
 
-Keep every existing tool, MCP, and permission setting from Step 6. Only add `model: selectedModel`.
+Step 6 の既存のツール、MCP、パーミッションの設定はすべて維持してください。追加するのは `model: selectedModel` だけです。
 :::
 
 :::language python
-## Add a model picker
+## モデルピッカーを追加する
 
-Create `model_selector.py`:
+`model_selector.py` を作成します。
 
 ```python
 from __future__ import annotations
@@ -267,8 +265,7 @@ async def select_model(client: CopilotClient) -> str | None:
     return selected.id
 ```
 
-In `report.py`, import the helper and pass `model=` into `create_session` without
-removing the Step 6 tool configuration:
+`report.py` でヘルパーをインポートし、Step 6 のツール設定を削除せずに `create_session` に `model=` を渡します。
 
 ```python
 import asyncio
@@ -354,13 +351,13 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-Keep launching through `python main.py` so the existing entrypoint still imports `report.main`.
+既存のエントリポイントが引き続き `report.main` をインポートできるよう、`python main.py` で起動し続けてください。
 :::
 
 :::language go
-## Add a model picker
+## モデルピッカーを追加する
 
-Add this helper near the top of `main.go` (or in a sibling file in the same package):
+このヘルパーを `main.go` の先頭付近（または同じパッケージ内の別ファイル）に追加します。
 
 ```go
 func selectModel(ctx context.Context, client *copilot.Client) (string, error) {
@@ -395,8 +392,8 @@ func selectModel(ctx context.Context, client *copilot.Client) (string, error) {
 }
 ```
 
-Add `"strconv"` to the import block if it is not already present. After `client.Start`, select a
-model and set `SessionConfig.Model`:
+import ブロックに `"strconv"` がまだ含まれていない場合は追加します。`client.Start` の後で、
+モデルを選択し `SessionConfig.Model` を設定します。
 
 ```go
 client := copilot.NewClient(&copilot.ClientOptions{LogLevel: "error"})
@@ -427,13 +424,13 @@ session, err := client.CreateSession(context.Background(), &copilot.SessionConfi
 })
 ```
 
-Keep every existing tool, MCP, and permission setting from Step 6. Only add `Model: selectedModel`.
+Step 6 の既存のツール、MCP、パーミッションの設定はすべて維持してください。追加するのは `Model: selectedModel` だけです。
 :::
 
 :::language rust
-## Add a model picker
+## モデルピッカーを追加する
 
-Add this helper in `src/main.rs`:
+このヘルパーを `src/main.rs` に追加します。
 
 ```rust
 async fn select_model(client: &Client) -> Result<Option<String>, Box<dyn std::error::Error>> {
@@ -465,7 +462,7 @@ async fn select_model(client: &Client) -> Result<Option<String>, Box<dyn std::er
 }
 ```
 
-After `Client::start`, select a model and set `config.model` before `create_session`:
+`Client::start` の後で、`create_session` の前にモデルを選択し `config.model` を設定します。
 
 ```rust
 let client = Client::start(ClientOptions::default()).await?;
@@ -505,13 +502,13 @@ let config = config.with_permission_handler(Arc::new(ScopedPermissions {
 let session = client.create_session(config).await?;
 ```
 
-Keep every existing tool, MCP, and permission setting from Step 6. Only add `config.model`.
+Step 6 の既存のツール、MCP、パーミッションの設定はすべて維持してください。追加するのは `config.model` だけです。
 :::
 
 :::language java
-## Add a model picker
+## モデルピッカーを追加する
 
-Create `src/main/java/workshop/ModelSelector.java`:
+`src/main/java/workshop/ModelSelector.java` を作成します。
 
 ```java
 package workshop;
@@ -563,8 +560,8 @@ public final class ModelSelector {
 }
 ```
 
-In `src/main/java/workshop/AccessibilityReport.java`, after `client.start().get()`,
-select a model and call `SessionConfig.setModel(selectedId)`:
+`src/main/java/workshop/AccessibilityReport.java` で、`client.start().get()` の後に
+モデルを選択し `SessionConfig.setModel(selectedId)` を呼び出します。
 
 ```java
 try (var client = new CopilotClient()) {
@@ -610,14 +607,14 @@ try (var client = new CopilotClient()) {
 }
 ```
 
-Keep every existing tool, MCP, and permission setting from Step 6. Only add
-`SessionConfig.setModel(selectedModel)`. In particular, preserve the default exact-target rejection
-and the explicitly opted-in `--allow-local-demo-mcp` workaround for
-[github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273); that fallback
-approves only the `mcp` kind and cannot prove the target URL.
+Step 6 の既存のツール、MCP、パーミッションの設定はすべて維持してください。追加するのは
+`SessionConfig.setModel(selectedModel)` だけです。特に、デフォルトの正確なターゲットに対する拒否と、
+[github/copilot-sdk#2273](https://github.com/github/copilot-sdk/issues/2273)
+に対して明示的にオプトインした `--allow-local-demo-mcp` の回避策を維持してください。このフォールバックは
+`mcp` の kind のみを承認し、ターゲット URL を証明することはできません。
 :::
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -649,43 +646,43 @@ cargo run -- "{{TARGET_APP_URL}}"
 mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 ```
 :::
-Enter the workshop target URL, then choose a model, and confirm the same scoped tools still run.
+ワークショップのターゲット URL を入力し、モデルを選択して、同じスコープ付きツールが引き続き実行されることを確認します。
 
 <details>
-<summary>Troubleshooting this extension</summary>
+<summary>この拡張のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処法 |
 |---|---|
-| No models are listed | The helper falls back to the account default; verify authentication if this is unexpected. |
-| A number is outside the range | The helper safely uses the first model. |
-| Tools disappear | Add only the model selection; retain the existing tool, MCP, and permission configuration. |
-| Authentication error while listing models | Run `copilot login` again, then rerun the application. |
+| モデルが 1 つも一覧表示されない | ヘルパーはアカウントのデフォルトにフォールバックします。想定外の場合は認証を確認してください。 |
+| 数値が範囲外である | ヘルパーは安全に最初のモデルを使用します。 |
+| ツールが消える | モデル選択だけを追加してください。既存のツール、MCP、パーミッションの設定は維持してください。 |
+| モデル一覧取得時の認証エラー | `copilot login` をもう一度実行してから、アプリケーションを再実行してください。 |
 
 </details>
 
-> **The extension is complete when:** the selected model is named and the report still uses both
-> scoped tool types.
+> **この拡張は次の状態で完了です:** 選択したモデルが名前で示され、レポートが引き続き 2 種類の
+> スコープ付きツールを両方とも使用している。
 
-## Check your understanding
+## 理解度チェック
 
-Why was model selection moved out of Step 1?
+なぜモデル選択は Step 1 から外されたのでしょうか？
 
 <details>
-<summary>Check your answer</summary>
+<summary>答えを確認する</summary>
 
-Model selection is configuration rather than a core agent concept. Leaving it until the end gets
-you to a useful Copilot response sooner and keeps the first lesson focused on clients and sessions.
+モデル選択はコアなエージェントの概念というよりも設定です。最後まで残しておくことで、有用な Copilot の応答に
+より早くたどり着け、最初のレッスンをクライアントとセッションに集中させられます。
 
 </details>
 
-## Learn more
+## さらに学ぶ
 
 - [Bring your own key](https://github.com/github/copilot-sdk/blob/main/docs/auth/byok.md):
-  pointing a session at your own OpenAI, Azure, or Anthropic credentials and models.
+  自分の OpenAI、Azure、または Anthropic の認証情報とモデルにセッションを向ける方法。
 - [SDK and CLI compatibility](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/compatibility.md):
-  which options each SDK exposes, including model listing and system messages.
+  モデル一覧取得やシステムメッセージを含め、各 SDK がどのオプションを公開しているか。
 - [Azure managed identity](https://github.com/github/copilot-sdk/blob/main/docs/setup/azure-managed-identity.md):
-  reaching Microsoft Foundry models without storing a key in the application.
+  アプリケーションにキーを保存せずに Microsoft Foundry のモデルへ到達する方法。
 
-Continue to [Optional: Generate an interactive HTML report](09-interactive-html-report.md), or return
-to [Step 7: Run and explain the application](07-run-explain.md).
+[オプション: インタラクティブな HTML レポートを生成する](09-interactive-html-report.md)に進むか、
+[Step 7: アプリケーションを実行して説明する](07-run-explain.md)に戻ってください。

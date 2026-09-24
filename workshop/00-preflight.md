@@ -1,25 +1,25 @@
-# Preflight: prepare your machine
+# 事前準備: マシンを準備する
 
-> **Untimed preparation**  
-> Complete this page before starting the 90-minute workshop.
+> **時間制限なしの準備**  
+> 90分のワークショップを始める前に、このページを完了してください。
 
-## What you'll have ready
+## 準備できるもの
 
-By the end of preflight, you'll have the repository cloned, the Copilot CLI authenticated, the
-starter project built, and Playwright MCP downloaded and ready.
+事前準備を終えるころには、リポジトリのクローン、Copilot CLI の認証、スターター
+プロジェクトのビルド、そして Playwright MCP のダウンロードと準備が完了しています。
 
 :::language dotnet
-## What you need
+## 必要なもの
 
-| Requirement | Why the workshop needs it | Verify |
+| 要件 | ワークショップで必要な理由 | 確認方法 |
 |---|---|---|
-| [.NET 10 SDK](https://learn.microsoft.com/dotnet/core/install/) | Builds and runs the C# console application | `dotnet --version` |
-| [Node.js 22 or newer](https://nodejs.org/) | Runs the Playwright MCP server | `node --version` |
-| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | Provides the Copilot runtime used by the SDK | `copilot --version` |
-| [GitHub Copilot access](https://github.com/features/copilot) | Authorizes Copilot requests | `copilot login` |
-| Microsoft Edge (default) or Google Chrome | Lets Playwright inspect the target page | Open the browser once before the workshop |
+| [.NET 10 SDK](https://learn.microsoft.com/dotnet/core/install/) | C# コンソールアプリケーションのビルドと実行 | `dotnet --version` |
+| [Node.js 22 or newer](https://nodejs.org/) | Playwright MCP サーバーの実行 | `node --version` |
+| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | SDK が使用する Copilot ランタイムを提供 | `copilot --version` |
+| [GitHub Copilot access](https://github.com/features/copilot) | Copilot リクエストの認可 | `copilot login` |
+| Microsoft Edge (default) or Google Chrome | Playwright が対象ページを検査できるようにする | ワークショップ前に一度ブラウザを開く |
 
-Your commands should return output in this shape:
+コマンドは次のような形式の出力を返すはずです。
 
 ```text
 $ dotnet --version
@@ -32,17 +32,17 @@ GitHub Copilot CLI ...
 :::
 
 :::language nodejs
-## What you need
+## 必要なもの
 
-| Requirement | Why the workshop needs it | Verify |
+| 要件 | ワークショップで必要な理由 | 確認方法 |
 |---|---|---|
-| [Node.js 22.12 or newer](https://nodejs.org/) | Runs the TypeScript workshop app and Playwright MCP | `node --version` |
-| [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) | Installs `@github/copilot-sdk` and build tools | `npm --version` |
-| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | Provides the Copilot runtime used by the SDK | `copilot --version` |
-| [GitHub Copilot access](https://github.com/features/copilot) | Authorizes Copilot requests | `copilot login` |
-| Microsoft Edge (default) or Google Chrome | Lets Playwright inspect the target page | Open the browser once before the workshop |
+| [Node.js 22.12 or newer](https://nodejs.org/) | TypeScript のワークショップアプリと Playwright MCP の実行 | `node --version` |
+| [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) | `@github/copilot-sdk` とビルドツールのインストール | `npm --version` |
+| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | SDK が使用する Copilot ランタイムを提供 | `copilot --version` |
+| [GitHub Copilot access](https://github.com/features/copilot) | Copilot リクエストの認可 | `copilot login` |
+| Microsoft Edge (default) or Google Chrome | Playwright が対象ページを検査できるようにする | ワークショップ前に一度ブラウザを開く |
 
-Your commands should return output in this shape:
+コマンドは次のような形式の出力を返すはずです。
 
 ```text
 $ node --version
@@ -53,23 +53,23 @@ $ copilot --version
 GitHub Copilot CLI ...
 ```
 
-See the official
-[Node.js SDK installation guide](https://github.com/github/copilot-sdk/tree/main/nodejs).
+公式の
+[Node.js SDK インストールガイド](https://github.com/github/copilot-sdk/tree/main/nodejs)を参照してください。
 :::
 
 :::language python
-## What you need
+## 必要なもの
 
-| Requirement | Why the workshop needs it | Verify |
+| 要件 | ワークショップで必要な理由 | 確認方法 |
 |---|---|---|
-| [Python 3.11 or newer](https://www.python.org/downloads/) | Runs the async workshop application | `python --version` |
-| [pip](https://pip.pypa.io/en/stable/installation/) | Installs the pinned `github-copilot-sdk` wheel | `python -m pip --version` |
-| [Node.js 22 or newer](https://nodejs.org/) | Runs the Playwright MCP server | `node --version` |
-| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | Optional local runtime override via `COPILOT_CLI_PATH` | `copilot --version` |
-| [GitHub Copilot access](https://github.com/features/copilot) | Authorizes Copilot requests | `copilot login` |
-| Microsoft Edge (default) or Google Chrome | Lets Playwright inspect the target page | Open the browser once before the workshop |
+| [Python 3.11 or newer](https://www.python.org/downloads/) | 非同期のワークショップアプリケーションの実行 | `python --version` |
+| [pip](https://pip.pypa.io/en/stable/installation/) | 固定バージョンの `github-copilot-sdk` wheel のインストール | `python -m pip --version` |
+| [Node.js 22 or newer](https://nodejs.org/) | Playwright MCP サーバーの実行 | `node --version` |
+| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | `COPILOT_CLI_PATH` によるローカルランタイムの任意の上書き | `copilot --version` |
+| [GitHub Copilot access](https://github.com/features/copilot) | Copilot リクエストの認可 | `copilot login` |
+| Microsoft Edge (default) or Google Chrome | Playwright が対象ページを検査できるようにする | ワークショップ前に一度ブラウザを開く |
 
-Your commands should return output in this shape:
+コマンドは次のような形式の出力を返すはずです。
 
 ```text
 $ python --version
@@ -80,22 +80,22 @@ $ copilot --version
 GitHub Copilot CLI ...
 ```
 
-The Python SDK can download a pinned runtime on first use. See the official
-[Python SDK installation guide](https://github.com/github/copilot-sdk/tree/main/python).
+Python SDK は初回使用時に固定バージョンのランタイムをダウンロードできます。公式の
+[Python SDK インストールガイド](https://github.com/github/copilot-sdk/tree/main/python)を参照してください。
 :::
 
 :::language go
-## What you need
+## 必要なもの
 
-| Requirement | Why the workshop needs it | Verify |
+| 要件 | ワークショップで必要な理由 | 確認方法 |
 |---|---|---|
-| [Go 1.24 or newer](https://go.dev/dl/) | Builds and runs the Go workshop module | `go version` |
-| [Node.js 22 or newer](https://nodejs.org/) | Runs the Playwright MCP server | `node --version` |
-| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | Required on `PATH` (or `COPILOT_CLI_PATH`) for the SDK | `copilot --version` |
-| [GitHub Copilot access](https://github.com/features/copilot) | Authorizes Copilot requests | `copilot login` |
-| Microsoft Edge (default) or Google Chrome | Lets Playwright inspect the target page | Open the browser once before the workshop |
+| [Go 1.24 or newer](https://go.dev/dl/) | Go のワークショップモジュールのビルドと実行 | `go version` |
+| [Node.js 22 or newer](https://nodejs.org/) | Playwright MCP サーバーの実行 | `node --version` |
+| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | SDK のために `PATH`（または `COPILOT_CLI_PATH`）上で必要 | `copilot --version` |
+| [GitHub Copilot access](https://github.com/features/copilot) | Copilot リクエストの認可 | `copilot login` |
+| Microsoft Edge (default) or Google Chrome | Playwright が対象ページを検査できるようにする | ワークショップ前に一度ブラウザを開く |
 
-Your commands should return output in this shape:
+コマンドは次のような形式の出力を返すはずです。
 
 ```text
 $ go version
@@ -106,23 +106,23 @@ $ copilot --version
 GitHub Copilot CLI ...
 ```
 
-See the official
-[Go SDK installation guide](https://github.com/github/copilot-sdk/tree/main/go).
+公式の
+[Go SDK インストールガイド](https://github.com/github/copilot-sdk/tree/main/go)を参照してください。
 :::
 
 :::language rust
-## What you need
+## 必要なもの
 
-| Requirement | Why the workshop needs it | Verify |
+| 要件 | ワークショップで必要な理由 | 確認方法 |
 |---|---|---|
-| [Rust 1.94 or newer](https://rustup.rs/) | Builds the async Rust workshop crate | `rustc --version` |
-| [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html) | Resolves locked dependencies and runs the app | `cargo --version` |
-| [Node.js 22 or newer](https://nodejs.org/) | Runs the Playwright MCP server | `node --version` |
-| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | Runtime used when not relying solely on a bundled binary | `copilot --version` |
-| [GitHub Copilot access](https://github.com/features/copilot) | Authorizes Copilot requests | `copilot login` |
-| Microsoft Edge (default) or Google Chrome | Lets Playwright inspect the target page | Open the browser once before the workshop |
+| [Rust 1.94 or newer](https://rustup.rs/) | 非同期の Rust ワークショップクレートのビルド | `rustc --version` |
+| [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html) | ロックされた依存関係を解決しアプリを実行 | `cargo --version` |
+| [Node.js 22 or newer](https://nodejs.org/) | Playwright MCP サーバーの実行 | `node --version` |
+| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | 同梱バイナリのみに依存しない場合に使用するランタイム | `copilot --version` |
+| [GitHub Copilot access](https://github.com/features/copilot) | Copilot リクエストの認可 | `copilot login` |
+| Microsoft Edge (default) or Google Chrome | Playwright が対象ページを検査できるようにする | ワークショップ前に一度ブラウザを開く |
 
-Your commands should return output in this shape:
+コマンドは次のような形式の出力を返すはずです。
 
 ```text
 $ rustc --version
@@ -135,23 +135,23 @@ $ copilot --version
 GitHub Copilot CLI ...
 ```
 
-See the official
-[Rust SDK installation guide](https://github.com/github/copilot-sdk/tree/main/rust).
+公式の
+[Rust SDK インストールガイド](https://github.com/github/copilot-sdk/tree/main/rust)を参照してください。
 :::
 
 :::language java
-## What you need
+## 必要なもの
 
-| Requirement | Why the workshop needs it | Verify |
+| 要件 | ワークショップで必要な理由 | 確認方法 |
 |---|---|---|
-| [Java 17 or newer](https://adoptium.net/) (JDK) | Compiles and runs the Maven workshop app | `java -version` |
-| [Apache Maven 3.9+](https://maven.apache.org/install.html) | Builds the project and launches `exec:java` | `mvn -version` |
-| [Node.js 22 or newer](https://nodejs.org/) | Runs the Playwright MCP server | `node --version` |
-| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | Required on `PATH` for the Java SDK runtime | `copilot --version` |
-| [GitHub Copilot access](https://github.com/features/copilot) | Authorizes Copilot requests | `copilot login` |
-| Microsoft Edge (default) or Google Chrome | Lets Playwright inspect the target page | Open the browser once before the workshop |
+| [Java 17 or newer](https://adoptium.net/) (JDK) | Maven のワークショップアプリのコンパイルと実行 | `java -version` |
+| [Apache Maven 3.9+](https://maven.apache.org/install.html) | プロジェクトのビルドと `exec:java` の起動 | `mvn -version` |
+| [Node.js 22 or newer](https://nodejs.org/) | Playwright MCP サーバーの実行 | `node --version` |
+| [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) | Java SDK ランタイムのために `PATH` 上で必要 | `copilot --version` |
+| [GitHub Copilot access](https://github.com/features/copilot) | Copilot リクエストの認可 | `copilot login` |
+| Microsoft Edge (default) or Google Chrome | Playwright が対象ページを検査できるようにする | ワークショップ前に一度ブラウザを開く |
 
-Your commands should return output in this shape:
+コマンドは次のような形式の出力を返すはずです。
 
 ```text
 $ java -version
@@ -164,54 +164,54 @@ $ copilot --version
 GitHub Copilot CLI ...
 ```
 
-Use Maven for this track. Do not substitute JBang or Gradle. See the official
-[Java SDK installation guide](https://github.com/github/copilot-sdk/tree/main/java).
+このトラックでは Maven を使用してください。JBang や Gradle で代用しないでください。公式の
+[Java SDK インストールガイド](https://github.com/github/copilot-sdk/tree/main/java)を参照してください。
 :::
 
-## 1. Clone the repository and choose your starter
+## 1. リポジトリをクローンしてスターターを選ぶ
 
 ```bash
 git clone https://github.com/github/copilot-sdk-workshop.git
 cd copilot-sdk-workshop
 ```
 
-You work **directly inside the repository**. There is no copy step: you change into the starter
-directory for your language and stay there for the whole workshop. That means you are editing
-tracked repository files, so your changes show up in `git status`. That is expected. If you want a
-clean starter again, run `git checkout -- .` from the repository root to discard your edits.
+作業は**リポジトリ内で直接**行います。コピー手順はありません。自分の言語のスターター
+ディレクトリに移動し、ワークショップ全体を通してそこにとどまります。つまり、追跡対象の
+リポジトリファイルを編集することになるため、変更は `git status` に表示されます。これは想定どおりです。
+再びクリーンなスターターに戻したい場合は、リポジトリのルートで `git checkout -- .` を実行して編集を破棄してください。
 
-## 2. Authenticate Copilot
+## 2. Copilot を認証する
 
-Install the CLI with the method from the
-[official setup guide](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli), then run:
+[公式セットアップガイド](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)の
+方法で CLI をインストールし、次を実行します。
 
 ```bash
 copilot login
 ```
 
-Finish the browser flow so later SDK calls can reach GitHub Copilot.
+ブラウザのフローを完了させ、後続の SDK 呼び出しが GitHub Copilot に到達できるようにします。
 
-## 3. Warm up Playwright MCP
+## 3. Playwright MCP をウォームアップする
 
-Run this once to download the pinned package and print its options without starting a server:
+固定バージョンのパッケージをダウンロードし、サーバーを起動せずにそのオプションを表示するには、これを一度実行します。
 
 ```bash
 npx -y @playwright/mcp@0.0.78 --help
 ```
 
-The package version is pinned so everyone sees the same tool names and behavior. The code uses
-Microsoft Edge with `--browser=msedge`. If you prepared Google Chrome instead, use
-`--browser=chrome` when the argument appears in Step 4.
+パッケージのバージョンは固定されているため、全員が同じツール名と動作を目にします。コードは
+`--browser=msedge` で Microsoft Edge を使用します。代わりに Google Chrome を準備した場合は、
+ステップ4で引数が登場したときに `--browser=chrome` を使用してください。
 
 :::language dotnet
-## 4. Move into the starter and build it
+## 4. スターターに移動してビルドする
 
-If `dotnet build` cannot find the Copilot CLI later, set its path for the current terminal:
+後で `dotnet build` が Copilot CLI を見つけられない場合は、現在のターミナルにそのパスを設定します。
 
 <div class="workshop-tabs" data-tabs>
-  <div role="tablist" aria-label="Set the Copilot CLI path">
+  <div role="tablist" aria-label="Copilot CLI のパスを設定する">
     <button type="button" role="tab" aria-selected="true" data-tab="cli-windows">Windows</button>
-    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS or Linux</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS または Linux</button>
   </div>
   <div role="tabpanel" data-panel="cli-windows">
     <pre><code class="language-powershell">$env:COPILOT_CLI_BINARY_PATH = (Get-Command copilot).Source</code></pre>
@@ -221,14 +221,14 @@ If `dotnet build` cannot find the Copilot CLI later, set its path for the curren
   </div>
 </div>
 
-Change into the .NET starter and build it. Stay in this directory for every later step:
+.NET スターターに移動してビルドします。以降のすべてのステップでこのディレクトリにとどまってください。
 
 ```bash
 cd start-accessibility/dotnet
 dotnet build
 ```
 
-A successful build ends with:
+ビルドが成功すると、次のように終わります。
 
 ```text
 Build succeeded.
@@ -236,41 +236,41 @@ Build succeeded.
     0 Error(s)
 ```
 
-You work in `start-accessibility/dotnet` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+ワークショップの残りは `start-accessibility/dotnet` で作業するため、このターミナルはここに置いておきます。
+このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-Open the controlled target page once to make sure you can reach it:
+管理された対象ページを一度開いて、到達できることを確認します。
 
 ```text
 {{TARGET_APP_URL}}
 ```
 
 <details>
-<summary>Troubleshooting preflight</summary>
+<summary>事前準備のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `copilot` is not recognized | Restart the terminal after installation, or set `COPILOT_CLI_BINARY_PATH` with the command above. |
-| Copilot asks you to authenticate | Run `copilot login`, finish the browser flow, then retry. |
-| NuGet restore cannot reach the package source | Check proxy or package-source settings, then run `dotnet restore`. |
-| `npx` is not recognized | Install Node.js 22 or newer and restart the terminal. |
-| The browser cannot start later | Install Edge or Chrome, or follow the [Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration). |
+| `copilot` が認識されない | インストール後にターミナルを再起動するか、上記のコマンドで `COPILOT_CLI_BINARY_PATH` を設定します。 |
+| Copilot が認証を求めてくる | `copilot login` を実行し、ブラウザのフローを完了してから再試行します。 |
+| NuGet の復元がパッケージソースに到達できない | プロキシまたはパッケージソースの設定を確認し、`dotnet restore` を実行します。 |
+| `npx` が認識されない | Node.js 22 以降をインストールし、ターミナルを再起動します。 |
+| 後でブラウザが起動しない | Edge または Chrome をインストールするか、[Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration) に従います。 |
 
 </details>
 
-> **Start Step 1 when:** `dotnet build` succeeds, `copilot login` is complete, and the target page
-> opens.
+> **ステップ1を始めるタイミング:** `dotnet build` が成功し、`copilot login` が完了し、対象ページが
+> 開くとき。
 :::
 
 :::language nodejs
-## 4. Move into the starter and build it
+## 4. スターターに移動してビルドする
 
-If the SDK cannot find the Copilot CLI later, point it at your install for the current terminal:
+後で SDK が Copilot CLI を見つけられない場合は、現在のターミナルでインストール先を指定します。
 
 <div class="workshop-tabs" data-tabs>
-  <div role="tablist" aria-label="Set the Copilot CLI path">
+  <div role="tablist" aria-label="Copilot CLI のパスを設定する">
     <button type="button" role="tab" aria-selected="true" data-tab="cli-windows">Windows</button>
-    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS or Linux</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS または Linux</button>
   </div>
   <div role="tabpanel" data-panel="cli-windows">
     <pre><code class="language-powershell">$env:COPILOT_CLI_PATH = (Get-Command copilot).Source</code></pre>
@@ -280,8 +280,8 @@ If the SDK cannot find the Copilot CLI later, point it at your install for the c
   </div>
 </div>
 
-Change into the Node.js starter, install dependencies, and type-check. Stay in this directory for
-every later step:
+Node.js スターターに移動し、依存関係をインストールして型チェックします。以降のすべての
+ステップでこのディレクトリにとどまってください。
 
 ```bash
 cd start-accessibility/nodejs
@@ -289,46 +289,46 @@ npm install
 npm run build
 ```
 
-A successful type-check ends with no TypeScript errors (empty output from `tsc --noEmit`). The
-`package.json` start script is `tsx src/index.ts`.
+型チェックが成功すると、TypeScript のエラーなしで終わります（`tsc --noEmit` からの出力が空）。
+`package.json` の start スクリプトは `tsx src/index.ts` です。
 
-You work in `start-accessibility/nodejs` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+ワークショップの残りは `start-accessibility/nodejs` で作業するため、このターミナルはここに置いておきます。
+このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-Open the controlled target page once to make sure you can reach it:
+管理された対象ページを一度開いて、到達できることを確認します。
 
 ```text
 {{TARGET_APP_URL}}
 ```
 
 <details>
-<summary>Troubleshooting preflight</summary>
+<summary>事前準備のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `node` or `npm` is not recognized | Install Node.js 22.12 or newer and restart the terminal. |
-| Engine warning about Node version | Upgrade to Node.js 22.12+; the starter declares `"node": ">=22.12.0"`. |
-| `npm install` fails on the lockfile | Stay in `start-accessibility/nodejs` and keep `package-lock.json`; do not delete it. |
-| `copilot` is not recognized | Restart the terminal after installation, or set `COPILOT_CLI_PATH` with the command above. |
-| Copilot asks you to authenticate | Run `copilot login`, finish the browser flow, then retry. |
-| `npx` cannot download Playwright MCP | Check network access, then rerun the warm-up command from section 3. |
-| The browser cannot start later | Install Edge or Chrome, or follow the [Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration). |
+| `node` または `npm` が認識されない | Node.js 22.12 以降をインストールし、ターミナルを再起動します。 |
+| Node バージョンに関するエンジンの警告 | Node.js 22.12+ にアップグレードします。スターターは `"node": ">=22.12.0"` を宣言しています。 |
+| `npm install` がロックファイルで失敗する | `start-accessibility/nodejs` にとどまり `package-lock.json` を保持します。削除しないでください。 |
+| `copilot` が認識されない | インストール後にターミナルを再起動するか、上記のコマンドで `COPILOT_CLI_PATH` を設定します。 |
+| Copilot が認証を求めてくる | `copilot login` を実行し、ブラウザのフローを完了してから再試行します。 |
+| `npx` が Playwright MCP をダウンロードできない | ネットワークアクセスを確認し、セクション3のウォームアップコマンドを再実行します。 |
+| 後でブラウザが起動しない | Edge または Chrome をインストールするか、[Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration) に従います。 |
 
 </details>
 
-> **Start Step 1 when:** `npm run build` succeeds, `copilot login` is complete, and the target page
-> opens.
+> **ステップ1を始めるタイミング:** `npm run build` が成功し、`copilot login` が完了し、対象ページが
+> 開くとき。
 :::
 
 :::language python
-## 4. Move into the starter and build it
+## 4. スターターに移動してビルドする
 
-Optional: force the SDK to use your installed CLI instead of downloading a runtime:
+任意: SDK にランタイムをダウンロードさせる代わりに、インストール済みの CLI を使用させます。
 
 <div class="workshop-tabs" data-tabs>
-  <div role="tablist" aria-label="Set the Copilot CLI path">
+  <div role="tablist" aria-label="Copilot CLI のパスを設定する">
     <button type="button" role="tab" aria-selected="true" data-tab="cli-windows">Windows</button>
-    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS or Linux</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS または Linux</button>
   </div>
   <div role="tabpanel" data-panel="cli-windows">
     <pre><code class="language-powershell">$env:COPILOT_CLI_PATH = (Get-Command copilot).Source</code></pre>
@@ -338,13 +338,13 @@ Optional: force the SDK to use your installed CLI instead of downloading a runti
   </div>
 </div>
 
-Change into the Python starter, create a virtual environment, install pinned requirements, and
-compile-check. Stay in this directory for every later step:
+Python スターターに移動し、仮想環境を作成し、固定バージョンの要件をインストールして、
+コンパイルチェックします。以降のすべてのステップでこのディレクトリにとどまってください。
 
 <div class="workshop-tabs" data-tabs>
-  <div role="tablist" aria-label="Create the Python virtual environment">
+  <div role="tablist" aria-label="Python の仮想環境を作成する">
     <button type="button" role="tab" aria-selected="true" data-tab="venv-windows">Windows</button>
-    <button type="button" role="tab" aria-selected="false" data-tab="venv-unix">macOS or Linux</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="venv-unix">macOS または Linux</button>
   </div>
   <div role="tabpanel" data-panel="venv-windows">
     <pre><code class="language-powershell">cd start-accessibility/python
@@ -362,52 +362,52 @@ python -m py_compile main.py workshop.py report.py accessibility_rule_catalog.py
   </div>
 </div>
 
-A successful install prints the resolved packages, including `github-copilot-sdk==...`. A successful
-compile check prints no output. Keep the virtual environment activated for later steps.
+インストールが成功すると、`github-copilot-sdk==...` を含む解決済みのパッケージが表示されます。
+コンパイルチェックが成功すると、出力は表示されません。以降のステップのために仮想環境を有効化したままにしておきます。
 
-You work in `start-accessibility/python` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+ワークショップの残りは `start-accessibility/python` で作業するため、このターミナルはここに置いておきます。
+このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-Optionally pre-download the runtime now so the first Step 1 run is faster:
+任意で、最初のステップ1の実行を速くするために、今のうちにランタイムを事前ダウンロードしておきます。
 
 ```bash
 python -m copilot download-runtime
 ```
 
-Open the controlled target page once to make sure you can reach it:
+管理された対象ページを一度開いて、到達できることを確認します。
 
 ```text
 {{TARGET_APP_URL}}
 ```
 
 <details>
-<summary>Troubleshooting preflight</summary>
+<summary>事前準備のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `python` points at Python 2 or is missing | Use Python 3.11+ (`python3` on macOS/Linux) and recreate the venv. |
-| `pip install` cannot reach PyPI | Check proxy settings, then rerun `python -m pip install -r requirements.txt`. |
-| Wrong package versions | Install only from the pinned `requirements.txt`; do not loosen `==` pins. |
-| Runtime download fails later | Run `python -m copilot download-runtime`, or set `COPILOT_CLI_PATH` to a working CLI. |
-| Copilot asks you to authenticate | Run `copilot login`, finish the browser flow, then retry. |
-| `npx` is not recognized | Install Node.js 22 or newer and restart the terminal. |
-| The browser cannot start later | Install Edge or Chrome, or follow the [Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration). |
+| `python` が Python 2 を指しているか存在しない | Python 3.11+（macOS/Linux では `python3`）を使用し、venv を再作成します。 |
+| `pip install` が PyPI に到達できない | プロキシ設定を確認し、`python -m pip install -r requirements.txt` を再実行します。 |
+| パッケージのバージョンが誤っている | 固定された `requirements.txt` からのみインストールします。`==` の固定を緩めないでください。 |
+| 後でランタイムのダウンロードが失敗する | `python -m copilot download-runtime` を実行するか、動作する CLI に `COPILOT_CLI_PATH` を設定します。 |
+| Copilot が認証を求めてくる | `copilot login` を実行し、ブラウザのフローを完了してから再試行します。 |
+| `npx` が認識されない | Node.js 22 以降をインストールし、ターミナルを再起動します。 |
+| 後でブラウザが起動しない | Edge または Chrome をインストールするか、[Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration) に従います。 |
 
 </details>
 
-> **Start Step 1 when:** the pinned requirements install, `py_compile` succeeds, `copilot login` is
-> complete, and the target page opens.
+> **ステップ1を始めるタイミング:** 固定された要件がインストールされ、`py_compile` が成功し、`copilot login` が
+> 完了し、対象ページが開くとき。
 :::
 
 :::language go
-## 4. Move into the starter and build it
+## 4. スターターに移動してビルドする
 
-The Go SDK expects the Copilot CLI on `PATH`, or via `COPILOT_CLI_PATH`:
+Go SDK は Copilot CLI が `PATH` 上にあること、または `COPILOT_CLI_PATH` を通じて指定されることを期待します。
 
 <div class="workshop-tabs" data-tabs>
-  <div role="tablist" aria-label="Set the Copilot CLI path">
+  <div role="tablist" aria-label="Copilot CLI のパスを設定する">
     <button type="button" role="tab" aria-selected="true" data-tab="cli-windows">Windows</button>
-    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS or Linux</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS または Linux</button>
   </div>
   <div role="tabpanel" data-panel="cli-windows">
     <pre><code class="language-powershell">$env:COPILOT_CLI_PATH = (Get-Command copilot).Source</code></pre>
@@ -417,58 +417,58 @@ The Go SDK expects the Copilot CLI on `PATH`, or via `COPILOT_CLI_PATH`:
   </div>
 </div>
 
-Change into the Go starter and build with the lock enforced. Stay in this directory for every later
-step:
+Go スターターに移動し、ロックを強制した状態でビルドします。以降のすべてのステップで
+このディレクトリにとどまってください。
 
 ```bash
 cd start-accessibility/go
 go build -mod=readonly ./...
 ```
 
-A successful build prints no errors and produces a binary in the starter directory. Keep `go.sum`
-intact so module resolution stays deterministic.
+ビルドが成功するとエラーは表示されず、スターターディレクトリにバイナリが生成されます。
+モジュール解決が決定的なままになるよう、`go.sum` はそのまま保持してください。
 
-You work in `start-accessibility/go` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+ワークショップの残りは `start-accessibility/go` で作業するため、このターミナルはここに置いておきます。
+このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-Open the controlled target page once to make sure you can reach it:
+管理された対象ページを一度開いて、到達できることを確認します。
 
 ```text
 {{TARGET_APP_URL}}
 ```
 
 <details>
-<summary>Troubleshooting preflight</summary>
+<summary>事前準備のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `go: go.mod requires go >= 1.24` | Install Go 1.24 or newer and reopen the terminal. |
-| `missing go.sum entry` | Restore the committed `go.sum`; build with `-mod=readonly` instead of rewriting the lock. |
-| Module download blocked | Configure `GOPROXY`/proxy access, then retry the build from the starter directory. |
-| `copilot` is not recognized | Install the CLI, restart the terminal, or set `COPILOT_CLI_PATH`. |
-| Copilot asks you to authenticate | Run `copilot login`, finish the browser flow, then retry. |
-| `npx` is not recognized | Install Node.js 22 or newer and restart the terminal. |
-| The browser cannot start later | Install Edge or Chrome, or follow the [Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration). |
+| `go: go.mod requires go >= 1.24` | Go 1.24 以降をインストールし、ターミナルを開き直します。 |
+| `missing go.sum entry` | コミット済みの `go.sum` を復元します。ロックを書き換える代わりに `-mod=readonly` でビルドします。 |
+| モジュールのダウンロードがブロックされる | `GOPROXY`／プロキシアクセスを構成し、スターターディレクトリからビルドを再試行します。 |
+| `copilot` が認識されない | CLI をインストールし、ターミナルを再起動するか、`COPILOT_CLI_PATH` を設定します。 |
+| Copilot が認証を求めてくる | `copilot login` を実行し、ブラウザのフローを完了してから再試行します。 |
+| `npx` が認識されない | Node.js 22 以降をインストールし、ターミナルを再起動します。 |
+| 後でブラウザが起動しない | Edge または Chrome をインストールするか、[Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration) に従います。 |
 
 </details>
 
-> **Start Step 1 when:** `go build -mod=readonly ./...` succeeds, `copilot login` is complete, and
-> the target page opens.
+> **ステップ1を始めるタイミング:** `go build -mod=readonly ./...` が成功し、`copilot login` が完了し、
+> 対象ページが開くとき。
 
-Compare with
+ステップ1の後で参照点が欲しい場合は、
 [`finished/go/hello-copilot-sdk`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/go/hello-copilot-sdk)
-if you want a later reference point after Step 1.
+と比較してください。
 :::
 
 :::language rust
-## 4. Move into the starter and build it
+## 4. スターターに移動してビルドする
 
-If runtime startup cannot resolve the CLI later, set `COPILOT_CLI_PATH`:
+後でランタイム起動時に CLI を解決できない場合は、`COPILOT_CLI_PATH` を設定します。
 
 <div class="workshop-tabs" data-tabs>
-  <div role="tablist" aria-label="Set the Copilot CLI path">
+  <div role="tablist" aria-label="Copilot CLI のパスを設定する">
     <button type="button" role="tab" aria-selected="true" data-tab="cli-windows">Windows</button>
-    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS or Linux</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="cli-unix">macOS または Linux</button>
   </div>
   <div role="tabpanel" data-panel="cli-windows">
     <pre><code class="language-powershell">$env:COPILOT_CLI_PATH = (Get-Command copilot).Source</code></pre>
@@ -478,150 +478,150 @@ If runtime startup cannot resolve the CLI later, set `COPILOT_CLI_PATH`:
   </div>
 </div>
 
-Change into the Rust starter and check it against the lockfile. Stay in this directory for every
-later step:
+Rust スターターに移動し、ロックファイルと照合してチェックします。以降のすべてのステップで
+このディレクトリにとどまってください。
 
 ```bash
 cd start-accessibility/rust
 cargo check --locked
 ```
 
-A successful check ends with a `Finished` line and no errors. Keep `Cargo.lock` committed so the
-crate graph stays pinned.
+チェックが成功すると、`Finished` の行で終わり、エラーは表示されません。クレートグラフが
+固定されたままになるよう、`Cargo.lock` はコミットしたまま保持してください。
 
-You work in `start-accessibility/rust` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+ワークショップの残りは `start-accessibility/rust` で作業するため、このターミナルはここに置いておきます。
+このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-Open the controlled target page once to make sure you can reach it:
+管理された対象ページを一度開いて、到達できることを確認します。
 
 ```text
 {{TARGET_APP_URL}}
 ```
 
 <details>
-<summary>Troubleshooting preflight</summary>
+<summary>事前準備のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `rustc 1.xx is too old` | Install Rust 1.94+ with `rustup update` and reopen the terminal. |
-| Lockfile mismatch with `--locked` | Keep the starter `Cargo.lock`; do not run unconstrained `cargo update`. |
-| Crate download blocked | Check network/proxy access to crates.io, then retry `cargo check`. |
-| Runtime cannot start later | Install and authenticate `copilot`, or set `COPILOT_CLI_PATH`. |
-| Copilot asks you to authenticate | Run `copilot login`, finish the browser flow, then retry. |
-| `npx` is not recognized | Install Node.js 22 or newer and restart the terminal. |
-| The browser cannot start later | Install Edge or Chrome, or follow the [Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration). |
+| `rustc 1.xx is too old` | `rustup update` で Rust 1.94+ をインストールし、ターミナルを開き直します。 |
+| `--locked` でロックファイルが一致しない | スターターの `Cargo.lock` を保持します。制約のない `cargo update` を実行しないでください。 |
+| クレートのダウンロードがブロックされる | crates.io へのネットワーク／プロキシアクセスを確認し、`cargo check` を再試行します。 |
+| 後でランタイムが起動できない | `copilot` をインストールして認証するか、`COPILOT_CLI_PATH` を設定します。 |
+| Copilot が認証を求めてくる | `copilot login` を実行し、ブラウザのフローを完了してから再試行します。 |
+| `npx` が認識されない | Node.js 22 以降をインストールし、ターミナルを再起動します。 |
+| 後でブラウザが起動しない | Edge または Chrome をインストールするか、[Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration) に従います。 |
 
 </details>
 
-> **Start Step 1 when:** `cargo check --locked` succeeds, `copilot login` is complete, and the
-> target page opens.
+> **ステップ1を始めるタイミング:** `cargo check --locked` が成功し、`copilot login` が完了し、
+> 対象ページが開くとき。
 
-Compare with
+ステップ1の後で参照点が欲しい場合は、
 [`finished/rust/hello-copilot-sdk`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/rust/hello-copilot-sdk)
-if you want a later reference point after Step 1.
+と比較してください。
 :::
 
 :::language java
-## 4. Move into the starter and build it
+## 4. スターターに移動してビルドする
 
-The Java SDK expects the Copilot CLI on `PATH` when the application starts. Confirm it before
-building:
+Java SDK は、アプリケーションの起動時に Copilot CLI が `PATH` 上にあることを期待します。
+ビルドする前に確認してください。
 
 ```bash
 copilot --version
 ```
 
-Change into the Java starter and compile with Maven. Stay in this directory for every later step:
+Java スターターに移動し、Maven でコンパイルします。以降のすべてのステップでこのディレクトリにとどまってください。
 
 ```bash
 cd start-accessibility/java
 mvn compile
 ```
 
-A successful compile ends with:
+コンパイルが成功すると、次のように終わります。
 
 ```text
 [INFO] BUILD SUCCESS
 ```
 
-The `pom.xml` already configures `exec-maven-plugin` with
-`mainClass` `workshop.AccessibilityReport`. Stay on Maven for this track.
+`pom.xml` は、`mainClass` を `workshop.AccessibilityReport` として `exec-maven-plugin` を
+すでに構成しています。このトラックでは Maven を使い続けてください。
 
-You work in `start-accessibility/java` for the rest of the workshop, so keep this terminal here. From
-this folder, enter `code .` to open it in VS Code, or open the folder in your favorite editor.
+ワークショップの残りは `start-accessibility/java` で作業するため、このターミナルはここに置いておきます。
+このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-Open the controlled target page once to make sure you can reach it:
+管理された対象ページを一度開いて、到達できることを確認します。
 
 ```text
 {{TARGET_APP_URL}}
 ```
 
 <details>
-<summary>Troubleshooting preflight</summary>
+<summary>事前準備のトラブルシューティング</summary>
 
-| Symptom | Fix |
+| 症状 | 対処 |
 |---|---|
-| `java` or `mvn` is not recognized | Install JDK 17+ and Maven, then restart the terminal. |
-| Compiler release errors | Confirm `java -version` reports 17 or newer; the POM sets `maven.compiler.release` to 17. |
-| Dependency download fails | Check Maven Central / proxy settings, then rerun `mvn compile`. |
-| Tempted to switch tools | Do not replace Maven with JBang or Gradle for this workshop. |
-| `copilot` is not recognized | Install the CLI, restart the terminal, and verify `copilot --version`. |
-| Copilot asks you to authenticate | Run `copilot login`, finish the browser flow, then retry. |
-| `npx` is not recognized | Install Node.js 22 or newer and restart the terminal. |
-| The browser cannot start later | Install Edge or Chrome, or follow the [Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration). |
+| `java` または `mvn` が認識されない | JDK 17+ と Maven をインストールし、ターミナルを再起動します。 |
+| コンパイラーのリリースエラー | `java -version` が 17 以降を報告することを確認します。POM は `maven.compiler.release` を 17 に設定しています。 |
+| 依存関係のダウンロードが失敗する | Maven Central／プロキシの設定を確認し、`mvn compile` を再実行します。 |
+| ツールを切り替えたくなる | このワークショップでは Maven を JBang や Gradle に置き換えないでください。 |
+| `copilot` が認識されない | CLI をインストールし、ターミナルを再起動して、`copilot --version` を確認します。 |
+| Copilot が認証を求めてくる | `copilot login` を実行し、ブラウザのフローを完了してから再試行します。 |
+| `npx` が認識されない | Node.js 22 以降をインストールし、ターミナルを再起動します。 |
+| 後でブラウザが起動しない | Edge または Chrome をインストールするか、[Playwright MCP browser configuration](https://github.com/microsoft/playwright-mcp#configuration) に従います。 |
 
 </details>
 
-> **Start Step 1 when:** `mvn compile` prints `BUILD SUCCESS`, `copilot login` is complete, and the
-> target page opens.
+> **ステップ1を始めるタイミング:** `mvn compile` が `BUILD SUCCESS` を表示し、`copilot login` が完了し、
+> 対象ページが開くとき。
 
-Compare with
+ステップ1の後で参照点が欲しい場合は、
 [`finished/java/hello-copilot-sdk`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/java/hello-copilot-sdk)
-if you want a later reference point after Step 1.
+と比較してください。
 :::
 
-## Learn more
+## さらに学ぶ
 
-The SDK you are about to install is documented outside this workshop. These pages are the ones
-worth bookmarking before Step 1.
+これからインストールする SDK は、このワークショップの外でドキュメント化されています。ステップ1の前に
+ブックマークしておく価値があるのは次のページです。
 
-- [GitHub Copilot SDK how-tos](https://docs.github.com/en/copilot/how-tos/copilot-sdk): GitHub's
-  own SDK documentation, including the prerequisites this preflight mirrors.
+- [GitHub Copilot SDK how-tos](https://docs.github.com/en/copilot/how-tos/copilot-sdk): GitHub 自身の
+  SDK ドキュメントで、この事前準備が反映している前提条件を含みます。
 - [Copilot SDK documentation map](https://github.com/github/copilot-sdk/blob/main/docs/README.md):
-  the index for setup, authentication, features, and troubleshooting.
+  セットアップ、認証、機能、トラブルシューティングの索引です。
 - [Default setup: the bundled CLI](https://github.com/github/copilot-sdk/blob/main/docs/setup/bundled-cli.md):
-  how the SDK locates and starts the Copilot CLI, and how to point it at a different binary.
+  SDK が Copilot CLI をどのように探して起動するか、そして別のバイナリを指定する方法です。
 - [Debugging guide](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/debugging.md):
-  the first place to look when a run fails before it produces any output.
+  出力を生成する前に実行が失敗したときに最初に見るべき場所です。
 
 :::language dotnet
 - [.NET SDK reference](https://github.com/github/copilot-sdk/blob/main/dotnet/README.md):
-  package installation and a minimal example for the .NET SDK.
+  .NET SDK のパッケージインストールと最小限の例です。
 :::
 
 :::language nodejs
 - [Node.js SDK reference](https://github.com/github/copilot-sdk/blob/main/nodejs/README.md):
-  package installation and a minimal example for the Node.js SDK.
+  Node.js SDK のパッケージインストールと最小限の例です。
 :::
 
 :::language python
 - [Python SDK reference](https://github.com/github/copilot-sdk/blob/main/python/README.md):
-  package installation and a minimal example for the Python SDK.
+  Python SDK のパッケージインストールと最小限の例です。
 :::
 
 :::language go
 - [Go SDK reference](https://github.com/github/copilot-sdk/blob/main/go/README.md):
-  module installation and a minimal example for the Go SDK.
+  Go SDK のモジュールインストールと最小限の例です。
 :::
 
 :::language rust
 - [Rust SDK reference](https://github.com/github/copilot-sdk/blob/main/rust/README.md):
-  crate installation and a minimal example for the Rust SDK.
+  Rust SDK のクレートインストールと最小限の例です。
 :::
 
 :::language java
 - [Java SDK reference](https://github.com/github/copilot-sdk/blob/main/java/README.md):
-  dependency coordinates and a minimal example for the Java SDK.
+  Java SDK の依存関係の座標と最小限の例です。
 :::
 
-Continue to [Step 1: Create your first Copilot session](01-first-session.md).
+[ステップ1: 最初の Copilot セッションを作成する](01-first-session.md)に進みます。

@@ -1,41 +1,40 @@
-# Step 1: Your first curator session
+# ステップ 1: 最初のキュレーターセッション
 
-> **Time:** 10 minutes
+> **所要時間:** 10 分
 
-## What you'll build
+## 作るもの
 
-Real museum copy, in your terminal, in about ten minutes. You connect to the Copilot runtime, open
-one conversation, send a single prompt, and print what comes back.
+本物の博物館向け文章を、ターミナル上で、およそ 10 分で作成します。Copilot ランタイムに接続し、
+1 つの会話を開き、単一のプロンプトを送信して、返ってきた内容を表示します。
 
-No system message. No facts catalog. No tools. No interfaces. Nothing to implement against — you
-call the SDK directly, and the pre-built curator helpers stay untouched until Step 2 needs them.
+システムメッセージなし。ファクトカタログなし。ツールなし。インターフェースなし。実装対象は何もありません
+— SDK を直接呼び出すだけで、ビルド済みのキュレーターヘルパーはステップ 2 で必要になるまでそのまま残しておきます。
 
-## Meet the client and the session
+## クライアントとセッションを知る
 
-The [**Copilot runtime**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md)
-receives prompts, calls models, and manages tools. The **client** connects your application to that
-runtime. A **session** is one continuing conversation: it holds the messages and tool results that
-make up context.
+[**Copilot ランタイム**](https://github.com/github/copilot-sdk/blob/main/docs/features/agent-loop.md)
+はプロンプトを受け取り、モデルを呼び出し、ツールを管理します。**クライアント**は、あなたのアプリケーションを
+そのランタイムに接続します。**セッション**は 1 つの継続する会話です。コンテキストを構成するメッセージや
+ツールの結果を保持します。
 
-Keep one client alive for a piece of work, then create a session for each independent conversation.
-Right now the application is simply `client -> session -> printed response`.
+1 つのまとまった作業のあいだは 1 つのクライアントを生かし続け、独立した会話ごとにセッションを作成します。
+現時点でのアプリケーションは、単純に `client -> session -> printed response` です。
 
-## Answer permission requests before you send
+## 送信する前にパーミッションリクエストに応答する
 
-The runtime does not decide on its own whether a tool call may run. It asks the application, and the
-session's [permission handler](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md)
-is what answers. When a session is created without one, the request is not denied — it is emitted as
-an event and left pending for manual resolution, so the run stops and waits for an answer that never
-arrives.
+ランタイムは、ツール呼び出しを実行してよいかどうかを自分だけで判断しません。アプリケーションに問い合わせ、
+それに応答するのがセッションの[パーミッションハンドラー](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md)です。
+パーミッションハンドラーなしでセッションが作成された場合、リクエストは拒否されるわけではなく — イベントとして
+発行され、手動で解決されるまで保留のままになります。そのため実行が停止し、決して届かない応答を待ち続けます。
 
-Give this first session an approve-all handler so every request has an answer. It approves requests
-when managed settings are disabled, and it is a default rather than a safety measure: Step 5 shows
-what actually constrains this session, and Steps 7 and 8 replace it with narrow, scoped handlers.
+この最初のセッションには approve-all ハンドラーを与え、すべてのリクエストに応答があるようにします。これは
+managed settings が無効な場合にリクエストを承認するもので、安全対策というよりもデフォルトです。このセッションを
+実際に制約するものはステップ 5 で示し、ステップ 7 と 8 では、これを狭くスコープを限定したハンドラーに置き換えます。
 
-## Write the session
+## セッションを書く
 
 :::language dotnet
-Open `Program.cs` and **replace the entire file**:
+`Program.cs` を開き、**ファイル全体を置き換えます**:
 
 ```csharp
 using GitHub.Copilot;
@@ -66,17 +65,17 @@ Console.WriteLine(response.Data.Content);
 await client.StopAsync();
 ```
 
-`SendAndWaitAsync` blocks until the session goes idle, so you get the finished answer in one call.
-`await using` disposes the session and the client on the way out. `PermissionHandler.ApproveAll`
-comes from `GitHub.Copilot.Rpc`, which is why the second `using` is there.
+`SendAndWaitAsync` はセッションがアイドルになるまでブロックするため、完成した回答を 1 回の呼び出しで得られます。
+`await using` は処理を抜けるときにセッションとクライアントを破棄します。`PermissionHandler.ApproveAll` は
+`GitHub.Copilot.Rpc` に由来しており、2 つ目の `using` があるのはそのためです。
 
-The pre-built helpers you start calling in Step 2 live in `Helpers/CuratorFacts.cs`,
-`Helpers/CuratorStreamer.cs`, `Helpers/CuratorValidation.cs`, `Helpers/CuratorSafety.cs`, and
-`Helpers/CuratorTerminal.cs`. You never edit those files — you read them.
+ステップ 2 で呼び出し始めるビルド済みのヘルパーは、`Helpers/CuratorFacts.cs`、
+`Helpers/CuratorStreamer.cs`、`Helpers/CuratorValidation.cs`、`Helpers/CuratorSafety.cs`、
+`Helpers/CuratorTerminal.cs` にあります。これらのファイルは編集せず、読むだけです。
 :::
 
 :::language nodejs
-Open `src/index.ts` and **replace the entire file**:
+`src/index.ts` を開き、**ファイル全体を置き換えます**:
 
 ```typescript
 import { approveAll, CopilotClient } from "@github/copilot-sdk";
@@ -104,15 +103,15 @@ async function main(): Promise<void> {
 void main();
 ```
 
-`sendAndWait` blocks until the session goes idle, so you get the finished answer in one call.
-`approveAll` is imported from the SDK alongside `CopilotClient`.
+`sendAndWait` はセッションがアイドルになるまでブロックするため、完成した回答を 1 回の呼び出しで得られます。
+`approveAll` は `CopilotClient` とともに SDK からインポートされます。
 
-`src/curator.ts` beside this file is the pre-built helper module you start calling in Step 2. You
-never edit it — you read it.
+このファイルの隣にある `src/curator.ts` は、ステップ 2 で呼び出し始めるビルド済みのヘルパーモジュールです。
+このファイルは編集せず、読むだけです。
 :::
 
 :::language python
-Open `main.py` and **replace the entire file**:
+`main.py` を開き、**ファイル全体を置き換えます**:
 
 ```python
 import asyncio
@@ -157,16 +156,16 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-Python listens for session events rather than calling one blocking helper. Print the assistant
-message, treat a session error as a failure, and wait for idle before exiting. Step 2 replaces this
-whole listener with one helper call.
+Python は 1 つのブロッキングヘルパーを呼び出すのではなく、セッションイベントをリッスンします。アシスタントの
+メッセージを表示し、セッションエラーを失敗として扱い、終了する前にアイドルを待ちます。ステップ 2 では、この
+リスナー全体を 1 回のヘルパー呼び出しに置き換えます。
 
-`curator.py` beside this file is the pre-built helper module that owns that replacement. You never
-edit it — you read it.
+このファイルの隣にある `curator.py` は、その置き換えを担うビルド済みのヘルパーモジュールです。このファイルは
+編集せず、読むだけです。
 :::
 
 :::language go
-Open `main.go` and **replace the entire file**:
+`main.go` を開き、**ファイル全体を置き換えます**:
 
 ```go
 package main
@@ -213,12 +212,12 @@ func main() {
 }
 ```
 
-`curator.go` is already in this same `main` package, so its helpers are in scope the moment you
-need them. `SendAndWait` blocks until the session goes idle.
+`curator.go` はすでにこの同じ `main` パッケージにあるため、そのヘルパーは必要になった瞬間にスコープ内に
+あります。`SendAndWait` はセッションがアイドルになるまでブロックします。
 :::
 
 :::language rust
-Open `src/main.rs` and **replace the entire file**:
+`src/main.rs` を開き、**ファイル全体を置き換えます**:
 
 ```rust
 use github_copilot_sdk::permission;
@@ -254,17 +253,16 @@ async fn main() -> Result<(), RuntimeError> {
 }
 ```
 
-`src/lib.rs` is the `museum_exhibit_studio` library crate that ships the pre-built helpers, and you
-never edit it. You import one name from it today: `RuntimeError`, the crate's alias for
-`Box<dyn Error + Send + Sync>`. Every helper you call from Step 2 onward reports failure with that
-type, so `main` returns it from the start and `?` keeps working as the lessons grow.
+`src/lib.rs` は、ビルド済みのヘルパーを提供する `museum_exhibit_studio` ライブラリクレートであり、編集は
+しません。今日ここからインポートする名前は 1 つだけです。`RuntimeError` は、クレートが
+`Box<dyn Error + Send + Sync>` に付けたエイリアスです。ステップ 2 以降で呼び出すすべてのヘルパーは、この型で
+失敗を報告します。そのため `main` は最初からこの型を返し、レッスンが進んでも `?` が機能し続けます。
 
-`with_permission_handler` returns the updated config, so keep the remaining fields set on the value
-it hands back.
+`with_permission_handler` は更新後の config を返すので、返された値に対して残りのフィールドを設定してください。
 :::
 
 :::language java
-Open `src/main/java/workshop/MuseumExhibitStudio.java` and **replace the entire file**:
+`src/main/java/workshop/MuseumExhibitStudio.java` を開き、**ファイル全体を置き換えます**:
 
 ```java
 package workshop;
@@ -303,15 +301,15 @@ public final class MuseumExhibitStudio {
 }
 ```
 
-`sendAndWait` blocks until the session goes idle. The try-with-resources block closes the client
-when `main` exits. `PermissionHandler.APPROVE_ALL` comes from `com.github.copilot.rpc`.
+`sendAndWait` はセッションがアイドルになるまでブロックします。try-with-resources ブロックは、`main` が終了
+するときにクライアントをクローズします。`PermissionHandler.APPROVE_ALL` は `com.github.copilot.rpc` に由来します。
 
-The pre-built helpers you start calling in Step 2 sit beside your file in
-`src/main/java/workshop/`: `CuratorFacts.java`, `CuratorStreamer.java`, `CuratorValidation.java`,
-`CuratorSafety.java`, and `CuratorTerminal.java`. You never edit those files — you read them.
+ステップ 2 で呼び出し始めるビルド済みのヘルパーは、あなたのファイルの隣、`src/main/java/workshop/` にあります。
+`CuratorFacts.java`、`CuratorStreamer.java`、`CuratorValidation.java`、`CuratorSafety.java`、
+`CuratorTerminal.java` です。これらのファイルは編集せず、読むだけです。
 :::
 
-## Run it
+## 実行する
 
 :::language dotnet
 ```bash
@@ -344,7 +342,7 @@ mvn compile exec:java
 ```
 :::
 
-Your exact wording will vary, but the output has this shape:
+お使いの環境で実際に出力される文言は異なりますが、出力はこのような形になります:
 
 ```text
 === Museum Exhibit Studio ===
@@ -353,26 +351,25 @@ The Apollo 11 mission carried three astronauts toward the Moon in July 1969. Day
 two of them stepped onto its surface while the world listened.
 ```
 
-Two sentences of museum-ish prose arrive after a short pause. Nothing streams yet, no tone is
-enforced yet, and nothing stops the model from reaching past the subject you asked about. Those are
-the next three steps.
+短い待機の後に、博物館らしい 2 文が届きます。まだ何もストリーミングされず、トーンも強制されておらず、
+尋ねた主題を超えてモデルが手を伸ばすのを止めるものもありません。それらが次の 3 つのステップです。
 
-## Check your understanding
+## 理解度チェック
 
-- What does the session hold that the client does not?
-- The response arrived all at once after a pause. Which part of the current code causes that?
-- The session answered every permission request instead of leaving it pending. Did that make the
-  session safer, or only make it able to finish?
-- Nothing in this step restricts what the model may claim about Apollo 11. What is the only thing
-  keeping the answer roughly on topic right now?
+- クライアントが保持していないもので、セッションが保持しているものは何でしょうか?
+- 応答は待機の後に一度にまとめて届きました。現在のコードのどの部分がそうさせているのでしょうか?
+- セッションはすべてのパーミッションリクエストを保留にせず応答しました。それはセッションをより安全に
+  したのでしょうか、それとも単に完了できるようにしただけでしょうか?
+- このステップには、モデルが Apollo 11 について主張できる内容を制限するものが何もありません。今この回答を
+  おおむね主題に沿わせている唯一のものは何でしょうか?
 
-## Learn more
+## さらに学ぶ
 
 - [Build your first Copilot-powered app](https://docs.github.com/en/copilot/how-tos/copilot-sdk/getting-started):
-  GitHub's tutorial for the same first client, session, and prompt.
+  同じ最初のクライアント、セッション、プロンプトを扱う GitHub のチュートリアルです。
 - [Session resume and persistence](https://github.com/github/copilot-sdk/blob/main/docs/features/session-persistence.md):
-  what a session keeps, and how to pick a conversation back up later.
+  セッションが何を保持し、後で会話をどのように再開するか。
 - [Authentication](https://github.com/github/copilot-sdk/blob/main/docs/auth/README.md):
-  the credentials a client can use once you move past `copilot login`.
+  `copilot login` の先へ進んだときにクライアントが使用できる認証情報。
 
-Continue to [Stream the curator](museum-02-stream-the-curator.md).
+[Stream the curator](museum-02-stream-the-curator.md) に進みます。

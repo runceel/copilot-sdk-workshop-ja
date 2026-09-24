@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Choose a hands-on GitHub Copilot SDK workshop: build an SDLC accessibility reviewer or a grounded museum curator.">
-    <title>Choose your workshop | GitHub Copilot SDK</title>
+    <meta name="description" content="実践型の GitHub Copilot SDK ワークショップを選びましょう。SDLC 向けのアクセシビリティレビュアー、または根拠に基づく博物館キュレーターを構築します。">
+    <title>ワークショップを選ぶ | GitHub Copilot SDK</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,58 +15,58 @@
     <script src="language-navigation.js"></script>
 </head>
 <body>
-    <a class="skip-link" href="#main">Skip to workshop overview</a>
+    <a class="skip-link" href="#main">ワークショップの概要へスキップ</a>
 
     <header class="site-header">
-        <a href="index.html" class="site-brand" aria-label="GitHub Copilot SDK Workshop home">
+        <a href="index.html" class="site-brand" aria-label="GitHub Copilot SDK Workshop のホーム">
             <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 1C5.9 1 1 5.9 1 12c0 4.9 3.2 9 7.5 10.5.6.1.8-.2.8-.5v-2.1c-3.1.7-3.7-1.3-3.7-1.3-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.2.9.1-.7.4-1.2.7-1.5-2.5-.3-5.1-1.2-5.1-5.4 0-1.2.4-2.2 1.1-2.9-.1-.3-.5-1.4.1-2.9 0 0 .9-.3 3 1.1.9-.2 1.8-.4 2.7-.4.9 0 1.9.1 2.7.4 2.1-1.4 3-1.1 3-1.1.6 1.5.2 2.6.1 2.9.7.8 1.1 1.7 1.1 2.9 0 4.2-2.6 5.1-5.1 5.4.4.3.8 1 .8 2V22c0 .4.2.6.8.5A11 11 0 0 0 23 12c0-6.1-4.9-11-11-11Z"/>
             </svg>
             <span>GitHub Copilot SDK Workshop</span>
         </a>
-        <nav class="site-nav" aria-label="Workshop resources">
-            <a id="targetAppLink" href="target-app/index.html" target="_blank" rel="noopener" hidden>Target app ↗</a>
-            <a id="sdkDocsLink" target="_blank" rel="noopener" aria-disabled="true">📚 SDK docs ↗</a>
-            <button class="theme-toggle" type="button" onclick="toggleTheme()">☀️ Light</button>
+        <nav class="site-nav" aria-label="ワークショップの関連リンク">
+            <a id="targetAppLink" href="target-app/index.html" target="_blank" rel="noopener" hidden>対象アプリ ↗</a>
+            <a id="sdkDocsLink" target="_blank" rel="noopener" aria-disabled="true">📚 SDK ドキュメント ↗</a>
+            <button class="theme-toggle" type="button" onclick="toggleTheme()">☀️ ライト</button>
         </nav>
     </header>
 
     <main class="home-shell" id="main">
         <section class="hero-layout" aria-labelledby="hero-title">
             <div class="hero-copy">
-                <h1 id="hero-title">Choose what your agent is here to do.</h1>
+                <h1 id="hero-title">エージェントに何をさせるかを選びましょう。</h1>
                 <p class="hero-definition">
-                    Two workshops. One SDK. Build an agent for the software lifecycle, or take
-                    Copilot into a completely different domain.
+                    2 つのワークショップ、1 つの SDK。ソフトウェア開発ライフサイクル向けのエージェントを作るか、
+                    まったく別の領域に Copilot を連れ出すかを選べます。
                 </p>
 
                 <fieldset class="workshop-picker" id="workshop-picker">
-                    <legend>Choose a workshop</legend>
+                    <legend>ワークショップを選択</legend>
                     <label class="workshop-option" data-workshop="sdlc">
                         <input type="radio" name="workshop" value="sdlc">
                         <span class="workshop-option-copy">
-                            <span class="workshop-kicker">Developer tool · 90 minutes</span>
-                            <strong>Review web accessibility</strong>
-                            <span>Build an SDLC agent that inspects a page, consults WCAG guidance, and produces an evidence-based report.</span>
-                            <span class="workshop-capabilities">Streaming · local tools · Playwright MCP · permissions</span>
+                            <span class="workshop-kicker">開発者向けツール · 90 minutes</span>
+                            <strong>Web アクセシビリティをレビューする</strong>
+                            <span>ページを調査し、WCAG のガイダンスを参照して、根拠に基づくレポートを生成する SDLC エージェントを構築します。</span>
+                            <span class="workshop-capabilities">ストリーミング · ローカルツール · Playwright MCP · パーミッション</span>
                         </span>
                     </label>
                     <label class="workshop-option" data-workshop="museum">
                         <input type="radio" name="workshop" value="museum">
                         <span class="workshop-option-copy">
-                            <span class="workshop-kicker">Non-SDLC tool · 90 minutes</span>
-                            <strong>Curate a museum exhibit</strong>
-                            <span>Build a grounded interpretive agent that turns approved facts into visitor-ready exhibit copy.</span>
-                            <span class="workshop-capabilities">Custom persona · one application-owned tool · validation · evaluation</span>
+                            <span class="workshop-kicker">SDLC 以外のツール · 90 minutes</span>
+                            <strong>博物館の展示をキュレーションする</strong>
+                            <span>承認済みファクトを来館者向けの展示文に変換する、根拠に基づいた解説エージェントを構築します。</span>
+                            <span class="workshop-capabilities">カスタムペルソナ · アプリケーション所有のツール 1 つ · 検証 · 評価</span>
                         </span>
                     </label>
                 </fieldset>
 
                 <section class="language-picker" id="language-picker" aria-labelledby="language-picker-title">
-                    <h2 id="language-picker-title">Choose your workshop language</h2>
-                    <p id="languageSummary">Choose a workshop first, then select its implementation language.</p>
+                    <h2 id="language-picker-title">ワークショップの言語を選択</h2>
+                    <p id="languageSummary">先にワークショップを選び、次に実装言語を選択してください。</p>
                     <fieldset class="language-options" id="languagePicker" disabled>
-                        <legend class="visually-hidden">Programming language</legend>
+                        <legend class="visually-hidden">プログラミング言語</legend>
                         <label class="language-option" data-language="dotnet">
                             <input type="radio" name="language" value="dotnet" required>
                             <span>.NET</span>
@@ -95,30 +95,30 @@
                     <p class="language-detail"><code id="installCommand"></code><span id="runtimeNote"></span></p>
                 </section>
                 <div class="hero-action">
-                    <a class="primary-action" id="startWorkshopLink" href="#workshop-picker" aria-disabled="true">Start selected workshop</a>
-                    <p id="startGuidance">Choose a workshop and language. No prior agent or SDK experience required.</p>
+                    <a class="primary-action" id="startWorkshopLink" href="#workshop-picker" aria-disabled="true">選択したワークショップを開始</a>
+                    <p id="startGuidance">ワークショップと言語を選んでください。エージェントや SDK の経験は不要です。</p>
                 </div>
             </div>
 
-            <aside class="terminal-preview" aria-label="Selected workshop preview">
+            <aside class="terminal-preview" aria-label="選択中のワークショップのプレビュー">
                 <div class="terminal-bar">
                     <span></span><span></span><span></span>
                     <p id="previewTitle">workshop-preview</p>
                 </div>
-                <pre><code id="workshopPreview">Select a workshop to preview its agent flow.</code></pre>
+                <pre><code id="workshopPreview">ワークショップを選択すると、エージェントの流れをプレビューできます。</code></pre>
             </aside>
         </section>
 
         <section class="outcomes" aria-labelledby="outcomes-title">
             <div>
-                <h2 id="outcomes-title">Build the app. Understand the boundary.</h2>
+                <h2 id="outcomes-title">アプリを作り、境界を理解する。</h2>
             </div>
             <ul>
-                <li>Create and manage a Copilot session.</li>
-                <li>Separate durable agent policy from task data.</li>
-                <li>Choose the right tool surface for the job.</li>
-                <li>Validate objective output requirements in code.</li>
-                <li>Explain where prompt guidance ends and hard controls begin.</li>
+                <li>Copilot セッションを作成し、管理する。</li>
+                <li>恒久的なエージェントのポリシーとタスク固有のデータを分離する。</li>
+                <li>目的に合ったツールの範囲を選ぶ。</li>
+                <li>客観的な出力要件をコードで検証する。</li>
+                <li>プロンプトによる誘導が終わり、強制的な制御が始まる境界を説明する。</li>
             </ul>
         </section>
     </main>
