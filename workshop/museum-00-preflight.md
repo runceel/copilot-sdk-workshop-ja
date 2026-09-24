@@ -42,7 +42,7 @@ git clone https://github.com/github/copilot-sdk-workshop.git
 cd copilot-sdk-workshop
 ```
 
-Confirm the terminal is at the repository root before you change into a starter:
+スターターへ移動する前に、ターミナルがリポジトリのルートにあることを確認します:
 
 ```bash
 test "$(git rev-parse --show-toplevel)" = "$PWD"
@@ -67,9 +67,6 @@ dotnet build --no-restore
 dotnet run --no-build
 ```
 
-Pass condition: the build succeeds and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in Helpers/.`
-
 合格条件: ビルドが成功し、プログラムが `=== Museum Exhibit Studio starter ===` に続けて
 `Pre-built curator helpers are ready in Helpers/.` を出力します。
 
@@ -91,9 +88,6 @@ npm run build
 npm start
 ```
 
-Pass condition: the build succeeds and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in src/curator.ts.`
-
 合格条件: ビルドが成功し、プログラムが `=== Museum Exhibit Studio starter ===` に続けて
 `Pre-built curator helpers are ready in src/curator.ts.` を出力します。
 
@@ -113,11 +107,6 @@ python3 -m venv .venv
 .venv/bin/python -m py_compile *.py
 .venv/bin/python main.py
 ```
-
-On Windows, the interpreter lives at `.venv/Scripts/python.exe`.
-
-Pass condition: the source compiles and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in curator.py.`
 
 Windows では、インタープリターは `.venv/Scripts/python.exe` にあります。
 
@@ -140,9 +129,6 @@ go build -mod=readonly ./...
 go run .
 ```
 
-Pass condition: the build succeeds and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in curator.go.`
-
 合格条件: ビルドが成功し、プログラムが `=== Museum Exhibit Studio starter ===` に続けて
 `Pre-built curator helpers are ready in curator.go.` を出力します。
 
@@ -162,10 +148,6 @@ cargo fetch --locked
 cargo check --locked
 cargo run --locked
 ```
-
-Pass condition: Cargo leaves `Cargo.lock` unchanged and the program prints
-`=== Museum Exhibit Studio starter ===` followed by
-`Pre-built curator helpers are ready in src/lib.rs.`
 
 合格条件: Cargo が `Cargo.lock` を変更せずに残し、プログラムが
 `=== Museum Exhibit Studio starter ===` に続けて
@@ -187,9 +169,6 @@ mvn dependency:go-offline
 mvn compile
 mvn exec:java
 ```
-
-Pass condition: Maven succeeds and the program prints `=== Museum Exhibit Studio starter ===`
-followed by `Pre-built curator helpers are ready in src/main/java/workshop/.`
 
 合格条件: Maven が成功し、プログラムが `=== Museum Exhibit Studio starter ===` に続けて
 `Pre-built curator helpers are ready in src/main/java/workshop/.` を出力します。

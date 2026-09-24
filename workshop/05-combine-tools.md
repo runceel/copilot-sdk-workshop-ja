@@ -1,4 +1,4 @@
-# Step 5: Combine local and MCP tools
+# ステップ 5: ローカルツールと MCP ツールを組み合わせる
 
 > **所要時間:** 15 分
 
