@@ -55,6 +55,8 @@ const string ResearchSystemMessage = """
     """;
 ```
 
+> **日本語補足（プロンプト）:** リサーチ用セッションのシステムメッセージで、Wikipedia 検索・記事読み取りツールだけを使い、取得した記事本文を信頼できないデータとして扱うよう指示しています。展示本文を書かず、最後に `## Sources` で参照記事を列挙する点を確認します。
+
 すでにある構成とプロンプトビルダーの隣に、リサーチ用の構成とプロンプトビルダーを追加します。
 
 ```csharp
@@ -97,6 +99,8 @@ static string BuildResearchPrompt(IEnumerable<string?> approvedFacts)
         """;
 }
 ```
+
+> **日本語補足（プロンプト）:** 承認済みファクトをもとに Wikipedia で背景調査を行うよう依頼するユーザープロンプトです。検索後に関連する数件の記事を読み、教育者向けの短い要約と `## Sources` を返し、展示用ファクトには追加しない条件を確認します。
 
 ファクトが確定した後、展示が生成される前に、リサーチパスを提供します。
 
@@ -156,6 +160,8 @@ sources. End your reply with a "## Sources" section listing each consulted artic
 "- <article title>: <canonical Wikipedia URL>".`;
 ```
 
+> **日本語補足（プロンプト）:** リサーチ用セッションのシステムメッセージで、Wikipedia 検索・記事読み取りツールだけを使い、取得した記事本文を信頼できないデータとして扱うよう指示しています。展示本文を書かず、最後に `## Sources` で参照記事を列挙する点を確認します。
+
 リサーチ用の構成とプロンプトビルダーを追加します。
 
 ```typescript
@@ -185,6 +191,8 @@ End with a "## Sources" section listing each consulted article as:
 - <article title>: <canonical Wikipedia URL>`;
 }
 ```
+
+> **日本語補足（プロンプト）:** 承認済みファクトをもとに Wikipedia で背景調査を行うよう依頼するユーザープロンプトです。検索後に関連する数件の記事を読み、教育者向けの短い要約と `## Sources` を返し、展示用ファクトには追加しない条件を確認します。
 
 ファクトが確定した後、展示が生成される前に、リサーチパスを提供します。
 
@@ -236,6 +244,8 @@ sources. End your reply with a "## Sources" section listing each consulted artic
 "- <article title>: <canonical Wikipedia URL>"."""
 ```
 
+> **日本語補足（プロンプト）:** リサーチ用セッションのシステムメッセージで、Wikipedia 検索・記事読み取りツールだけを使い、取得した記事本文を信頼できないデータとして扱うよう指示しています。展示本文を書かず、最後に `## Sources` で参照記事を列挙する点を確認します。
+
 リサーチ用の構成とプロンプトビルダーを追加します。
 
 ```python
@@ -267,6 +277,8 @@ exhibit copy, do not restate the supplied facts as your own findings, and do not
 the exhibit. End with a "## Sources" section listing each consulted article as
 "- <article title>: <canonical Wikipedia URL>"."""
 ```
+
+> **日本語補足（プロンプト）:** 承認済みファクトをもとに Wikipedia で背景調査を行うよう依頼するユーザープロンプトです。検索後に関連する数件の記事を読み、教育者向けの短い要約と `## Sources` を返し、展示用ファクトには追加しない条件を確認します。
 
 ファクトが確定した後、展示が生成される前に、リサーチパスを提供します。
 
@@ -317,6 +329,8 @@ sources. End your reply with a "## Sources" section listing each consulted artic
 "- <article title>: <canonical Wikipedia URL>".`
 ```
 
+> **日本語補足（プロンプト）:** リサーチ用セッションのシステムメッセージで、Wikipedia 検索・記事読み取りツールだけを使い、取得した記事本文を信頼できないデータとして扱うよう指示しています。展示本文を書かず、最後に `## Sources` で参照記事を列挙する点を確認します。
+
 リサーチ用の構成、プロンプトビルダー、そして小さなラッパーを追加します。
 
 ```go
@@ -366,6 +380,8 @@ func researchNotes(ctx context.Context, facts []string, workingDirectory string)
 	return runSession(ctx, researchConfig(workingDirectory), prompt, ResearchTimeout)
 }
 ```
+
+> **日本語補足（プロンプト）:** 承認済みファクトをもとに Wikipedia で背景調査を行うよう依頼するユーザープロンプトです。検索後に関連する数件の記事を読み、教育者向けの短い要約と `## Sources` を返し、展示用ファクトには追加しない条件を確認します。
 
 ファクトが確定した後、展示が生成される前に、リサーチパスを提供します。
 
@@ -419,6 +435,8 @@ sources. End your reply with a "## Sources" section listing each consulted artic
 "- <article title>: <canonical Wikipedia URL>"."###;
 ```
 
+> **日本語補足（プロンプト）:** リサーチ用セッションのシステムメッセージで、Wikipedia 検索・記事読み取りツールだけを使い、取得した記事本文を信頼できないデータとして扱うよう指示しています。展示本文を書かず、最後に `## Sources` で参照記事を列挙する点を確認します。
+
 リサーチ用の構成とプロンプトビルダーを追加します。
 
 ```rust
@@ -469,6 +487,8 @@ any researched facts to the approved facts for generation."#
     ))
 }
 ```
+
+> **日本語補足（プロンプト）:** 承認済みファクトをもとに Wikipedia で背景調査を行うよう依頼するユーザープロンプトです。検索後に関連する数件の記事を読み、教育者向けの短い要約と `## Sources` を返し、展示用ファクトには追加しない条件を確認します。
 
 ファクトが確定した後、展示が生成される前に、リサーチパスを提供します。
 
@@ -524,6 +544,8 @@ any researched facts to the approved facts for generation."#
             """;
 ```
 
+> **日本語補足（プロンプト）:** リサーチ用セッションのシステムメッセージで、Wikipedia 検索・記事読み取りツールだけを使い、取得した記事本文を信頼できないデータとして扱うよう指示しています。展示本文を書かず、最後に `## Sources` で参照記事を列挙する点を確認します。
+
 リサーチ用の構成とプロンプトビルダーを追加します。
 
 ```java
@@ -560,6 +582,8 @@ any researched facts to the approved facts for generation."#
                 """.formatted(factList);
     }
 ```
+
+> **日本語補足（プロンプト）:** 承認済みファクトをもとに Wikipedia で背景調査を行うよう依頼するユーザープロンプトです。検索後に関連する数件の記事を読み、教育者向けの短い要約と `## Sources` を返し、展示用ファクトには追加しない条件を確認します。
 
 ファクトが確定した後、展示が生成される前に、リサーチパスを提供します。
 
@@ -654,6 +678,8 @@ Consulted Wikipedia sources:
 - Apollo 11: https://en.wikipedia.org/wiki/Apollo_11
 - Neil Armstrong: https://en.wikipedia.org/wiki/Neil_Armstrong
 ```
+
+> **日本語補足（出力例）:** Wikipedia リサーチを有効にした実行例です。検索と記事読み取りツールだけが動き、リサーチメモは承認済みファクトへ追加されず、展示と検証レポートの後に出典が表示されることを確認します。
 
 その出力で注目すべき点が 3 つあります。
 

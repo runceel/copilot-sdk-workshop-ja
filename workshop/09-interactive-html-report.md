@@ -94,6 +94,8 @@ public static string CreateReportPrompt(Uri targetUri) => $"""
     Created accessibility-report.html
     """;
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language nodejs
@@ -155,6 +157,8 @@ Do not write any other file. After the write succeeds, respond only with:
 Created accessibility-report.html`;
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language python
@@ -214,6 +218,8 @@ inserting it into HTML. Make keyboard focus visible.
 Do not write any other file. After the write succeeds, respond only with:
 Created accessibility-report.html"""
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language go
@@ -282,6 +288,8 @@ Do not write any other file. After the write succeeds, respond only with:
 Created accessibility-report.html`, target)
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language rust
@@ -361,6 +369,8 @@ Created accessibility-report.html"#
     )
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language java
@@ -492,6 +502,8 @@ private static String reportPrompt(URI target) {
             Created accessibility-report.html""".formatted(target);
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 ## 実行する

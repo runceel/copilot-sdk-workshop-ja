@@ -27,6 +27,8 @@
 Structural checks do not prove factual grounding. Unsupported claims require human review or a separate evaluator.
 ```
 
+> **日本語補足（出力例）:** 構造チェックが合格しても、事実の裏付けまでは保証しないことを示す英語メッセージです。人間のレビューや別の評価が必要な境界を明示している点を確認します。
+
 あなたはバリデーターを書くわけではありません。マシンの判定に*反応する*方法を学ぶこと、そして
 それが何をカバーしていないのかを正確に知ることが、このレッスンの主眼です。
 
@@ -235,6 +237,8 @@ Structural checks passed.
 Structural checks do not prove factual grounding. Unsupported claims require human review or a separate evaluator.
 ```
 
+> **日本語補足（出力例）:** 構造チェックがすべて成功した場合のレポート例です。タイトル、見出し、語数、質問数、禁止語彙がすべて条件を満たし、最後に事実確認の限界が表示されていることを確認します。
+
 失敗した実行も同じくらい有益で、いずれ目にすることになります。展示ストーリーの語数がその原因で
 あることがほとんどです。
 
@@ -252,6 +256,8 @@ Structural checks found issues:
 Structural checks do not prove factual grounding. Unsupported claims require human review or a separate evaluator.
 ```
 
+> **日本語補足（出力例）:** 構造チェックで語数違反が見つかった場合のレポート例です。`Narrative length` が `false` になり、具体的な語数エラーが追加されていることを確認します。
+
 それでも実行は正常に終了します。これは意図的なものです。このレポートは公開するかどうかを判断する
 人間のキュレーターのためのものであり、ビルドのゲートではありません。展示を再実行するか、ファクトの
 リストを絞り込んで、もう一度試してみてください。
@@ -262,6 +268,8 @@ Structural checks do not prove factual grounding. Unsupported claims require hum
 ```text
 The museum's ticketing terminal was installed in 1998.
 ```
+
+> **日本語補足（プロンプト）:** 禁止語彙ルールを試すため、`terminal` を含む英語のファクトを入力する例です。生成後のレポートで禁止語彙が検出されることを確認します。
 
 展示は `terminal` という語を繰り返し、レポートがそれを指摘します。このチェックはあなたの意図では
 なく、出力を読み取っているのです。

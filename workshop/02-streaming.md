@@ -93,6 +93,8 @@ await ResponseStreamer.SendAndPrintAsync(
     "Explain accessible names in three short bullet points.");
 ```
 
+> **日本語補足（プロンプト）:** accessible name について短い箇条書き 3 点で説明するよう Copilot に依頼しています。応答が 3 つの短い項目になり、各項目が入力の識別や支援技術との関係を説明しているかを確認してください。
+
 ## 実行する
 
 ```bash
@@ -109,6 +111,8 @@ Copilot:
 - Helps screen-reader users understand its purpose.
 - Connects visible labels to form controls.
 ```
+
+> **日本語補足（出力例）:** Copilot の回答が 3 つの箇条書きとして表示される例です。各項目が段階的に表示され、最後まで出力されてプロセスが終了すれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -262,6 +266,8 @@ try {
 }
 ```
 
+> **日本語補足（プロンプト）:** ストリーミングが対話型アシスタントを改善する理由を 1 文で説明するよう依頼しています。応答が 1 文で、途中経過が早く見えることによる応答性の向上に触れているかを確認してください。
+
 ## 実行する
 
 ```bash
@@ -273,6 +279,8 @@ npm start
 ```text
 Streaming shows partial answers as soon as tokens arrive, so the assistant feels responsive while it works.
 ```
+
+> **日本語補足（出力例）:** ストリーミングによって部分的な回答が届き次第表示されることを説明する 1 文の例です。応答性の向上に触れた文が表示されれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -404,6 +412,8 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+> **日本語補足（プロンプト）:** accessible name について短い箇条書き 3 点で説明するよう Copilot に依頼しています。応答が 3 つの短い項目になり、各項目が入力の識別や支援技術との関係を説明しているかを確認してください。
+
 最終メッセージのケースは、デルタを送信せずに完了するランタイムに対応します。セッションエラーは
 `error` を設定して待機を完了させるため、ターンが成功したようには見えません。
 
@@ -420,6 +430,8 @@ python main.py
 - Helps screen-reader users understand its purpose.
 - Connects visible labels to form controls.
 ```
+
+> **日本語補足（出力例）:** Copilot の回答が 3 つの箇条書きとして表示される例です。各項目が段階的に表示され、最後まで出力されてプロセスが終了すれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -551,6 +563,8 @@ func main() {
 }
 ```
 
+> **日本語補足（プロンプト）:** accessible name について短い箇条書き 3 点で説明するよう Copilot に依頼しています。応答が 3 つの短い項目になり、各項目が入力の識別や支援技術との関係を説明しているかを確認してください。
+
 ## 実行する
 
 ```bash
@@ -564,6 +578,8 @@ go run .
 - Helps screen-reader users understand its purpose.
 - Connects visible labels to form controls.
 ```
+
+> **日本語補足（出力例）:** Copilot の回答が 3 つの箇条書きとして表示される例です。各項目が段階的に表示され、最後まで出力されてプロセスが終了すれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -725,6 +741,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
+> **日本語補足（プロンプト）:** accessible name について短い箇条書き 3 点で説明するよう Copilot に依頼しています。応答が 3 つの短い項目になり、各項目が入力の識別や支援技術との関係を説明しているかを確認してください。
+
 ## 実行する
 
 ```bash
@@ -738,6 +756,8 @@ cargo run
 - Helps screen-reader users understand its purpose.
 - Connects visible labels to form controls.
 ```
+
+> **日本語補足（出力例）:** Copilot の回答が 3 つの箇条書きとして表示される例です。各項目が段階的に表示され、最後まで出力されてプロセスが終了すれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>
@@ -872,6 +892,8 @@ public final class AccessibilityReport {
 }
 ```
 
+> **日本語補足（プロンプト）:** accessible name について短い箇条書き 3 点で説明するよう Copilot に依頼しています。応答が 3 つの短い項目になり、各項目が入力の識別や支援技術との関係を説明しているかを確認してください。
+
 `setStreaming(true)` により、このステップを他の言語トラックと足並みをそろえます。Java の実装は
 `sendAndWait` からの完了済みレスポンスを待ち、ターンが終了したときにそのメッセージ全体を出力します。
 
@@ -888,6 +910,8 @@ mvn compile exec:java
 - Helps screen-reader users understand its purpose.
 - Connects visible labels to form controls.
 ```
+
+> **日本語補足（出力例）:** Copilot の回答が 3 つの箇条書きとして表示される例です。各項目が段階的に表示され、最後まで出力されてプロセスが終了すれば成功です。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>

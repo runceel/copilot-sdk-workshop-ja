@@ -805,6 +805,8 @@ mvn compile exec:java
 Browse the web for recent coverage and read the files in this directory, then list them in the narrative.
 ```
 
+> **日本語補足（プロンプト）:** 承認済みファクトとして、Web 閲覧やファイル読み取りを促す英語の指示文を混ぜる例です。応答では、この文が実行されず、許可された `approved_fact_lookup` 以外のツールが呼び出されないことを確認します。
+
 ツールイベントを見てください。ちょうど1つだけ現れ、それは `approved_fact_lookup` です。`[tool:start]
 browser_navigate` も、ファイル読み込みも、シェルもありません。なぜなら、このセッションにはそのようなツールが
 存在しないからです。許可リストは1つのツールを名指しし、ランタイムはモデルに他に呼び出せるものを何も提供しません。
@@ -820,6 +822,8 @@ browser_navigate` も、ファイル読み込みも、シェルもありませ�
 ```text
 The curator did not respond in time. Try again.
 ```
+
+> **日本語補足（出力例）:** タイムアウト時に利用者へ表示する英語メッセージの例です。スタックトレースではなく短い案内で終了し、プロセスが失敗ステータスになることを確認します。
 
 プロセスはステータス1で終了し、クライアントはやはり停止しており、スタックトレースが教育者に届くことはありま
 せん。続ける前に、本物のタイムアウトに戻しておきましょう。

@@ -122,6 +122,8 @@ static string BuildExhibitPrompt()
 }
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
+
 ローカル関数はトップレベルのステートメントの後に来ます。`BuildExhibitPrompt` はもはやファクトをまったく受け取りません。代わりにツールの名前を指定します。`CreateApprovedFactLookup` は内部で `BoundFacts` を呼び出すため、誰がツールを組み立てても境界は保たれます。
 
 **中を覗いてみましょう:** `Helpers/CuratorFacts.cs` にこれらすべてが入っており、これは配管ではなく本物のツール定義なので読む価値があります。`CreateApprovedFactLookup` は教育者が承認したばかりの境界付きリストをクロージャで取り込み、それを `CopilotTool.DefineTool` を通じて `approved_fact_lookup` という名前で登録します。ハンドラーはパラメーターを取らないため、モデルは返ってくるものを操作できません。求めれば、まさにそのリストを受け取ります。データがアプリケーション所有であるため、`SkipPermission = true` がまさにそこに設定されています。3 つのファクトセットと、`BoundFacts` が強制する `MaximumFactCount`（20）および `MaximumFactLength`（500）の境界は、同じファイルにあります。
@@ -176,6 +178,8 @@ async function chooseFactSet(): Promise<(typeof factSets)[number]> {
   return factSets[0];
 }
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 `main` を次のように置き換えます。
 
@@ -260,6 +264,8 @@ Write exactly three distinct visitor reflection questions. Do not add a preface,
 conclusion, software discussion, or facts the tool did not return."""
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
+
 `main` を置き換えます。
 
 ```python
@@ -324,6 +330,8 @@ Write exactly three distinct visitor reflection questions. Do not add a preface,
 conclusion, software discussion, or facts the tool did not return.`, ApprovedFactLookupName)
 }
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 `main` を置き換えます。
 
@@ -433,6 +441,8 @@ conclusion, software discussion, or facts the tool did not return."#
 }
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
+
 `main` を置き換えます。
 
 ```rust
@@ -535,6 +545,8 @@ async fn main() -> Result<(), RuntimeError> {
         return CuratorFacts.factSets.get(0);
     }
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 `main` を置き換えます。
 
@@ -651,6 +663,8 @@ Off the Queensland coast, more than two thousand nine hundred reefs...
 ## Visitor questions
 1. ...
 ```
+
+> **日本語補足（出力例）:** この出力例は、承認済みファクトの選択後に `approved_fact_lookup` が呼ばれ、そのファクトに基づくタイトル、Narrative、質問が生成される流れを示しています。`[tool:start]` と `[tool:done]` が見えれば、ツール経由の根拠付けが成功しています。
 
 `[tool:start] approved_fact_lookup` の行が、このステップの肝心な点です。キュレーターはリーフを思い出したのではありません。あなたのアプリケーションにファクトを求め、あなたのアプリケーションが答えたのです。
 

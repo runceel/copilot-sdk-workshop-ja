@@ -122,6 +122,8 @@ if (response is null)
 Console.WriteLine($"\nCopilot: {response.Data.Content}");
 ```
 
+> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
+
 ping はランタイム接続を検証します。完了応答を待つ送信はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。
 :::
 
@@ -145,6 +147,8 @@ try {
   await client.stop();
 }
 ```
+
+> **日本語補足（プロンプト）:** この Copilot セッションが利用可能であることを 1 文で確認するよう依頼しています。応答が 1 文で、セッションの準備完了を明確に示しているかを確認してください。
 
 `sendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。ランタイムがクリーンにシャットダウンするよう、セッションとクライアントは必ず `finally` ブロックで停止してください。
 :::
@@ -188,6 +192,8 @@ async def main() -> None:
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
+> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
 
 Python では、1 つの完了応答ヘルパーを呼び出す代わりにセッションイベントをリッスンします。アシスタントメッセージを表示し、セッションエラーを失敗として扱い、終了する前にアイドルイベントを待ちます。
 :::
@@ -234,6 +240,8 @@ func main() {
 }
 ```
 
+> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
+
 `SendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。`defer` によって、処理の終了時にセッションを切断し、クライアントを停止します。
 :::
 
@@ -269,6 +277,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
+> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
+
 `send_and_wait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。関数から戻る前に、セッションを切断してクライアントを停止してください。
 :::
 
@@ -303,6 +313,8 @@ public final class AccessibilityReport {
     }
 }
 ```
+
+> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
 
 `sendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。try-with-resources ブロックは、`main` の終了時にクライアントをクローズします。
 :::
@@ -352,6 +364,8 @@ Connected to the Copilot runtime: ...
 
 Copilot: An accessible name lets assistive technology identify the input's purpose.
 ```
+
+> **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
 :::
 
 :::language nodejs
@@ -360,6 +374,8 @@ Copilot: An accessible name lets assistive technology identify the input's purpo
 ```text
 This Copilot session is ready and waiting for your next prompt.
 ```
+
+> **日本語補足（出力例）:** Copilot セッションが準備完了であることを 1 文で返している例です。エラーではなく、次のプロンプトを受け付けられる状態だと分かる文が表示されれば成功です。
 :::
 
 :::language python
@@ -368,6 +384,8 @@ This Copilot session is ready and waiting for your next prompt.
 ```text
 An accessible name lets assistive technology identify the input's purpose.
 ```
+
+> **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
 :::
 
 :::language go
@@ -376,6 +394,8 @@ An accessible name lets assistive technology identify the input's purpose.
 ```text
 An accessible name lets assistive technology identify the input's purpose.
 ```
+
+> **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
 :::
 
 :::language rust
@@ -384,6 +404,8 @@ An accessible name lets assistive technology identify the input's purpose.
 ```text
 An accessible name lets assistive technology identify the input's purpose.
 ```
+
+> **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
 :::
 
 :::language java
@@ -392,6 +414,8 @@ An accessible name lets assistive technology identify the input's purpose.
 ```text
 An accessible name lets assistive technology identify the input's purpose.
 ```
+
+> **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
 :::
 
 <details>

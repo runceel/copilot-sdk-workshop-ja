@@ -62,6 +62,9 @@ public static class Prompts
         """;
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
+
 :::
 :::language dotnet
 ### 2. コントラクトを使う
@@ -99,6 +102,9 @@ State that this is a focused review of browser-observable evidence, not a full W
 Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant.`;
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
+
 :::
 :::language nodejs
 ### 2. レポートのエントリーポイントを作成する
@@ -125,6 +131,7 @@ try {
   try { await streamResponse(session, reportPrompt(target)); } finally { await session.disconnect(); }
 } finally { await client.stop(); }
 ```
+
 :::
 :::language nodejs
 ### 3. パッケージの start をレポートのエントリーポイントに向ける
@@ -161,6 +168,9 @@ Repeat the finding section as needed.
 State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
 Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant."""
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
+
 :::
 :::language python
 ### 2. レポートのエントリーポイントを作成する
@@ -252,6 +262,9 @@ Return only:
 State that this focused review is not a full WCAG conformance audit.`, target)
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、スナップショットと WCAG カタログを根拠に、アクセシビリティレビューを決められた見出し構成で返すよう依頼しています。各指摘にブラウザで観測した根拠、カタログ結果、具体的な修正案があり、レビューが完全な適合監査ではないことを明示しているか確認します。
+
 :::
 :::language go
 ### 2. ターゲットを解析してコントラクトを使う
@@ -341,6 +354,9 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
     )
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
+
 :::
 :::language rust
 ### 2. ターゲットを解析してコントラクトを使う
@@ -446,6 +462,8 @@ private static String reportPrompt(URI target) {
             Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant.""".formatted(target);
 }
 ```
+
+> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
 
 ステップ 4 のパーミッションコールバックはそのままにしておきます。管理下のワークショップ用ターゲット
 に対して明示的に `--allow-local-demo-mcp` を渡さない限り、フェイルクローズドのままです。この一時的な
@@ -618,6 +636,8 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 ## Review limits
 This focused review uses browser-observable evidence and is not a full WCAG conformance audit.
 ```
+
+> **日本語補足（出力例）:** 見出し、指摘事項、根拠、WCAG 基準、推奨修正、レビューの限界がそろっている状態が成功例です。特に Evidence がブラウザで観測した内容に基づき、最後に完全な WCAG 適合監査ではないことを明示している点を確認します。
 
 <details>
 <summary>この実行のトラブルシューティング</summary>

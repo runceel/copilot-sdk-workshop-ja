@@ -77,6 +77,9 @@ await ResponseStreamer.SendAndPrintAsync(
     - the catalog's recommended remediation.
     """);
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、指定 URL を `browser_navigate` で開いてスナップショットを読み取り、確度の高いアクセシビリティ課題を 2 件特定するよう依頼しています。各課題について `accessibility_rule_lookup` を呼び、ブラウザー上の根拠・対応する基準・推奨修正がそろっているかを確認します。
+
 :::
 このプロンプトは、根拠とガイダンスをそれぞれ正しい情報源に割り当てます。カタログ参照の順序は
 エージェントに委ねます。
@@ -122,6 +125,9 @@ send 呼び出しを置き換えます。
   await client.stop();
 }
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、指定 URL を開いてスナップショットを読み取り、`accessibility_rule_lookup` を使って根拠に基づく修正案を 1 件返すよう依頼しています。ブラウザーの根拠とカタログ由来のガイダンスが結び付いているかを確認します。
+
 :::
 :::language python
 ### 1. 組み合わせたセッションを維持する
@@ -195,6 +201,9 @@ Step 2/4 のイベントハンドラーをセッションブロック内に残�
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、指定 URL を開いてスナップショットを読み取り、`accessibility_rule_lookup` を使って根拠に基づく推奨事項を 1 件返すよう依頼しています。ツール開始・完了ログで、ブラウザー調査とカタログ参照の両方が実行されたかを確認します。
+
 :::
 :::language go
 ### 1. 組み合わせたセッションを維持する
@@ -251,6 +260,9 @@ Playwright MCP、許可リスト、正確なターゲットのパーミッショ
 		panic(err)
 	}
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、`browser_navigate`、`read_latest_accessibility_snapshot`、`accessibility_rule_lookup` の順に使い、根拠に基づく修正案を 1 件返すよう依頼しています。推奨事項の前にブラウザー根拠とカタログ参照があるかを確認します。
+
 :::
 :::language rust
 ### 1. 組み合わせたセッションを維持する
@@ -321,6 +333,8 @@ fn combined_tools_prompt(target: &Url) -> String {
     )
 }
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、正確な URL を `browser_navigate` で開き、スナップショットから観測できる課題を 1 件見つけてから、`accessibility_rule_lookup` で根拠付きの修正案を作るよう依頼しています。4 つの手順が順に満たされているかを確認します。
 
 ```rust
     let client = Client::start(ClientOptions::default()).await?;
@@ -405,6 +419,8 @@ fn combined_tools_prompt(target: &Url) -> String {
     }
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、正確な URL を `browser_navigate` で開き、スナップショットから観測できる課題を 1 件見つけてから、`accessibility_rule_lookup` で根拠付きの修正案を作るよう依頼しています。4 つの手順が順に満たされているかを確認します。
+
 ```java
         try (var client = new CopilotClient()) {
             client.start().get();
@@ -467,6 +483,8 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 - WCAG criterion: 4.1.2 Name, Role, Value
 - Recommended remediation: Associate a visible <label> ...
 ```
+
+> **日本語補足（出力例）:** Playwright による確認、スナップショット取得、カタログ参照の 3 種類のツール活動が表示されていれば、複数ツールの連携が動いています。最終回答では、ブラウザーの根拠、対応する WCAG 基準、推奨修正が対応していることを確認します。
 
 正確な順序と表現は異なる場合があります。根拠は Playwright から得られる必要があり、基準はカタログと
 一致する必要があります。

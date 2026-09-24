@@ -28,6 +28,8 @@ Console application
                        |
                        `-- Browser target
 ```
+
+> **日本語補足（構成図）:** 図は、アプリケーションが Copilot のランタイム接続と 1 つのセッションを持ち、ローカルの WCAG 照会ツールと別プロセスの Playwright MCP を使ってブラウザ対象へ到達する構成を示しています。各境界がどのプロセスや責任範囲に属するかを確認します。
 :::
 
 :::language nodejs
@@ -49,6 +51,8 @@ Node.js application
                        |
                        `-- Browser target
 ```
+
+> **日本語補足（構成図）:** 図は、アプリケーションが Copilot のランタイム接続と 1 つのセッションを持ち、ローカルの WCAG 照会ツールと別プロセスの Playwright MCP を使ってブラウザ対象へ到達する構成を示しています。各境界がどのプロセスや責任範囲に属するかを確認します。
 
 完成したレポートは
 [`finished/nodejs/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/nodejs/accessibility-report)
@@ -75,6 +79,8 @@ Python application
                        `-- Browser target
 ```
 
+> **日本語補足（構成図）:** 図は、アプリケーションが Copilot のランタイム接続と 1 つのセッションを持ち、ローカルの WCAG 照会ツールと別プロセスの Playwright MCP を使ってブラウザ対象へ到達する構成を示しています。各境界がどのプロセスや責任範囲に属するかを確認します。
+
 完成したレポートは
 [`finished/python/accessibility-report`](https://github.com/github/copilot-sdk-workshop/tree/main/finished/python/accessibility-report)
 にもあります。
@@ -99,6 +105,8 @@ Go application
                        |
                        `-- Browser target
 ```
+
+> **日本語補足（構成図）:** 図は、アプリケーションが Copilot のランタイム接続と 1 つのセッションを持ち、ローカルの WCAG 照会ツールと別プロセスの Playwright MCP を使ってブラウザ対象へ到達する構成を示しています。各境界がどのプロセスや責任範囲に属するかを確認します。
 :::
 
 :::language rust
@@ -120,6 +128,8 @@ Rust application
                        |
                        `-- Browser target
 ```
+
+> **日本語補足（構成図）:** 図は、アプリケーションが Copilot のランタイム接続と 1 つのセッションを持ち、ローカルの WCAG 照会ツールと別プロセスの Playwright MCP を使ってブラウザ対象へ到達する構成を示しています。各境界がどのプロセスや責任範囲に属するかを確認します。
 :::
 
 :::language java
@@ -141,6 +151,8 @@ Java application
                        |
                        `-- Browser target
 ```
+
+> **日本語補足（構成図）:** 図は、アプリケーションが Copilot のランタイム接続と 1 つのセッションを持ち、ローカルの WCAG 照会ツールと別プロセスの Playwright MCP を使ってブラウザ対象へ到達する構成を示しています。各境界がどのプロセスや責任範囲に属するかを確認します。
 :::
 
 ## この設計をワークショップの先へ活かす
@@ -271,6 +283,8 @@ Analyzing: {{TARGET_APP_URL}}
 ## Review limits
 ...
 ```
+
+> **日本語補足（出力例）:** ツールの start/done 行が順に成功し、その後に構造化されたアクセシビリティレビューが表示されることを確認します。最後に Review limits が含まれていれば、レポートの限界も説明できています。
 :::
 
 :::language nodejs
@@ -293,6 +307,8 @@ Analyzing: {{TARGET_APP_URL}}
 ## Review limits
 ...
 ```
+
+> **日本語補足（出力例）:** ツールの start/done 行が順に成功し、その後に構造化されたアクセシビリティレビューが表示されることを確認します。最後に Review limits が含まれていれば、レポートの限界も説明できています。
 
 `streamResponse` はツールの start/done 行を出力し、アシスタントのテキストを stdout にストリーミング
 します。
@@ -319,6 +335,8 @@ Analyzing: {{TARGET_APP_URL}}
 ...
 ```
 
+> **日本語補足（出力例）:** ツールの start/done 行が順に成功し、その後に構造化されたアクセシビリティレビューが表示されることを確認します。最後に Review limits が含まれていれば、レポートの限界も説明できています。
+
 `main.py` は `report.main` を起動し、デルタをストリーミングした後 `session.idle` を待機します。
 :::
 
@@ -334,6 +352,8 @@ Analyzing: {{TARGET_APP_URL}}
 ## Review limits
 ...
 ```
+
+> **日本語補足（出力例）:** ここでは最終的な Copilot 応答として、根拠、WCAG 基準、推奨修正、Review limits を含むレポートが出ることを確認します。ツールログを表示しない実装でも、内容が根拠ベースで構造に沿っていれば成功です。
 
 `Client` が Copilot CLI のライフサイクルを所有し、`Session` が 1 つの会話を所有し、パーミッション
 ハンドラが外部への移動を制御することを説明してください。期待されるレポートは根拠に基づいたものです。
@@ -352,6 +372,8 @@ Analyzing: {{TARGET_APP_URL}}
 ...
 ```
 
+> **日本語補足（出力例）:** ここでは最終的な Copilot 応答として、根拠、WCAG 基準、推奨修正、Review limits を含むレポートが出ることを確認します。ツールログを表示しない実装でも、内容が根拠ベースで構造に沿っていれば成功です。
+
 `Client` がランタイムを管理し、`Session` がイベントをディスパッチし、型付きツールはアプリケーションが
 所有し、パーミッションハンドラは正確な移動のみを信頼することを説明してください。
 :::
@@ -368,6 +390,8 @@ Analyzing: {{TARGET_APP_URL}}
 ## Review limits
 ...
 ```
+
+> **日本語補足（出力例）:** ここでは最終的な Copilot 応答として、根拠、WCAG 基準、推奨修正、Review limits を含むレポートが出ることを確認します。ツールログを表示しない実装でも、内容が根拠ベースで構造に沿っていれば成功です。
 
 Maven が Java 17 のアプリケーションをコンパイルし、`CopilotClient` がランタイムを管理し、ツールは
 範囲を絞ったままであることを説明してください。デフォルトでは、パーミッションのコールバックは正規の URL のみを

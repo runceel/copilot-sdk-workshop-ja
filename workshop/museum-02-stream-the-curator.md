@@ -46,6 +46,8 @@ await CuratorStreamer.StreamExhibitAsync(
 await client.StopAsync();
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
+
 変更点は 2 つです。セッション設定の `Streaming = true` と、`SendAndWaitAsync` の代わりの
 `CuratorStreamer.StreamExhibitAsync` です。ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。ヘルパーは
 `Helpers/CuratorStreamer.cs` にあり、編集することはありません。
@@ -89,6 +91,8 @@ async function main(): Promise<void> {
 void main();
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
+
 変更点は 2 つです。セッション設定の `streaming: true` と、`sendAndWait` の代わりの `streamExhibit` です。
 ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。ヘルパーは
 `src/curator.ts` にあり、編集することはありません。
@@ -131,6 +135,8 @@ async def main() -> None:
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 ステップ 1 のイベントリスナー全体が 1 回の呼び出しにまとまります。`stream_exhibit` は
 `curator.py` にあり、すでに `AssistantMessageDeltaData`、`SessionErrorData`、`SessionIdleData` に対するマッチングを行っており、
@@ -189,6 +195,8 @@ func main() {
 }
 ```
 
+> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
+
 変更点は 2 つです。セッション設定の `Streaming: copilot.Bool(true)` と、`SendAndWait` の代わりの `StreamExhibit` です。
 ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。`StreamExhibit` と
 `GenerationTimeout` は、同じパッケージの `curator.go` にあり、そのファイルを編集することはありません。
@@ -234,6 +242,8 @@ async fn main() -> Result<(), RuntimeError> {
     Ok(())
 }
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 変更点は 2 つです。`config.streaming = Some(true)` と、`send_and_wait` の代わりの `stream_exhibit` です。
 ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。`stream_exhibit` と
@@ -284,6 +294,8 @@ public final class MuseumExhibitStudio {
     }
 }
 ```
+
+> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 変更点は 2 つです。セッション設定の `setStreaming(true)` と、`sendAndWait` の代わりの `CuratorStreamer.streamExhibit` です。
 ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。ヘルパーは
@@ -338,6 +350,8 @@ mvn compile exec:java
 
 In July 1969, three astronauts left Earth aboard Apollo 11... 
 ```
+
+> **日本語補足（出力例）:** この出力例は、同じ展示文がストリーミングで途中まで表示されている様子を示しています。プログラム終了まで待たずに本文が伸びていけば、ストリーミング設定とイベント処理が機能しています。
 
 テキストは一度にまとめて現れるのではなく、その場で伸びていき、最後の単語の直後にプログラムが終了します。
 最後の最後まで何も表示されない場合、セッションはストリーミングになっていません。セッション設定で
