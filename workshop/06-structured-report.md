@@ -1200,13 +1200,13 @@ private static String reportPrompt(URI target) {
 </details>
 :::
 
-## さらに学ぶ
+## 参考資料
 
 - [User prompt submitted hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/user-prompt-submitted.md):
-  ランタイムが送信する前に、コード内でプロンプトを変更または拒否します。
+  プロンプトが送信される前に、コードで内容を変更したり、送信を止めたりできます。
 - [User prompt transformed hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/user-prompt-transformed.md):
-  ランタイムが実際にあなたのテキストから構築した、モデル向けのプロンプトを検査します。
+  SDK が組み立てた後、モデルに渡される実際のプロンプトを確認できます。
 - [Citations](https://github.com/github/copilot-sdk/blob/main/docs/features/citations.md):
-  応答の各スパンを、それを裏付ける素材に結び付ける実験的な方法です。
+  応答の各部分を、その根拠となる情報に結び付ける実験的な機能です。
 
 [ステップ 7: アプリケーションを実行して説明する](07-run-explain.md)に進みます。

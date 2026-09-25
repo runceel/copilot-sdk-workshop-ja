@@ -994,13 +994,13 @@ public final class AccessibilityReport {
 
 </details>
 
-## さらに学ぶ
+## 参考資料
 
 - [Working with hooks](https://github.com/github/copilot-sdk/blob/main/docs/features/hooks.md):
-  各ツール呼び出しの前後にランタイムが呼び出すコールバックで、あなたが所有する監査やポリシーに使用できます。
+  ツール呼び出しの前後に処理を実行し、監査ログや独自のポリシーを実装する方法です。
 - [Post-tool-use hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/post-tool-use.md):
-  モデルが見る前にツールの結果を検査または書き換えます。
+  ツールの実行結果を、モデルに返す前に確認したり書き換えたりできます。
 - [Custom skills](https://github.com/github/copilot-sdk/blob/main/docs/features/skills.md):
-  セッションが登録するツールと並んで読み込まれる、再利用可能な命令をパッケージ化します。
+  繰り返し使う指示をスキルとしてまとめ、セッションで再利用する方法を説明しています。
 
 [ステップ 4: 外部ツールを安全に接続する](04-mcp-safety.md) に進みます。

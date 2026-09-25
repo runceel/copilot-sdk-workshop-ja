@@ -665,10 +665,10 @@ Off the Queensland coast, more than two thousand nine hundred reefs...
 - ツールは引数を取らず、あるファクトセットに対しては常に同じ境界付きリストを返します。代わりに自由記述のクエリ引数を取るようにしたら、何が失われるでしょうか。
 - 出力構造はプロンプトで要求されています。モデルが実際にそれに従ったことを、これまで何が検証しているでしょうか。
 
-## さらに学ぶ
+## 参考資料
 
-- [Working with hooks](https://github.com/github/copilot-sdk/blob/main/docs/features/hooks.md): 監査やあなたのコードが所有するポリシーのために、各ツール呼び出しの前後でランタイムが呼び出すコールバックです。
-- [Post-tool-use hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/post-tool-use.md): モデルが読む前に、ツールが返したものを検査または書き換えます。
-- [Context clearing and terminal tools](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md): ツールが会話そのものに対して何ができるか、そしてなぜほとんどのツールがそうすべきでないかを説明します。
+- [Working with hooks](https://github.com/github/copilot-sdk/blob/main/docs/features/hooks.md): ツール呼び出しの前後に処理を実行し、監査ログや独自のポリシーを実装する方法です。
+- [Post-tool-use hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/post-tool-use.md): ツールの実行結果を、モデルに返す前に確認したり書き換えたりできます。
+- [Context clearing and terminal tools](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md): 会話履歴を変更する機能をツールに持たせる場合の注意点と、通常はそうすべきでない理由を説明しています。
 
 [ガードレールを設定する](museum-05-guardrails.md)に進みます。

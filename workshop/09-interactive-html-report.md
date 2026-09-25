@@ -547,13 +547,13 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp --allow-local-demo-wri
 
 </details>
 
-## さらに学ぶ
+## 参考資料
 
 - [Pre-tool-use hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md):
-  プロンプトではなくコードで、ツール呼び出しが実行される前にそれを承認、拒否、または書き換えます。
+  ツールを実行する前に、コードで呼び出しを許可・拒否したり、内容を書き換えたりできます。
 - [Hooks reference](https://github.com/github/copilot-sdk/blob/main/docs/hooks/README.md):
-  SDK が公開するすべてのフックと、それぞれが受け取る入力。
+  SDK が提供するフックの一覧と、それぞれに渡される情報を確認できます。
 - [Local CLI setup](https://github.com/github/copilot-sdk/blob/main/docs/setup/local-cli.md):
-  SDK が起動する CLI を制御し、書き込まれたファイルがどこに配置されるかを決定します。
+  SDK が起動する Copilot CLI の指定方法と、CLI がファイルを書き込む場所の設定方法を説明しています。
 
 [ステップ 7: アプリケーションを実行して説明する](07-run-explain.md) に戻ります。

@@ -973,13 +973,13 @@ public final class AccessibilityReport {
 
 </details>
 
-## さらに学ぶ
+## 参考資料
 
 - [Steering and queueing](https://github.com/github/copilot-sdk/blob/main/docs/features/steering-and-queueing.md):
-  ターンがまだ実行中に別のメッセージを送信し、方向を変えたり作業をキューに入れたりします。
+  応答の生成中に別のメッセージを送り、指示を変えたり、次の作業を予約したりする方法です。
 - [Session limits](https://github.com/github/copilot-sdk/blob/main/docs/features/session-limits.md):
-  セッションがトークンを生成し始める前に AI Credits の予算を設定します。
+  トークン数などに上限を設け、セッションの利用量を制限する方法を説明しています。
 - [Usage and billing metrics](https://github.com/github/copilot-sdk/blob/main/docs/features/usage-and-billing.md):
-  同じイベントストリームからトークン数、コンテキストウィンドウの使用状況、コストを読み取ります。
+  イベントストリームからトークン数やコンテキストの使用量、コストを取得する方法を説明しています。
 
 [ステップ 3: アプリ独自の知識を追加する](03-local-tool.md)に進みましょう。

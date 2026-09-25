@@ -359,13 +359,13 @@ In July 1969, three astronauts left Earth aboard Apollo 11...
   重要になるのはなぜでしょうか?
 - モデルが決してアイドルにならない場合、何があなたのプログラムが永遠に待ち続けるのを防ぐのでしょうか?
 
-## さらに学ぶ
+## 参考資料
 
 - [Steering and queueing](https://github.com/github/copilot-sdk/blob/main/docs/features/steering-and-queueing.md):
-  ターンがまだストリーミングされている最中に、その完了を待たずに別のメッセージを送信します。
+  応答の生成中に別のメッセージを送り、指示を変えたり、次の作業を予約したりする方法です。
 - [Usage and billing metrics](https://github.com/github/copilot-sdk/blob/main/docs/features/usage-and-billing.md):
-  プリンターがすでに購読しているのと同じイベントから、トークン数とコストを読み取ります。
+  ストリーミングで受け取るイベントから、トークン数や利用コストを取得する方法を説明しています。
 - [Context clearing](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md):
-  使い続けたいセッションの中で、会話を入れ替えます。
+  セッションを維持したまま、会話履歴をクリアする方法を説明しています。
 
 [キュレーターに声を与える](museum-03-curator-voice.md)へ進みましょう。

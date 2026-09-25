@@ -505,16 +505,15 @@ CLI が見つからない場合は、より広いパーミッションを付与�
 置き換えないでください。
 :::
 
-## さらに学ぶ
+## 参考資料
 
-このワークショップのアプリケーションはご自身のマシン上で動作します。以下のページでは、同じ設計を
-別の場所に移したときに何が変わるかを扱います。
+このワークショップのアプリは、お使いのマシン上で動作します。別の環境で動かす場合は、次の資料が参考になります。
 
 - [バックエンドサービス](https://github.com/github/copilot-sdk/blob/main/docs/setup/backend-services.md):
-  ローカルの CLI ではなくヘッドレスの CLI に対して、SDK をサーバーサイドで実行します。
+  対話操作を必要としない CLI を使い、サーバー上で SDK を実行する方法です。
 - [スケーリングとマルチテナンシー](https://github.com/github/copilot-sdk/blob/main/docs/setup/scaling.md):
-  水平スケーリングと、あるユーザーのセッションを別のユーザーから隔離しておく分離パターンです。
+  アプリを水平に拡張し、ユーザーごとのセッションを分離して管理する方法を説明しています。
 - [OpenTelemetry の計装](https://github.com/github/copilot-sdk/blob/main/docs/observability/opentelemetry.md):
-  ターミナルを監視できない場所でエージェントが動作するようになったら、ツール呼び出しとターンをトレースします。
+  OpenTelemetry を使って、エージェントのツール呼び出しやターンを記録・追跡する方法です。
 - [Microsoft Agent Framework との統合](https://github.com/github/copilot-sdk/blob/main/docs/integrations/microsoft-agent-framework.md):
-  より大きなマルチエージェントのワークフローの中に Copilot セッションを配置します。
+  Copilot セッションを、複数のエージェントが連携するワークフローに組み込む方法を説明しています。

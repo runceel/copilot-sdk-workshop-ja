@@ -415,14 +415,13 @@ After:  Fifty years on, the ladder still hangs a metre above the dust. On 20 Jul
   アプリケーションはまだファクトを何も提供しておらず、それを取得するツールもありません。今この
   モデルは Apollo 11 の詳細をどこから得ているのか、そしてそれが博物館にとってなぜ問題なのですか。
 
-## さらに学ぶ
+## 参考資料
 
 - [SDK and CLI compatibility](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/compatibility.md):
-  `systemMessage` が append と replace の両方をサポートすること、および各 SDK が他に何を公開するかを
-  確認できます。
+  `systemMessage` の追記と置き換えに対応しているかなど、SDK ごとの機能差を確認できます。
 - [Custom agents](https://github.com/github/copilot-sdk/blob/main/docs/features/custom-agents.md):
-  名前付きエージェントに独自のシステムプロンプトと、スコープを限定した独自のツールを与えます。
+  エージェントごとに専用のシステムプロンプトと、利用できるツールを設定する方法です。
 - [Custom skills](https://github.com/github/copilot-sdk/blob/main/docs/features/skills.md):
-  永続的な指示を 1 つの長いメッセージではなく、再利用可能なモジュールとしてパッケージ化します。
+  繰り返し使う指示を、長いプロンプトにまとめず、再利用できるスキルとして整理する方法です。
 
 [承認済みファクトに基づかせる](museum-04-approved-facts.md)へ進みます。

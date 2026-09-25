@@ -193,48 +193,48 @@ mvn exec:java
 アプリケーションが所有する 1 つのツールを通じてそれらに到達します。モデルの記憶は検証済みの博物館知識ではなく、プロンプトによる案内は
 認可の境界ではありません。セッションが実際に何をできるかを決めるのは、許可リストとパーミッションハンドラーだけです。
 
-## さらに学ぶ
+## 参考資料
 
-キュレーターの背後にある SDK は、このワークショップの外部でドキュメント化されています。以下のページは、
-ワークショップと並べて開いておく価値があります。
+このワークショップで使う SDK の詳しい情報は、公式ドキュメントで確認できます。必要に応じて、
+次のページをワークショップとあわせて参照してください。
 
 - [GitHub Copilot SDK how-tos](https://docs.github.com/en/copilot/how-tos/copilot-sdk): GitHub 自身の
-  SDK ドキュメントで、この事前準備で扱う前提条件も含まれています。
+  チュートリアルで、SDK を使ったアプリの作成方法や事前に必要な準備を確認できます。
 - [Copilot SDK documentation map](https://github.com/github/copilot-sdk/blob/main/docs/README.md):
-  セットアップ、認証、機能、トラブルシューティングのインデックスです。
+  セットアップ、認証、各機能、トラブルシューティングのドキュメントを探せます。
 - [Default setup: the bundled CLI](https://github.com/github/copilot-sdk/blob/main/docs/setup/bundled-cli.md):
-  SDK が Copilot CLI をどのように見つけて起動するか、そして別のバイナリを指すように設定する方法です。
+  SDK が Copilot CLI を見つけて起動する仕組みと、別の CLI を指定する方法を説明しています。
 - [Debugging guide](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/debugging.md):
-  実行が出力を生成する前に失敗したときに、最初に確認すべき場所です。
+  SDK の実行に失敗したときの調べ方を説明しています。
 
 :::language dotnet
 - [.NET SDK reference](https://github.com/github/copilot-sdk/blob/main/dotnet/README.md):
-  .NET SDK のパッケージインストールと最小限の例です。
+  .NET SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language nodejs
 - [Node.js SDK reference](https://github.com/github/copilot-sdk/blob/main/nodejs/README.md):
-  Node.js SDK のパッケージインストールと最小限の例です。
+  Node.js SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language python
 - [Python SDK reference](https://github.com/github/copilot-sdk/blob/main/python/README.md):
-  Python SDK のパッケージインストールと最小限の例です。
+  Python SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language go
 - [Go SDK reference](https://github.com/github/copilot-sdk/blob/main/go/README.md):
-  Go SDK のモジュールインストールと最小限の例です。
+  Go SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language rust
 - [Rust SDK reference](https://github.com/github/copilot-sdk/blob/main/rust/README.md):
-  Rust SDK のクレートインストールと最小限の例です。
+  Rust SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language java
 - [Java SDK reference](https://github.com/github/copilot-sdk/blob/main/java/README.md):
-  Java SDK の依存関係座標と最小限の例です。
+  Java SDK の依存関係の設定方法と、基本的な使い方の例を確認できます。
 :::
 
 [はじめてのキュレーターセッション](museum-01-first-curator-session.md) に進みます。

@@ -1731,15 +1731,15 @@ Playwright は再利用可能なブラウザー自動化を、独自のプロセ
 
 </details>
 
-## さらに学ぶ
+## 参考資料
 
 - [Model Context Protocol](https://modelcontextprotocol.io/): Playwright サーバーが実装する
-  オープンな標準であり、そのツール名の由来となる語彙です。
+  標準規格です。MCP の概要や仕組みを確認できます。
 - [MCP のデバッグ](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/mcp-debugging.md):
-  起動しないサーバーや、想定と異なるツールを公開するサーバーを診断します。
+  起動に失敗するサーバーや、想定と異なるツールを公開するサーバーの調査方法を説明しています。
 - [フックのエラー処理](https://github.com/github/copilot-sdk/blob/main/docs/hooks/error-handling.md):
-  ツール呼び出しやハンドラーが失敗したときにセッションが何をするかを決定します。
+  ツールやハンドラーでエラーが起きたときの、セッション側の処理方法を説明しています。
 - [プラグインディレクトリ](https://github.com/github/copilot-sdk/blob/main/docs/features/plugin-directories.md):
-  MCP サーバー、スキル、フックをバンドルし、セッションがそれらを 1 つのユニットとして読み込めるようにします。
+  MCP サーバー、スキル、フックをまとめて登録し、セッションで一括して読み込む方法を説明しています。
 
 [ステップ 5: ローカルツールと MCP ツールを組み合わせる](05-combine-tools.md)に進みます。

@@ -1981,17 +1981,17 @@ def validate_learn_more_sections() -> None:
         if not lesson_path.exists():
             continue
         require(
-            "## さらに学ぶ" in read(lesson_path),
-            f"workshop/{lesson_name} is missing its required '## さらに学ぶ' section",
+            "## 参考資料" in read(lesson_path),
+            f"workshop/{lesson_name} is missing its required '## 参考資料' section",
         )
         for language in LANGUAGES:
             section = markdown_section(
-                render_language_markdown(lesson_path, language), "## さらに学ぶ"
+                render_language_markdown(lesson_path, language), "## 参考資料"
             )
             require(
                 documentation_link.search(section) is not None,
                 f"workshop/{lesson_name} ({language}) has no documentation link in its "
-                "'## さらに学ぶ' section",
+                "'## 参考資料' section",
             )
 
 

@@ -580,48 +580,48 @@ mvn compile
 と比較してください。
 :::
 
-## さらに学ぶ
+## 参考資料
 
-これからインストールする SDK は、このワークショップの外でドキュメント化されています。ステップ1の前に
-ブックマークしておく価値があるのは次のページです。
+SDK の詳しい使い方は公式ドキュメントで確認できます。必要に応じて、ステップ 1 に進む前に
+次のページをブックマークしておくと便利です。
 
 - [GitHub Copilot SDK how-tos](https://docs.github.com/en/copilot/how-tos/copilot-sdk): GitHub 自身の
-  SDK ドキュメントで、この事前準備が反映している前提条件を含みます。
+  チュートリアルで、SDK を使ったアプリの作成方法や事前に必要な準備を確認できます。
 - [Copilot SDK documentation map](https://github.com/github/copilot-sdk/blob/main/docs/README.md):
-  セットアップ、認証、機能、トラブルシューティングの索引です。
+  セットアップ、認証、各機能、トラブルシューティングのドキュメントを探せます。
 - [Default setup: the bundled CLI](https://github.com/github/copilot-sdk/blob/main/docs/setup/bundled-cli.md):
-  SDK が Copilot CLI をどのように探して起動するか、そして別のバイナリを指定する方法です。
+  SDK が Copilot CLI を見つけて起動する仕組みと、別の CLI を指定する方法を説明しています。
 - [Debugging guide](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/debugging.md):
-  出力を生成する前に実行が失敗したときに最初に見るべき場所です。
+  SDK の実行に失敗したときの調べ方を説明しています。
 
 :::language dotnet
 - [.NET SDK reference](https://github.com/github/copilot-sdk/blob/main/dotnet/README.md):
-  .NET SDK のパッケージインストールと最小限の例です。
+  .NET SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language nodejs
 - [Node.js SDK reference](https://github.com/github/copilot-sdk/blob/main/nodejs/README.md):
-  Node.js SDK のパッケージインストールと最小限の例です。
+  Node.js SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language python
 - [Python SDK reference](https://github.com/github/copilot-sdk/blob/main/python/README.md):
-  Python SDK のパッケージインストールと最小限の例です。
+  Python SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language go
 - [Go SDK reference](https://github.com/github/copilot-sdk/blob/main/go/README.md):
-  Go SDK のモジュールインストールと最小限の例です。
+  Go SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language rust
 - [Rust SDK reference](https://github.com/github/copilot-sdk/blob/main/rust/README.md):
-  Rust SDK のクレートインストールと最小限の例です。
+  Rust SDK の導入手順と、基本的な使い方の例を確認できます。
 :::
 
 :::language java
 - [Java SDK reference](https://github.com/github/copilot-sdk/blob/main/java/README.md):
-  Java SDK の依存関係の座標と最小限の例です。
+  Java SDK の依存関係の設定方法と、基本的な使い方の例を確認できます。
 :::
 
 [ステップ1: 最初の Copilot セッションを作成する](01-first-session.md)に進みます。

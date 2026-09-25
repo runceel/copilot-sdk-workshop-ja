@@ -281,14 +281,13 @@ The museum's ticketing terminal was installed in 1998.
 - このバリデーターは決定論的です。少し賢いモデルベースのレビュアーと比べて、なぜそれが博物館に
   とってより重要なのでしょうか。
 
-## さらに学ぶ
+## 参考資料
 
 - [User prompt submitted hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/user-prompt-submitted.md):
-  ランタイムが送信する前に、コード内でプロンプトをチェックまたは拒否します。
+  プロンプトが送信される前に、コードで内容を確認したり、送信を止めたりできます。
 - [User prompt transformed hook](https://github.com/github/copilot-sdk/blob/main/docs/hooks/user-prompt-transformed.md):
-  ランタイムが実際に構築したモデル向けのプロンプトを読み取ります。
+  SDK が組み立てた後、モデルに渡される実際のプロンプトを確認できます。
 - [Hooks overview](https://github.com/github/copilot-sdk/blob/main/docs/hooks/hooks-overview.md):
-  後から実行するチェックではなく、ランタイムが強制するチェックが欲しい場合に、各フックがターンの
-  どこに位置するかを解説します。
+  各フックが処理のどの段階で呼び出されるかを確認できます。処理後の確認ではなく、実行中に制御したい場合に役立ちます。
 
 [Wikipedia MCP でリサーチする](museum-07-wikipedia-research.md) に進みましょう。

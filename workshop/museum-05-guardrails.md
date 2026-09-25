@@ -838,13 +838,13 @@ The curator did not respond in time. Try again.
 - 空出力は、空の展示を出力する代わりにエラーを送出します。ここで大きな失敗(loud failure)がより安全なデフォ
   ルトである理由は何ですか。
 
-## さらに学ぶ
+## 参考資料
 
 - [Session lifecycle hooks](https://github.com/github/copilot-sdk/blob/main/docs/hooks/session-lifecycle.md):
-  セッションの開始時と終了時に自分のコードを実行する方法。いまあなたが書いたクリーンアップと並ぶものです。
+  セッションの開始時や終了時にコードを実行し、今回実装した後片付けなどを行う方法です。
 - [Hook error handling](https://github.com/github/copilot-sdk/blob/main/docs/hooks/error-handling.md):
-  ターン内の失敗を、スタックトレースではなく判断に変える方法。
+  フックやツールでエラーが起きたときの扱い方を説明しています。
 - [Session limits](https://github.com/github/copilot-sdk/blob/main/docs/features/session-limits.md):
-  タイムアウトの隣に置く予算のガードレール。1つのセッションが費やせる量に上限を設けます。
+  タイムアウトに加えて、セッションの利用量に上限を設ける方法を説明しています。
 
 [構造を証明する](museum-06-prove-the-structure.md) へ進みましょう。

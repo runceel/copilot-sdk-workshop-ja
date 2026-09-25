@@ -675,14 +675,14 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 
 </details>
 
-## さらに学ぶ
+## 参考資料
 
 - [Bring your own key](https://github.com/github/copilot-sdk/blob/main/docs/auth/byok.md):
-  自分の OpenAI、Azure、または Anthropic の認証情報とモデルにセッションを向ける方法。
+  OpenAI、Azure、Anthropic の認証情報を使って、セッションで利用するモデルを指定する方法です。
 - [SDK and CLI compatibility](https://github.com/github/copilot-sdk/blob/main/docs/troubleshooting/compatibility.md):
-  モデル一覧取得やシステムメッセージを含め、各 SDK がどのオプションを公開しているか。
+  モデル一覧の取得やシステムメッセージなど、各 SDK と CLI が対応している機能を確認できます。
 - [Azure managed identity](https://github.com/github/copilot-sdk/blob/main/docs/setup/azure-managed-identity.md):
-  アプリケーションにキーを保存せずに Microsoft Foundry のモデルへ到達する方法。
+  アプリにキーを保存せず、マネージド ID で Microsoft Foundry のモデルに接続する方法です。
 
 [オプション: インタラクティブな HTML レポートを生成する](09-interactive-html-report.md)に進むか、
 [ステップ 7: アプリケーションを実行して説明する](07-run-explain.md)に戻ってください。

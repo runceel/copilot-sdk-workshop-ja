@@ -697,11 +697,11 @@ public final class AccessibilityReport {
 </details>
 :::
 
-## さらに学ぶ
+## 参考資料
 
-- [Copilot を活用した最初のアプリを作る](https://docs.github.com/en/copilot/how-tos/copilot-sdk/getting-started): 最初のクライアント、セッション、プロンプトを扱う GitHub のチュートリアルです。
-- [セッションの再開と永続化](https://github.com/github/copilot-sdk/blob/main/docs/features/session-persistence.md): セッションの会話状態がどのように保持され、再起動後にどのように再開するかを説明します。
-- [コンテキストのクリア](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md): 新しいセッションを作成せずに、セッション内の会話を置き換えます。
-- [認証](https://github.com/github/copilot-sdk/blob/main/docs/auth/README.md): `copilot login` の先に進んだときに、クライアントが使用できる認証情報について説明します。
+- [Copilot を活用した最初のアプリを作る](https://docs.github.com/en/copilot/how-tos/copilot-sdk/getting-started): GitHub のチュートリアルで、SDK クライアントの作成、セッションの開始、プロンプトの送信を順に学べます。
+- [セッションの再開と永続化](https://github.com/github/copilot-sdk/blob/main/docs/features/session-persistence.md): セッションの会話履歴を保存し、後から再開する仕組みを説明しています。
+- [コンテキストのクリア](https://github.com/github/copilot-sdk/blob/main/docs/features/context-management.md): 新しいセッションを作らずに、会話履歴をクリアする方法を説明しています。
+- [認証](https://github.com/github/copilot-sdk/blob/main/docs/auth/README.md): `copilot login` 後に、SDK クライアントが利用する認証情報について説明しています。
 
 [ステップ 2: 応答をストリーミングする](02-streaming.md) に進みましょう。

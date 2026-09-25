@@ -1577,13 +1577,13 @@ public final class AccessibilityReport {
 </details>
 :::
 
-## さらに学ぶ
+## 参考資料
 
 - [Custom agents](https://github.com/github/copilot-sdk/blob/main/docs/features/custom-agents.md):
-  専門のサブエージェントに、独自のプロンプトと、より限定された独自のツールセットを与えます。
+  サブエージェントごとに専用のプロンプトと、利用できるツールを設定する方法です。
 - [Fleet mode](https://github.com/github/copilot-sdk/blob/main/docs/features/fleet-mode.md):
-  作業が実際に分割できる場合に、サブエージェントを並列でディスパッチします。
+  作業を分担できる場合に、複数のサブエージェントへ並行して依頼する方法を説明しています。
 - [Hooks overview](https://github.com/github/copilot-sdk/blob/main/docs/hooks/hooks-overview.md):
-  各フックがターンのどこに位置するかを示します。ここが、複数のツール呼び出しにまたがるチェックを追加する場所です。
+  各フックが処理のどの段階で呼び出されるかを確認できます。複数のツール呼び出しにまたがるチェックにも役立ちます。
 
 [ステップ 6: 構造化されたレポートを生成する](06-structured-report.md) に進みます。

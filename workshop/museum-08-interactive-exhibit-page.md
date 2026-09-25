@@ -484,11 +484,11 @@ This session allows writing only exhibit.html in the application working directo
 もとでそれらを調査し、根拠のある構造チェック済みの展示コピーと公開可能なページを得ます。しかも、あらゆる機能に
 関する決定は、プロンプトではなくあなたのコードによって下されています。
 
-## さらに学ぶ
+## 参考資料
 
 - [Pre-tool-use フック](https://github.com/github/copilot-sdk/blob/main/docs/hooks/pre-tool-use.md):
-  ツール呼び出しをコードで承認・拒否・書き換える方法。ここで書き込みハンドラーが行っていることそのものです。
+  ツールを実行する前に、コードで呼び出しを許可・拒否したり、内容を書き換えたりできます。書き込みハンドラーもこの仕組みを使っています。
 - [フックリファレンス](https://github.com/github/copilot-sdk/blob/main/docs/hooks/README.md):
-  SDK が公開するすべてのフックと、それぞれが受け取る入力。
+  SDK が提供するフックの一覧と、それぞれに渡される情報を確認できます。
 - [ローカル CLI のセットアップ](https://github.com/github/copilot-sdk/blob/main/docs/setup/local-cli.md):
-  SDK が起動する CLI を制御する方法。これが、書き込まれたファイルの配置先を決めるものです。
+  SDK が起動する Copilot CLI の指定方法と、CLI がファイルを書き込む場所の設定方法を説明しています。

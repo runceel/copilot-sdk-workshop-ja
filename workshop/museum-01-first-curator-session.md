@@ -371,13 +371,13 @@ two of them stepped onto its surface while the world listened.
 - このステップには、モデルが Apollo 11 について主張できる内容を制限するものが何もありません。今この回答を
   おおむね主題に沿わせている唯一のものは何でしょうか?
 
-## さらに学ぶ
+## 参考資料
 
 - [Build your first Copilot-powered app](https://docs.github.com/en/copilot/how-tos/copilot-sdk/getting-started):
-  同じ最初のクライアント、セッション、プロンプトを扱う GitHub のチュートリアルです。
+  GitHub のチュートリアルで、SDK クライアントの作成、セッションの開始、プロンプトの送信を順に学べます。
 - [Session resume and persistence](https://github.com/github/copilot-sdk/blob/main/docs/features/session-persistence.md):
-  セッションが何を保持し、後で会話をどのように再開するか。
+  セッションの会話履歴を保存し、後から再開する仕組みを説明しています。
 - [Authentication](https://github.com/github/copilot-sdk/blob/main/docs/auth/README.md):
-  `copilot login` の先へ進んだときにクライアントが使用できる認証情報。
+  SDK クライアントで利用できる認証方法や認証情報を説明しています。
 
 [キュレーターの応答をストリーミングする](museum-02-stream-the-curator.md) に進みます。
