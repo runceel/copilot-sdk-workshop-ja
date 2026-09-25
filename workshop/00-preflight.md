@@ -239,7 +239,7 @@ Build succeeded.
 ワークショップの残りは `start-accessibility/dotnet` で作業するため、このターミナルはここに置いておきます。
 このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-管理された対象ページを一度開いて、到達できることを確認します。
+次のURLをブラウザーで開き、ページが表示されることを確認してください。
 
 ```text
 {{TARGET_APP_URL}}
@@ -295,7 +295,7 @@ npm run build
 ワークショップの残りは `start-accessibility/nodejs` で作業するため、このターミナルはここに置いておきます。
 このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-管理された対象ページを一度開いて、到達できることを確認します。
+次のURLをブラウザーで開き、ページが表示されることを確認してください。
 
 ```text
 {{TARGET_APP_URL}}
@@ -374,7 +374,7 @@ python -m py_compile main.py workshop.py report.py accessibility_rule_catalog.py
 python -m copilot download-runtime
 ```
 
-管理された対象ページを一度開いて、到達できることを確認します。
+次のURLをブラウザーで開き、ページが表示されることを確認してください。
 
 ```text
 {{TARGET_APP_URL}}
@@ -431,7 +431,7 @@ go build -mod=readonly ./...
 ワークショップの残りは `start-accessibility/go` で作業するため、このターミナルはここに置いておきます。
 このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-管理された対象ページを一度開いて、到達できることを確認します。
+次のURLをブラウザーで開き、ページが表示されることを確認してください。
 
 ```text
 {{TARGET_APP_URL}}
@@ -492,7 +492,7 @@ cargo check --locked
 ワークショップの残りは `start-accessibility/rust` で作業するため、このターミナルはここに置いておきます。
 このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-管理された対象ページを一度開いて、到達できることを確認します。
+次のURLをブラウザーで開き、ページが表示されることを確認してください。
 
 ```text
 {{TARGET_APP_URL}}
@@ -550,7 +550,7 @@ mvn compile
 ワークショップの残りは `start-accessibility/java` で作業するため、このターミナルはここに置いておきます。
 このフォルダーから `code .` と入力して VS Code で開くか、お好みのエディターでフォルダーを開いてください。
 
-管理された対象ページを一度開いて、到達できることを確認します。
+次のURLをブラウザーで開き、ページが表示されることを確認してください。
 
 ```text
 {{TARGET_APP_URL}}
