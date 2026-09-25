@@ -362,7 +362,7 @@ mvn compile exec:java
 
 Connected to the Copilot runtime: ...
 
-Copilot: An accessible name lets assistive technology identify the input's purpose.
+Copilot: フォーム入力にアクセシブルネームが必要なのは、スクリーンリーダー等の支援技術がその入力欄の目的をユーザーに伝えられるようにし、視覚的にラベルを確認できないユーザーでも何を入力すべきか理解して操作できるようにするためです。
 ```
 
 > **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
@@ -382,7 +382,7 @@ This Copilot session is ready and waiting for your next prompt.
 実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
-An accessible name lets assistive technology identify the input's purpose.
+フォーム入力にアクセシブルネームが必要なのは、スクリーンリーダー等の支援技術がその入力欄の目的をユーザーに伝えられるようにし、視覚的にラベルを確認できないユーザーでも何を入力すべきか理解して操作できるようにするためです。
 ```
 
 > **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
@@ -392,7 +392,7 @@ An accessible name lets assistive technology identify the input's purpose.
 実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
-An accessible name lets assistive technology identify the input's purpose.
+フォーム入力にアクセシブルネームが必要なのは、スクリーンリーダー等の支援技術がその入力欄の目的をユーザーに伝えられるようにし、視覚的にラベルを確認できないユーザーでも何を入力すべきか理解して操作できるようにするためです。
 ```
 
 > **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
@@ -402,7 +402,7 @@ An accessible name lets assistive technology identify the input's purpose.
 実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
-An accessible name lets assistive technology identify the input's purpose.
+フォーム入力にアクセシブルネームが必要なのは、スクリーンリーダー等の支援技術がその入力欄の目的をユーザーに伝えられるようにし、視覚的にラベルを確認できないユーザーでも何を入力すべきか理解して操作できるようにするためです。
 ```
 
 > **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
@@ -412,7 +412,7 @@ An accessible name lets assistive technology identify the input's purpose.
 実際の応答は異なりますが、出力は次のような形になります:
 
 ```text
-An accessible name lets assistive technology identify the input's purpose.
+フォーム入力にアクセシブルネームが必要なのは、スクリーンリーダー等の支援技術がその入力欄の目的をユーザーに伝えられるようにし、視覚的にラベルを確認できないユーザーでも何を入力すべきか理解して操作できるようにするためです。
 ```
 
 > **日本語補足（出力例）:** Copilot が accessible name の役割を 1 文で返している例です。入力の目的を支援技術へ伝える内容が表示されれば成功です。
