@@ -380,4 +380,4 @@ two of them stepped onto its surface while the world listened.
 - [Authentication](https://github.com/github/copilot-sdk/blob/main/docs/auth/README.md):
   `copilot login` の先へ進んだときにクライアントが使用できる認証情報。
 
-[Stream the curator](museum-02-stream-the-curator.md) に進みます。
+[キュレーターの応答をストリーミングする](museum-02-stream-the-curator.md) に進みます。

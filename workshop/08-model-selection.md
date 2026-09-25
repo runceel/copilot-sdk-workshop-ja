@@ -685,4 +685,4 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
   アプリケーションにキーを保存せずに Microsoft Foundry のモデルへ到達する方法。
 
 [オプション: インタラクティブな HTML レポートを生成する](09-interactive-html-report.md)に進むか、
-[Step 7: アプリケーションを実行して説明する](07-run-explain.md)に戻ってください。
+[ステップ 7: アプリケーションを実行して説明する](07-run-explain.md)に戻ってください。

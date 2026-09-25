@@ -291,4 +291,4 @@ The museum's ticketing terminal was installed in 1998.
   後から実行するチェックではなく、ランタイムが強制するチェックが欲しい場合に、各フックがターンの
   どこに位置するかを解説します。
 
-[Research with Wikipedia MCP](museum-07-wikipedia-research.md) に進みましょう。
+[Wikipedia MCP でリサーチする](museum-07-wikipedia-research.md) に進みましょう。

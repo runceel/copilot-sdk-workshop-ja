@@ -258,8 +258,8 @@ Build succeeded.
 
 </details>
 
-> **ステップ1を始めるタイミング:** `dotnet build` が成功し、`copilot login` が完了し、対象ページが
-> 開くとき。
+> **ステップ1に進む前に:** `dotnet build` の成功と `copilot login` の完了を確認してください。
+> 対象ページがブラウザーで表示されれば準備完了です。
 :::
 
 :::language nodejs
@@ -316,8 +316,8 @@ npm run build
 
 </details>
 
-> **ステップ1を始めるタイミング:** `npm run build` が成功し、`copilot login` が完了し、対象ページが
-> 開くとき。
+> **ステップ1に進む前に:** `npm run build` の成功と `copilot login` の完了を確認してください。
+> 対象ページがブラウザーで表示されれば準備完了です。
 :::
 
 :::language python
@@ -395,8 +395,8 @@ python -m copilot download-runtime
 
 </details>
 
-> **ステップ1を始めるタイミング:** 固定された要件がインストールされ、`py_compile` が成功し、`copilot login` が
-> 完了し、対象ページが開くとき。
+> **ステップ1に進む前に:** 必要なパッケージがインストールされ、`py_compile` と `copilot login` が完了していることを確認してください。
+> 対象ページがブラウザーで表示されれば準備完了です。
 :::
 
 :::language go
@@ -452,8 +452,8 @@ go build -mod=readonly ./...
 
 </details>
 
-> **ステップ1を始めるタイミング:** `go build -mod=readonly ./...` が成功し、`copilot login` が完了し、
-> 対象ページが開くとき。
+> **ステップ1に進む前に:** `go build -mod=readonly ./...` の成功と `copilot login` の完了を確認してください。
+> 対象ページがブラウザーで表示されれば準備完了です。
 
 ステップ1の後で参照点が欲しい場合は、
 [`finished/go/hello-copilot-sdk`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/go/hello-copilot-sdk)
@@ -513,8 +513,8 @@ cargo check --locked
 
 </details>
 
-> **ステップ1を始めるタイミング:** `cargo check --locked` が成功し、`copilot login` が完了し、
-> 対象ページが開くとき。
+> **ステップ1に進む前に:** `cargo check --locked` の成功と `copilot login` の完了を確認してください。
+> 対象ページがブラウザーで表示されれば準備完了です。
 
 ステップ1の後で参照点が欲しい場合は、
 [`finished/rust/hello-copilot-sdk`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/rust/hello-copilot-sdk)
@@ -572,8 +572,8 @@ mvn compile
 
 </details>
 
-> **ステップ1を始めるタイミング:** `mvn compile` が `BUILD SUCCESS` を表示し、`copilot login` が完了し、
-> 対象ページが開くとき。
+> **ステップ1に進む前に:** `mvn compile` で `BUILD SUCCESS` が表示され、`copilot login` が完了したことを確認してください。
+> 対象ページがブラウザーで表示されれば準備完了です。
 
 ステップ1の後で参照点が欲しい場合は、
 [`finished/java/hello-copilot-sdk`](https://github.com/runceel/copilot-sdk-workshop-ja/tree/main/finished/java/hello-copilot-sdk)

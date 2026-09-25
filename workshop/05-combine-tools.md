@@ -1586,4 +1586,4 @@ public final class AccessibilityReport {
 - [Hooks overview](https://github.com/github/copilot-sdk/blob/main/docs/hooks/hooks-overview.md):
   各フックがターンのどこに位置するかを示します。ここが、複数のツール呼び出しにまたがるチェックを追加する場所です。
 
-[Step 6: Produce a structured report](06-structured-report.md) に進みます。
+[ステップ 6: 構造化されたレポートを生成する](06-structured-report.md) に進みます。
