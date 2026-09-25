@@ -53,7 +53,7 @@ await using var session = await client.CreateSessionAsync(new SessionConfig
 });
 
 var response = await session.SendAndWaitAsync(
-    "Write two sentences of museum wall text about the Apollo 11 Moon landing.");
+    "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。");
 
 if (response is null)
 {
@@ -65,7 +65,6 @@ Console.WriteLine(response.Data.Content);
 await client.StopAsync();
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。まだ語調や根拠の制約はないため、応答が 2 文になっているか、博物館向けの短い説明になっているかを確認します。
 
 `SendAndWaitAsync` はセッションがアイドルになるまでブロックするため、完成した回答を 1 回の呼び出しで得られます。
 `await using` は処理を抜けるときにセッションとクライアントを破棄します。`PermissionHandler.ApproveAll` は
@@ -94,7 +93,7 @@ async function main(): Promise<void> {
   });
 
   const response = await session.sendAndWait({
-    prompt: "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+    prompt: "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
   });
   console.log(response?.data && "content" in response.data ? response.data.content : response);
 
@@ -105,7 +104,6 @@ async function main(): Promise<void> {
 void main();
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。まだ語調や根拠の制約はないため、応答が 2 文になっているか、博物館向けの短い説明になっているかを確認します。
 
 `sendAndWait` はセッションがアイドルになるまでブロックするため、完成した回答を 1 回の呼び出しで得られます。
 `approveAll` は `CopilotClient` とともに SDK からインポートされます。
@@ -149,7 +147,7 @@ async def main() -> None:
 
             session.on(on_event)
             await session.send(
-                "Write two sentences of museum wall text about the Apollo 11 Moon landing."
+                "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。"
             )
             await done.wait()
             if error is not None:
@@ -160,7 +158,6 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。まだ語調や根拠の制約はないため、応答が 2 文になっているか、博物館向けの短い説明になっているかを確認します。
 
 Python は 1 つのブロッキングヘルパーを呼び出すのではなく、セッションイベントをリッスンします。アシスタントの
 メッセージを表示し、セッションエラーを失敗として扱い、終了する前にアイドルを待ちます。ステップ 2 では、この
@@ -204,7 +201,7 @@ func main() {
 	defer func() { _ = session.Disconnect() }()
 
 	response, err := session.SendAndWait(ctx, copilot.MessageOptions{
-		Prompt: "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+		Prompt: "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
 	})
 	if err != nil {
 		panic(err)
@@ -218,7 +215,6 @@ func main() {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。まだ語調や根拠の制約はないため、応答が 2 文になっているか、博物館向けの短い説明になっているかを確認します。
 
 `curator.go` はすでにこの同じ `main` パッケージにあるため、そのヘルパーは必要になった瞬間にスコープ内に
 あります。`SendAndWait` はセッションがアイドルになるまでブロックします。
@@ -245,7 +241,7 @@ async fn main() -> Result<(), RuntimeError> {
 
     let response = session
         .send_and_wait(MessageOptions::new(
-            "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+            "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
         ))
         .await?;
 
@@ -261,7 +257,6 @@ async fn main() -> Result<(), RuntimeError> {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。まだ語調や根拠の制約はないため、応答が 2 文になっているか、博物館向けの短い説明になっているかを確認します。
 
 `src/lib.rs` は、ビルド済みのヘルパーを提供する `museum_exhibit_studio` ライブラリクレートであり、編集は
 しません。今日ここからインポートする名前は 1 つだけです。`RuntimeError` は、クレートが
@@ -297,7 +292,7 @@ public final class MuseumExhibitStudio {
                     .setOnPermissionRequest(PermissionHandler.APPROVE_ALL)).get();
             try {
                 var response = session.sendAndWait(new MessageOptions().setPrompt(
-                        "Write two sentences of museum wall text about the Apollo 11 Moon landing.")).get();
+                        "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。")).get();
                 if (response == null) {
                     throw new IllegalStateException("The curator returned no content.");
                 }
@@ -311,7 +306,6 @@ public final class MuseumExhibitStudio {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。まだ語調や根拠の制約はないため、応答が 2 文になっているか、博物館向けの短い説明になっているかを確認します。
 
 `sendAndWait` はセッションがアイドルになるまでブロックします。try-with-resources ブロックは、`main` が終了
 するときにクライアントをクローズします。`PermissionHandler.APPROVE_ALL` は `com.github.copilot.rpc` に由来します。

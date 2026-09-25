@@ -75,27 +75,21 @@ AvailableTools =
 
 ```csharp
 public static string CreateReportPrompt(Uri targetUri) => $"""
-    Prepare an evidence-based accessibility review of {targetUri.AbsoluteUri}.
+    次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {targetUri.AbsoluteUri}.
 
-    1. Use browser_navigate to open that exact URL.
-    2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-    3. Identify three to five high-confidence issues supported by the snapshot.
-    4. Call accessibility_rule_lookup for each issue before recommending a fix.
-    5. Use apply_patch to create exactly accessibility-report.html in the current working directory.
+    1. `browser_navigate` を使って、指定された URL を開いてください。
+    2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+    3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+    4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
+    5. `apply_patch` を使い、現在の作業ディレクトリに `accessibility-report.html` だけを作成してください。
 
-    Write one complete, standalone HTML document. Use semantic HTML, embedded CSS, and embedded
-    JavaScript only; do not use external assets, URLs, or libraries. Include a title, target URL,
-    finding count, review limits, and one finding card per supported issue with its evidence, WCAG
-    criterion, and remediation. Add an accessible text filter that updates a visible result count
-    and filters cards by finding name, criterion, or evidence. Escape all finding text before
-    inserting it into HTML. Make keyboard focus visible.
+    セマンティック HTML、埋め込み CSS、埋め込み JavaScript だけを使って、完全に独立した HTML 文書を 1 つ作成してください。外部アセット、URL、ライブラリは使わないでください。 タイトル、対象 URL、指摘件数、レビューの限界、および根拠のある各課題のカードを含めてください。各カードには根拠、WCAG 基準、修正案を記載してください。 指摘名、基準、根拠でカードを絞り込めるアクセシブルなテキストフィルターを追加し、表示件数を更新してください。 指摘事項のテキストを HTML に挿入する前にすべてエスケープしてください。 キーボードフォーカスを見えるようにしてください。
 
-    Do not write any other file. After the write succeeds, respond only with:
+    ほかのファイルは作成しないでください。 書き込みが成功したら、次の内容だけを返してください:
     Created accessibility-report.html
     """;
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language nodejs
@@ -139,26 +133,20 @@ availableTools: [
 
 ```typescript
 export function reportPrompt(target: URL): string {
-  return `Prepare an evidence-based accessibility review of ${target.href}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
-5. Use apply_patch to create exactly accessibility-report.html in the current working directory.
+  return `次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  ${target.href}.
+1. browser_navigate を使って、指定された URL を開いてください。
+2. read_latest_accessibility_snapshot を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について accessibility_rule_lookup を呼び出してください。
+5. apply_patch を使い、現在の作業ディレクトリに `accessibility-report.html` だけを作成してください。
 
-Write one complete, standalone HTML document. Use semantic HTML, embedded CSS, and embedded
-JavaScript only; do not use external assets, URLs, or libraries. Include a title, target URL,
-finding count, review limits, and one finding card per supported issue with its evidence, WCAG
-criterion, and remediation. Add an accessible text filter that updates a visible result count
-and filters cards by finding name, criterion, or evidence. Escape all finding text before
-inserting it into HTML. Make keyboard focus visible.
+セマンティック HTML、埋め込み CSS、埋め込み JavaScript だけを使って、完全に独立した HTML 文書を 1 つ作成してください。外部アセット、URL、ライブラリは使わないでください。 タイトル、対象 URL、指摘件数、レビューの限界、および根拠のある各課題のカードを含めてください。各カードには根拠、WCAG 基準、修正案を記載してください。 指摘名、基準、根拠でカードを絞り込めるアクセシブルなテキストフィルターを追加し、表示件数を更新してください。 指摘事項のテキストを HTML に挿入する前にすべてエスケープしてください。 キーボードフォーカスを見えるようにしてください。
 
-Do not write any other file. After the write succeeds, respond only with:
+ほかのファイルは作成しないでください。 書き込みが成功したら、次の内容だけを返してください:
 Created accessibility-report.html`;
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language python
@@ -201,25 +189,19 @@ available_tools=[
 
 ```python
 def report_prompt(target: str) -> str:
-    return f"""Prepare an evidence-based accessibility review of {target}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
-5. Use apply_patch to create exactly accessibility-report.html in the current working directory.
+    return f"""次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {target}.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
+5. `apply_patch` を使い、現在の作業ディレクトリに `accessibility-report.html` だけを作成してください。
 
-Write one complete, standalone HTML document. Use semantic HTML, embedded CSS, and embedded
-JavaScript only; do not use external assets, URLs, or libraries. Include a title, target URL,
-finding count, review limits, and one finding card per supported issue with its evidence, WCAG
-criterion, and remediation. Add an accessible text filter that updates a visible result count
-and filters cards by finding name, criterion, or evidence. Escape all finding text before
-inserting it into HTML. Make keyboard focus visible.
+セマンティック HTML、埋め込み CSS、埋め込み JavaScript だけを使って、完全に独立した HTML 文書を 1 つ作成してください。外部アセット、URL、ライブラリは使わないでください。 タイトル、対象 URL、指摘件数、レビューの限界、および根拠のある各課題のカードを含めてください。各カードには根拠、WCAG 基準、修正案を記載してください。 指摘名、基準、根拠でカードを絞り込めるアクセシブルなテキストフィルターを追加し、表示件数を更新してください。 指摘事項のテキストを HTML に挿入する前にすべてエスケープしてください。 キーボードフォーカスを見えるようにしてください。
 
-Do not write any other file. After the write succeeds, respond only with:
+ほかのファイルは作成しないでください。 書き込みが成功したら、次の内容だけを返してください:
 Created accessibility-report.html"""
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language go
@@ -270,26 +252,20 @@ OnPermissionRequest: permissionForTarget(target, workingDirectory),
 
 ```go
 func reportPrompt(target string) string {
-	return fmt.Sprintf(`Prepare an evidence-based accessibility review of %s.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
-5. Use apply_patch to create exactly accessibility-report.html in the current working directory.
+	return fmt.Sprintf(`次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  %s.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
+5. `apply_patch` を使い、現在の作業ディレクトリに `accessibility-report.html` だけを作成してください。
 
-Write one complete, standalone HTML document. Use semantic HTML, embedded CSS, and embedded
-JavaScript only; do not use external assets, URLs, or libraries. Include a title, target URL,
-finding count, review limits, and one finding card per supported issue with its evidence, WCAG
-criterion, and remediation. Add an accessible text filter that updates a visible result count
-and filters cards by finding name, criterion, or evidence. Escape all finding text before
-inserting it into HTML. Make keyboard focus visible.
+セマンティック HTML、埋め込み CSS、埋め込み JavaScript だけを使って、完全に独立した HTML 文書を 1 つ作成してください。外部アセット、URL、ライブラリは使わないでください。 タイトル、対象 URL、指摘件数、レビューの限界、および根拠のある各課題のカードを含めてください。各カードには根拠、WCAG 基準、修正案を記載してください。 指摘名、基準、根拠でカードを絞り込めるアクセシブルなテキストフィルターを追加し、表示件数を更新してください。 指摘事項のテキストを HTML に挿入する前にすべてエスケープしてください。 キーボードフォーカスを見えるようにしてください。
 
-Do not write any other file. After the write succeeds, respond only with:
+ほかのファイルは作成しないでください。 書き込みが成功したら、次の内容だけを返してください:
 Created accessibility-report.html`, target)
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language rust
@@ -350,27 +326,21 @@ let config = config.with_permission_handler(Arc::new(ScopedPermissions {
 ```rust
 fn report_prompt(target: &Url) -> String {
     format!(
-        r#"Prepare an evidence-based accessibility review of {target}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
-5. Use apply_patch to create exactly accessibility-report.html in the current working directory.
+        r#"次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {target}.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
+5. `apply_patch` を使い、現在の作業ディレクトリに `accessibility-report.html` だけを作成してください。
 
-Write one complete, standalone HTML document. Use semantic HTML, embedded CSS, and embedded
-JavaScript only; do not use external assets, URLs, or libraries. Include a title, target URL,
-finding count, review limits, and one finding card per supported issue with its evidence, WCAG
-criterion, and remediation. Add an accessible text filter that updates a visible result count
-and filters cards by finding name, criterion, or evidence. Escape all finding text before
-inserting it into HTML. Make keyboard focus visible.
+セマンティック HTML、埋め込み CSS、埋め込み JavaScript だけを使って、完全に独立した HTML 文書を 1 つ作成してください。外部アセット、URL、ライブラリは使わないでください。 タイトル、対象 URL、指摘件数、レビューの限界、および根拠のある各課題のカードを含めてください。各カードには根拠、WCAG 基準、修正案を記載してください。 指摘名、基準、根拠でカードを絞り込めるアクセシブルなテキストフィルターを追加し、表示件数を更新してください。 指摘事項のテキストを HTML に挿入する前にすべてエスケープしてください。 キーボードフォーカスを見えるようにしてください。
 
-Do not write any other file. After the write succeeds, respond only with:
+ほかのファイルは作成しないでください。 書き込みが成功したら、次の内容だけを返してください:
 Created accessibility-report.html"#
     )
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 :::language java
@@ -484,26 +454,20 @@ private record RunOptions(URI target, boolean allowLocalDemoMcp, boolean allowLo
 ```java
 private static String reportPrompt(URI target) {
     return """
-            Prepare an evidence-based accessibility review of %s.
-            1. Use browser_navigate to open that exact URL.
-            2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-            3. Identify three to five high-confidence issues supported by the snapshot.
-            4. Call accessibility_rule_lookup for each issue before recommending a fix.
-            5. Use apply_patch to create exactly accessibility-report.html in the current working directory.
+            次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  %s.
+            1. `browser_navigate` を使って、指定された URL を開いてください。
+            2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+            3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+            4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
+            5. `apply_patch` を使い、現在の作業ディレクトリに `accessibility-report.html` だけを作成してください。
 
-            Write one complete, standalone HTML document. Use semantic HTML, embedded CSS, and embedded
-            JavaScript only; do not use external assets, URLs, or libraries. Include a title, target URL,
-            finding count, review limits, and one finding card per supported issue with its evidence, WCAG
-            criterion, and remediation. Add an accessible text filter that updates a visible result count
-            and filters cards by finding name, criterion, or evidence. Escape all finding text before
-            inserting it into HTML. Make keyboard focus visible.
+            セマンティック HTML、埋め込み CSS、埋め込み JavaScript だけを使って、完全に独立した HTML 文書を 1 つ作成してください。外部アセット、URL、ライブラリは使わないでください。 タイトル、対象 URL、指摘件数、レビューの限界、および根拠のある各課題のカードを含めてください。各カードには根拠、WCAG 基準、修正案を記載してください。 指摘名、基準、根拠でカードを絞り込めるアクセシブルなテキストフィルターを追加し、表示件数を更新してください。 指摘事項のテキストを HTML に挿入する前にすべてエスケープしてください。 キーボードフォーカスを見えるようにしてください。
 
-            Do not write any other file. After the write succeeds, respond only with:
+            ほかのファイルは作成しないでください。 書き込みが成功したら、次の内容だけを返してください:
             Created accessibility-report.html""".formatted(target);
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL を調査し、スナップショットと WCAG カタログに基づく 3〜5 件の指摘を使って、単一の `accessibility-report.html` を `apply_patch` で作成するよう依頼しています。外部アセットを使わないスタンドアロン HTML、フィルター、件数表示、エスケープ、キーボードフォーカスを満たし、成功後の応答が指定文だけになることを確認します。
 :::
 
 ## 実行する

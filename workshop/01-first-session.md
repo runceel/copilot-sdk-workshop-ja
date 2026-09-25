@@ -112,7 +112,7 @@ await using var session = await client.CreateSessionAsync(new SessionConfig
     OnPermissionRequest = PermissionHandler.ApproveAll,
 });
 var response = await session.SendAndWaitAsync(
-    "In one sentence, explain why an accessible name matters for a form input.");
+    "フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。");
 
 if (response is null)
 {
@@ -122,7 +122,6 @@ if (response is null)
 Console.WriteLine($"\nCopilot: {response.Data.Content}");
 ```
 
-> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
 
 ping はランタイム接続を検証します。完了応答を待つ送信はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。
 :::
@@ -138,7 +137,7 @@ await client.start();
 try {
   const session = await client.createSession({ onPermissionRequest: approveAll });
   try {
-    const response = await session.sendAndWait({ prompt: "Reply with one sentence confirming this Copilot session is ready." });
+    const response = await session.sendAndWait({ prompt: "この Copilot セッションの準備ができていることを、1 文で確認してください。" });
     console.log(response?.data && "content" in response.data ? response.data.content : response);
   } finally {
     await session.disconnect();
@@ -148,7 +147,6 @@ try {
 }
 ```
 
-> **日本語補足（プロンプト）:** この Copilot セッションが利用可能であることを 1 文で確認するよう依頼しています。応答が 1 文で、セッションの準備完了を明確に示しているかを確認してください。
 
 `sendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。ランタイムがクリーンにシャットダウンするよう、セッションとクライアントは必ず `finally` ブロックで停止してください。
 :::
@@ -183,7 +181,7 @@ async def main() -> None:
                         done.set()
 
             session.on(on_event)
-            await session.send("In one sentence, explain why an accessible name matters for a form input.")
+            await session.send("フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。")
             await done.wait()
             if error is not None:
                 raise error
@@ -193,7 +191,6 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
 
 Python では、1 つの完了応答ヘルパーを呼び出す代わりにセッションイベントをリッスンします。アシスタントメッセージを表示し、セッションエラーを失敗として扱い、終了する前にアイドルイベントを待ちます。
 :::
@@ -227,7 +224,7 @@ func main() {
 	defer session.Disconnect()
 
 	response, err := session.SendAndWait(context.Background(), copilot.MessageOptions{
-		Prompt: "In one sentence, explain why an accessible name matters for a form input.",
+		Prompt: "フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。",
 	})
 	if err != nil {
 		panic(err)
@@ -240,7 +237,6 @@ func main() {
 }
 ```
 
-> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
 
 `SendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。`defer` によって、処理の終了時にセッションを切断し、クライアントを停止します。
 :::
@@ -261,7 +257,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
     let response = session
         .send_and_wait(MessageOptions::new(
-            "In one sentence, explain why an accessible name matters for a form input.",
+            "フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。",
         ))
         .await?;
 
@@ -277,7 +273,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
 
 `send_and_wait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。関数から戻る前に、セッションを切断してクライアントを停止してください。
 :::
@@ -303,7 +298,7 @@ public final class AccessibilityReport {
             var session = client
                     .createSession(new SessionConfig().setOnPermissionRequest(PermissionHandler.APPROVE_ALL)).get();
             var response = session.sendAndWait(new MessageOptions()
-                    .setPrompt("In one sentence, explain why an accessible name matters for a form input."))
+                    .setPrompt("フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。"))
                     .get();
             if (response == null) {
                 throw new IllegalStateException("Copilot completed without an assistant message.");
@@ -314,7 +309,6 @@ public final class AccessibilityReport {
 }
 ```
 
-> **日本語補足（プロンプト）:** フォーム入力の accessible name がなぜ重要かを 1 文で説明するよう Copilot に依頼しています。応答が 1 文で、支援技術に入力の目的が伝わる点に触れているかを確認してください。
 
 `sendAndWait` はセッションがアイドル状態になるまで待機するため、完成した回答だけが必要な場合に適しています。try-with-resources ブロックは、`main` の終了時にクライアントをクローズします。
 :::
@@ -508,7 +502,7 @@ Console.WriteLine($"Connected to the Copilot runtime: {ping.Message}");
 
 await using var session = await client.CreateSessionAsync(new SessionConfig());
 var response = await session.SendAndWaitAsync(
-    "In one sentence, explain why an accessible name matters for a form input.");
+    "フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。");
 
 if (response is null)
 {
@@ -534,7 +528,7 @@ await client.start();
 try {
   const session = await client.createSession({});
   try {
-    const response = await session.sendAndWait({ prompt: "Reply with one sentence confirming this Copilot session is ready." });
+    const response = await session.sendAndWait({ prompt: "この Copilot セッションの準備ができていることを、1 文で確認してください。" });
     console.log(response?.data && "content" in response.data ? response.data.content : response);
   } finally {
     await session.disconnect();
@@ -577,7 +571,7 @@ async def main() -> None:
                         done.set()
 
             session.on(on_event)
-            await session.send("In one sentence, explain why an accessible name matters for a form input.")
+            await session.send("フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。")
             await done.wait()
             if error is not None:
                 raise error
@@ -619,7 +613,7 @@ func main() {
 	defer session.Disconnect()
 
 	response, err := session.SendAndWait(context.Background(), copilot.MessageOptions{
-		Prompt: "In one sentence, explain why an accessible name matters for a form input.",
+		Prompt: "フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。",
 	})
 	if err != nil {
 		panic(err)
@@ -650,7 +644,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let session = client.create_session(SessionConfig::default()).await?;
     let response = session
         .send_and_wait(MessageOptions::new(
-            "In one sentence, explain why an accessible name matters for a form input.",
+            "フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。",
         ))
         .await?;
 
@@ -690,7 +684,7 @@ public final class AccessibilityReport {
             client.start().get();
             var session = client.createSession(new SessionConfig()).get();
             var response = session.sendAndWait(new MessageOptions()
-                    .setPrompt("In one sentence, explain why an accessible name matters for a form input."))
+                    .setPrompt("フォーム入力にアクセシブルネームが必要な理由を、1 文で説明してください。"))
                     .get();
             if (response == null) {
                 throw new IllegalStateException("Copilot completed without an assistant message.");

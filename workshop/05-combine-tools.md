@@ -69,16 +69,15 @@ Console.WriteLine($"\nAnalyzing: {targetUri.AbsoluteUri}\n");
 await ResponseStreamer.SendAndPrintAsync(
     session,
     $"""
-    Use browser_navigate to open {targetUri.AbsoluteUri}, then call read_latest_accessibility_snapshot.
-    Identify two high-confidence accessibility issues supported by the snapshot.
-    For each issue, call accessibility_rule_lookup and return:
-    - the browser evidence;
-    - the matching criterion;
-    - the catalog's recommended remediation.
+    browser_navigate で {targetUri.AbsoluteUri} を開き、read_latest_accessibility_snapshot を呼び出してください。
+    スナップショットで確認できる、確度の高いアクセシビリティ上の課題を 2 件特定してください。
+    各課題について accessibility_rule_lookup を呼び出し、次の情報を返してください:
+    - ブラウザーで確認した根拠;
+    - 該当する基準;
+    - カタログが推奨する修正方法。
     """);
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定 URL を `browser_navigate` で開いてスナップショットを読み取り、確度の高いアクセシビリティ課題を 2 件特定するよう依頼しています。各課題について `accessibility_rule_lookup` を呼び、ブラウザー上の根拠・対応する基準・推奨修正がそろっているかを確認します。
 
 :::
 このプロンプトは、根拠とガイダンスをそれぞれ正しい情報源に割り当てます。カタログ参照の順序は
@@ -117,7 +116,7 @@ send 呼び出しを置き換えます。
 
 ```typescript
   try {
-    await streamResponse(session, `Open ${target.href}, read the snapshot, then use accessibility_rule_lookup to recommend one evidence-backed fix.`);
+    await streamResponse(session, `${target.href} を開いてスナップショットを読み取り、accessibility_rule_lookup を使って根拠に基づく修正案を 1 件提案してください。`);
   } finally {
     await session.disconnect();
   }
@@ -126,7 +125,6 @@ send 呼び出しを置き換えます。
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定 URL を開いてスナップショットを読み取り、`accessibility_rule_lookup` を使って根拠に基づく修正案を 1 件返すよう依頼しています。ブラウザーの根拠とカタログ由来のガイダンスが結び付いているかを確認します。
 
 :::
 :::language python
@@ -192,7 +190,7 @@ Step 2/4 のイベントハンドラーをセッションブロック内に残�
                         done.set()
 
             session.on(on_event)
-            await session.send(f"Open {target}, read the snapshot, then use accessibility_rule_lookup for one evidence-backed recommendation.")
+            await session.send(f"{target} を開いてスナップショットを読み取り、`accessibility_rule_lookup` を使って根拠に基づく推奨事項を 1 件示してください。")
             await done.wait()
             if error is not None:
                 raise error
@@ -202,7 +200,6 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定 URL を開いてスナップショットを読み取り、`accessibility_rule_lookup` を使って根拠に基づく推奨事項を 1 件返すよう依頼しています。ツール開始・完了ログで、ブラウザー調査とカタログ参照の両方が実行されたかを確認します。
 
 :::
 :::language go
@@ -253,7 +250,7 @@ Playwright MCP、許可リスト、正確なターゲットのパーミッショ
 
 ```go
 	prompt := fmt.Sprintf(
-		"Use browser_navigate to open %s, read_latest_accessibility_snapshot for evidence, then call accessibility_rule_lookup before recommending one evidence-backed fix.",
+		"`browser_navigate` で %s を開き、`read_latest_accessibility_snapshot` から根拠を取得してから、`accessibility_rule_lookup` を呼び出して根拠に基づく修正案を 1 件提案してください。",
 		target,
 	)
 	if err := streamResponse(session, prompt); err != nil {
@@ -261,7 +258,6 @@ Playwright MCP、許可リスト、正確なターゲットのパーミッショ
 	}
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、`browser_navigate`、`read_latest_accessibility_snapshot`、`accessibility_rule_lookup` の順に使い、根拠に基づく修正案を 1 件返すよう依頼しています。推奨事項の前にブラウザー根拠とカタログ参照があるかを確認します。
 
 :::
 :::language rust
@@ -325,16 +321,15 @@ Playwright MCP、許可リスト、正確なターゲットのパーミッショ
 ```rust
 fn combined_tools_prompt(target: &Url) -> String {
     format!(
-        r#"Open {target} with browser_navigate.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify one browser-observable issue.
-4. Call accessibility_rule_lookup before recommending one evidence-backed fix."#
+        r#"`browser_navigate` で {target} を開いてください。
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. ブラウザーで観測できる課題を 1 件特定してください。
+4. 根拠に基づく修正案を 1 件提案する前に、accessibility_rule_lookup を呼び出してください。"#
     )
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、正確な URL を `browser_navigate` で開き、スナップショットから観測できる課題を 1 件見つけてから、`accessibility_rule_lookup` で根拠付きの修正案を作るよう依頼しています。4 つの手順が順に満たされているかを確認します。
 
 ```rust
     let client = Client::start(ClientOptions::default()).await?;
@@ -412,14 +407,13 @@ fn combined_tools_prompt(target: &Url) -> String {
     private static String combinedToolsPrompt(URI target) {
         return """
                 Open %s with browser_navigate.
-                1. Use browser_navigate to open that exact URL.
-                2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-                3. Identify one browser-observable issue.
-                4. Call accessibility_rule_lookup before recommending one evidence-backed fix.""".formatted(target);
+                1. `browser_navigate` を使って、指定された URL を開いてください。
+                2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+                3. ブラウザーで観測できる課題を 1 件特定してください。
+                4. 根拠に基づく修正案を 1 件提案する前に、accessibility_rule_lookup を呼び出してください。""".formatted(target);
     }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、正確な URL を `browser_navigate` で開き、スナップショットから観測できる課題を 1 件見つけてから、`accessibility_rule_lookup` で根拠付きの修正案を作るよう依頼しています。4 つの手順が順に満たされているかを確認します。
 
 ```java
         try (var client = new CopilotClient()) {
@@ -588,12 +582,12 @@ Console.WriteLine($"Analyzing: {targetUri.AbsoluteUri}\n");
 await ResponseStreamer.SendAndPrintAsync(
     session,
     $"""
-    Use browser_navigate to open {targetUri.AbsoluteUri}, then call read_latest_accessibility_snapshot.
-    Identify two high-confidence accessibility issues supported by the snapshot.
-    For each issue, call accessibility_rule_lookup and return:
-    - the browser evidence;
-    - the matching criterion;
-    - the catalog's recommended remediation.
+    browser_navigate で {targetUri.AbsoluteUri} を開き、read_latest_accessibility_snapshot を呼び出してください。
+    スナップショットで確認できる、確度の高いアクセシビリティ上の課題を 2 件特定してください。
+    各課題について accessibility_rule_lookup を呼び出し、次の情報を返してください:
+    - ブラウザーで確認した根拠;
+    - 該当する基準;
+    - カタログが推奨する修正方法。
     """);
 ```
 </details>
@@ -624,7 +618,7 @@ try {
     mcpServers: { playwright: { command: "npx", args: ["-y", "@playwright/mcp@0.0.78", "--browser=msedge", "--output-dir", ".playwright-mcp", "--output-mode", "file"], workingDirectory: process.cwd(), tools: ["browser_navigate"] } },
   });
   try {
-    await streamResponse(session, `Open ${target.href}, read the snapshot, then use accessibility_rule_lookup to recommend one evidence-backed fix.`);
+    await streamResponse(session, `${target.href} を開いてスナップショットを読み取り、accessibility_rule_lookup を使って根拠に基づく修正案を 1 件提案してください。`);
   } finally {
     await session.disconnect();
   }
@@ -689,7 +683,7 @@ async def main() -> None:
                         done.set()
 
             session.on(on_event)
-            await session.send(f"Open {target}, read the snapshot, then use accessibility_rule_lookup for one evidence-backed recommendation.")
+            await session.send(f"{target} を開いてスナップショットを読み取り、`accessibility_rule_lookup` を使って根拠に基づく推奨事項を 1 件示してください。")
             await done.wait()
             if error is not None:
                 raise error
@@ -883,7 +877,7 @@ func main() {
 	}
 	defer session.Disconnect()
 	prompt := fmt.Sprintf(
-		"Use browser_navigate to open %s, read_latest_accessibility_snapshot for evidence, then call accessibility_rule_lookup before recommending one evidence-backed fix.",
+		"`browser_navigate` で %s を開き、`read_latest_accessibility_snapshot` から根拠を取得してから、`accessibility_rule_lookup` を呼び出して根拠に基づく修正案を 1 件提案してください。",
 		target,
 	)
 	if err := streamResponse(session, prompt); err != nil {
@@ -1198,11 +1192,11 @@ fn same_url(left: &Url, right: &Url) -> bool {
 
 fn combined_tools_prompt(target: &Url) -> String {
     format!(
-        r#"Open {target} with browser_navigate.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify one browser-observable issue.
-4. Call accessibility_rule_lookup before recommending one evidence-backed fix."#
+        r#"`browser_navigate` で {target} を開いてください。
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. ブラウザーで観測できる課題を 1 件特定してください。
+4. 根拠に基づく修正案を 1 件提案する前に、accessibility_rule_lookup を呼び出してください。"#
     )
 }
 
@@ -1501,10 +1495,10 @@ public final class AccessibilityReport {
     private static String combinedToolsPrompt(URI target) {
         return """
                 Open %s with browser_navigate.
-                1. Use browser_navigate to open that exact URL.
-                2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-                3. Identify one browser-observable issue.
-                4. Call accessibility_rule_lookup before recommending one evidence-backed fix.""".formatted(target);
+                1. `browser_navigate` を使って、指定された URL を開いてください。
+                2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+                3. ブラウザーで観測できる課題を 1 件特定してください。
+                4. 根拠に基づく修正案を 1 件提案する前に、accessibility_rule_lookup を呼び出してください。""".formatted(target);
     }
 
     private record Rule(String criterion, String title, String whenItApplies, String recommendation, List<String> keywords) {

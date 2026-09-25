@@ -225,7 +225,7 @@ PROCEDURE_MARKERS = {
             "java": '.setTools(List.of("browser_navigate"))',
     },
     "05-combine-tools.md": {
-        "dotnet": "For each issue, call accessibility_rule_lookup",
+        "dotnet": "各課題について accessibility_rule_lookup を呼び出し",
         "nodejs": "src/index.ts",
         "python": "main.py",
         "go": "AvailableTools",
@@ -627,7 +627,7 @@ def validate_executable_stage(language: str, stage: str, directory: Path) -> str
                 f"{label} combines report behavior before Step 5 or Step 6")
     if stage == "05-combine-tools":
         combined_marker = {
-            "dotnet": "For each issue, call accessibility_rule_lookup",
+            "dotnet": "各課題について accessibility_rule_lookup を呼び出し",
             "nodejs": "evidence-backed",
             "python": "evidence-backed",
             "go": "evidence-backed",
@@ -716,12 +716,12 @@ def validate_hello_sample(language: str, directory: Path) -> None:
             f"{label} does not register only accessibility_rule_lookup")
 
     question_markers = {
-        "dotnet": ("Console.ReadLine()", "Accessibility question:", "Use accessibility_rule_lookup to answer this question:"),
-        "nodejs": ("readQuestion", "Accessibility question:", "Use accessibility_rule_lookup to answer this question:"),
-        "python": ("read_question", "Accessibility question:", "Use accessibility_rule_lookup to answer this question:"),
-        "go": ("readQuestion", "Accessibility question:", "Use accessibility_rule_lookup to answer this question:"),
-        "rust": ("read_question", "Accessibility question:", "Use accessibility_rule_lookup to answer this question:"),
-        "java": ("readQuestion", "Accessibility question:", "Use accessibility_rule_lookup to answer this question:"),
+        "dotnet": ("Console.ReadLine()", "Accessibility question:", "この質問に答えるため、accessibility_rule_lookup を使ってください:"),
+        "nodejs": ("readQuestion", "Accessibility question:", "この質問に答えるため、accessibility_rule_lookup を使ってください:"),
+        "python": ("read_question", "Accessibility question:", "この質問に答えるため、accessibility_rule_lookup を使ってください:"),
+        "go": ("readQuestion", "Accessibility question:", "この質問に答えるため、accessibility_rule_lookup を使ってください:"),
+        "rust": ("read_question", "Accessibility question:", "この質問に答えるため、accessibility_rule_lookup を使ってください:"),
+        "java": ("readQuestion", "Accessibility question:", "この質問に答えるため、accessibility_rule_lookup を使ってください:"),
     }[language]
     require(contains_all(text, question_markers),
             f"{label} does not accept an accessibility question and direct the lookup tool")
@@ -907,7 +907,7 @@ def validate_rendered_language_content(markdown_file: Path) -> None:
                 "accessibility-report.html",
                 "builtin:apply_patch",
                 "exact target navigation",
-                "accessible text filter",
+                "アクセシブルなテキストフィルター",
             ):
                 require(
                     marker.casefold() in rendered_folded,
@@ -1521,6 +1521,11 @@ def validate_documentation() -> None:
         *WORKSHOP.glob("*.md"),
     ]:
         validate_markdown_links(markdown)
+    for markdown in WORKSHOP.glob("*.md"):
+        require(
+            "日本語補足（プロンプト）" not in read(markdown),
+            f"{markdown.relative_to(ROOT)} still contains a redundant prompt explanation",
+        )
     published = "\n".join(read(path) for path in [ROOT / "README.md", *WORKSHOP.glob("*.md"), *DOCS.rglob("*.html")])
     for forbidden in ("jamesmontemagno.github.io", "codemillmatt.github.io", "](../start-accessibility/", "](../finished/"):
         require(forbidden not in published, f"Published content contains forbidden pattern: {forbidden}")
@@ -1665,8 +1670,8 @@ def validate_documentation() -> None:
     for required_step in (
         "builtin:apply_patch",
         "exhibit.html",
-        "accessible text filter",
-        "keyboard focus",
+        "アクセシブルなテキストフィルター",
+        "キーボードフォーカス",
     ):
         require(
             required_step in html_lesson,
@@ -1680,7 +1685,7 @@ def validate_documentation() -> None:
 
     landing_page = read(DOCS / "index.html")
     require(
-        "SDLC 以外のツール · 90 minutes" in landing_page
+        "開発以外の分野 · 90分" in landing_page
         and "Museum Exhibit Studio に 90 分" in read(ROOT / "README.md"),
         "Museum workshop duration must match the seven timed core steps",
     )

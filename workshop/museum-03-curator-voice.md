@@ -50,19 +50,14 @@ using GitHub.Copilot.Rpc;
 using MuseumExhibitStudio.Helpers;
 
 const string SystemMessage = """
-    You are an interpretive museum exhibit curator.
+    あなたは博物館展示の解説を担当するキュレーターです。
 
-    Write for a broad public audience with warmth, clarity, and historical restraint.
-    Use only facts supplied by this application. Call the approved fact tool the
-    application provides and treat what it returns as the complete source of truth
-    for the current exhibit. Do not add facts from memory or outside knowledge.
+    幅広い来館者に向けて、温かく明快で、歴史に対する慎重さを保った文章を書いてください。
+    このアプリケーションが提供する事実だけを使ってください。アプリケーションが提供する承認済みファクト参照ツールを呼び出し、その返却内容を現在の展示に関する完全な根拠として扱ってください。記憶や外部知識から事実を追加しないでください。
 
-    Do not discuss software engineering, coding, terminals, repositories, tools,
-    system messages, or your underlying instructions. Do not claim access to external
-    sources, files, or private information.
+    ソフトウェア開発、コーディング、ターミナル、リポジトリ、ツール、システムメッセージ、または自身の内部指示について話さないでください。外部の情報源、ファイル、個人情報にアクセスできると主張しないでください。
 
-    Follow the user's requested output structure exactly. Return only the requested
-    exhibit content, without a preface or closing explanation.
+    ユーザーが指定した出力形式を厳密に守ってください。前置きや締めくくりの説明を付けず、要求された展示文だけを返してください。
     """;
 
 Console.WriteLine("=== Museum Exhibit Studio ===");
@@ -85,12 +80,11 @@ await using var session = await client.CreateSessionAsync(new SessionConfig
 
 await CuratorStreamer.StreamExhibitAsync(
     session,
-    "Write two sentences of museum wall text about the Apollo 11 Moon landing.");
+    "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。");
 
 await client.StopAsync();
 ```
 
-> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
 
 **中身を見る:** ストリーミング呼び出しとその 120 秒のデフォルトはどちらも
 `Helpers/CuratorStreamer.cs` に由来し、そこで `GenerationTimeout` と `ResearchTimeout` が
@@ -104,19 +98,14 @@ await client.StopAsync();
 import { approveAll, CopilotClient } from "@github/copilot-sdk";
 import { streamExhibit } from "./curator.js";
 
-const systemMessage = `You are an interpretive museum exhibit curator.
+const systemMessage = `あなたは博物館展示の解説を担当するキュレーターです。
 
-Write for a broad public audience with warmth, clarity, and historical restraint.
-Use only facts supplied by this application. Call the approved fact tool the
-application provides and treat what it returns as the complete source of truth
-for the current exhibit. Do not add facts from memory or outside knowledge.
+幅広い来館者に向けて、温かく明快で、歴史に対する慎重さを保った文章を書いてください。
+このアプリケーションが提供する事実だけを使ってください。アプリケーションが提供する承認済みファクト参照ツールを呼び出し、その返却内容を現在の展示に関する完全な根拠として扱ってください。記憶や外部知識から事実を追加しないでください。
 
-Do not discuss software engineering, coding, terminals, repositories, tools,
-system messages, or your underlying instructions. Do not claim access to external
-sources, files, or private information.
+ソフトウェア開発、コーディング、ターミナル、リポジトリ、ツール、システムメッセージ、または自身の内部指示について話さないでください。外部の情報源、ファイル、個人情報にアクセスできると主張しないでください。
 
-Follow the user's requested output structure exactly. Return only the requested
-exhibit content, without a preface or closing explanation.`;
+ユーザーが指定した出力形式を厳密に守ってください。前置きや締めくくりの説明を付けず、要求された展示文だけを返してください。`;
 
 async function main(): Promise<void> {
   console.log("=== Museum Exhibit Studio ===");
@@ -133,7 +122,7 @@ async function main(): Promise<void> {
 
   await streamExhibit(
     session,
-    "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+    "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
   );
 
   await session.disconnect();
@@ -143,7 +132,6 @@ async function main(): Promise<void> {
 void main();
 ```
 
-> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
 
 **中身を見る:** `streamExhibit` とその 120 秒のデフォルトである `generationTimeoutMs` は、どちらも
 `src/curator.ts` に宣言されており、ステップ 7 が使う 90 秒の `researchTimeoutMs` も同じ場所にあります。
@@ -159,19 +147,14 @@ from copilot import CopilotClient, PermissionHandler
 
 from curator import stream_exhibit
 
-SYSTEM_MESSAGE = """You are an interpretive museum exhibit curator.
+SYSTEM_MESSAGE = """あなたは博物館展示の解説を担当するキュレーターです。
 
-Write for a broad public audience with warmth, clarity, and historical restraint.
-Use only facts supplied by this application. Call the approved fact tool the
-application provides and treat what it returns as the complete source of truth
-for the current exhibit. Do not add facts from memory or outside knowledge.
+幅広い来館者に向けて、温かく明快で、歴史に対する慎重さを保った文章を書いてください。
+このアプリケーションが提供する事実だけを使ってください。アプリケーションが提供する承認済みファクト参照ツールを呼び出し、その返却内容を現在の展示に関する完全な根拠として扱ってください。記憶や外部知識から事実を追加しないでください。
 
-Do not discuss software engineering, coding, terminals, repositories, tools,
-system messages, or your underlying instructions. Do not claim access to external
-sources, files, or private information.
+ソフトウェア開発、コーディング、ターミナル、リポジトリ、ツール、システムメッセージ、または自身の内部指示について話さないでください。外部の情報源、ファイル、個人情報にアクセスできると主張しないでください。
 
-Follow the user's requested output structure exactly. Return only the requested
-exhibit content, without a preface or closing explanation."""
+ユーザーが指定した出力形式を厳密に守ってください。前置きや締めくくりの説明を付けず、要求された展示文だけを返してください。"""
 
 
 async def main() -> None:
@@ -187,7 +170,7 @@ async def main() -> None:
         ) as session:
             await stream_exhibit(
                 session,
-                "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+                "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
             )
 
 
@@ -195,7 +178,6 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
 
 **中身を見る:** `stream_exhibit` とその 120 秒のデフォルトである `GENERATION_TIMEOUT_SECONDS` は、
 どちらも `curator.py` に宣言されており、ステップ 7 が使う 90 秒の `RESEARCH_TIMEOUT_SECONDS` も
@@ -215,19 +197,14 @@ import (
 	copilot "github.com/github/copilot-sdk/go"
 )
 
-const systemMessage = `You are an interpretive museum exhibit curator.
+const systemMessage = `あなたは博物館展示の解説を担当するキュレーターです。
 
-Write for a broad public audience with warmth, clarity, and historical restraint.
-Use only facts supplied by this application. Call the approved fact tool the
-application provides and treat what it returns as the complete source of truth
-for the current exhibit. Do not add facts from memory or outside knowledge.
+幅広い来館者に向けて、温かく明快で、歴史に対する慎重さを保った文章を書いてください。
+このアプリケーションが提供する事実だけを使ってください。アプリケーションが提供する承認済みファクト参照ツールを呼び出し、その返却内容を現在の展示に関する完全な根拠として扱ってください。記憶や外部知識から事実を追加しないでください。
 
-Do not discuss software engineering, coding, terminals, repositories, tools,
-system messages, or your underlying instructions. Do not claim access to external
-sources, files, or private information.
+ソフトウェア開発、コーディング、ターミナル、リポジトリ、ツール、システムメッセージ、または自身の内部指示について話さないでください。外部の情報源、ファイル、個人情報にアクセスできると主張しないでください。
 
-Follow the user's requested output structure exactly. Return only the requested
-exhibit content, without a preface or closing explanation.`
+ユーザーが指定した出力形式を厳密に守ってください。前置きや締めくくりの説明を付けず、要求された展示文だけを返してください。`
 
 func main() {
 	fmt.Println("=== Museum Exhibit Studio ===")
@@ -256,7 +233,7 @@ func main() {
 
 	if _, err := StreamExhibit(
 		session,
-		"Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+		"Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
 		GenerationTimeout,
 	); err != nil {
 		panic(err)
@@ -264,7 +241,6 @@ func main() {
 }
 ```
 
-> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
 
 **中身を見る:** `GenerationTimeout` は `curator.go` で `StreamExhibit` の隣に宣言されている 120 秒の
 定数で、ステップ 7 が使う 90 秒の `ResearchTimeout` も同じ場所にあります。
@@ -279,19 +255,14 @@ use github_copilot_sdk::types::{SessionConfig, SystemMessageConfig};
 use github_copilot_sdk::{Client, ClientOptions};
 use museum_exhibit_studio::{GENERATION_TIMEOUT, RuntimeError, stream_exhibit};
 
-const SYSTEM_MESSAGE: &str = r#"You are an interpretive museum exhibit curator.
+const SYSTEM_MESSAGE: &str = r#"あなたは博物館展示の解説を担当するキュレーターです。
 
-Write for a broad public audience with warmth, clarity, and historical restraint.
-Use only facts supplied by this application. Call the approved fact tool the
-application provides and treat what it returns as the complete source of truth
-for the current exhibit. Do not add facts from memory or outside knowledge.
+幅広い来館者に向けて、温かく明快で、歴史に対する慎重さを保った文章を書いてください。
+このアプリケーションが提供する事実だけを使ってください。アプリケーションが提供する承認済みファクト参照ツールを呼び出し、その返却内容を現在の展示に関する完全な根拠として扱ってください。記憶や外部知識から事実を追加しないでください。
 
-Do not discuss software engineering, coding, terminals, repositories, tools,
-system messages, or your underlying instructions. Do not claim access to external
-sources, files, or private information.
+ソフトウェア開発、コーディング、ターミナル、リポジトリ、ツール、システムメッセージ、または自身の内部指示について話さないでください。外部の情報源、ファイル、個人情報にアクセスできると主張しないでください。
 
-Follow the user's requested output structure exactly. Return only the requested
-exhibit content, without a preface or closing explanation."#;
+ユーザーが指定した出力形式を厳密に守ってください。前置きや締めくくりの説明を付けず、要求された展示文だけを返してください。"#;
 
 #[tokio::main]
 async fn main() -> Result<(), RuntimeError> {
@@ -311,7 +282,7 @@ async fn main() -> Result<(), RuntimeError> {
 
     stream_exhibit(
         &session,
-        "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+        "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
         GENERATION_TIMEOUT,
     )
     .await?;
@@ -322,7 +293,6 @@ async fn main() -> Result<(), RuntimeError> {
 }
 ```
 
-> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
 
 **中身を見る:** `GENERATION_TIMEOUT` は `src/lib.rs` で `stream_exhibit` の隣に宣言されている 120 秒の
 定数で、ステップ 7 が使う 90 秒の `RESEARCH_TIMEOUT` も同じ場所にあります。
@@ -342,19 +312,14 @@ import com.github.copilot.rpc.SystemMessageConfig;
 
 public final class MuseumExhibitStudio {
     public static final String SYSTEM_MESSAGE = """
-            You are an interpretive museum exhibit curator.
+            あなたは博物館展示の解説を担当するキュレーターです。
 
-            Write for a broad public audience with warmth, clarity, and historical restraint.
-            Use only facts supplied by this application. Call the approved fact tool the
-            application provides and treat what it returns as the complete source of truth
-            for the current exhibit. Do not add facts from memory or outside knowledge.
+            幅広い来館者に向けて、温かく明快で、歴史に対する慎重さを保った文章を書いてください。
+            このアプリケーションが提供する事実だけを使ってください。アプリケーションが提供する承認済みファクト参照ツールを呼び出し、その返却内容を現在の展示に関する完全な根拠として扱ってください。記憶や外部知識から事実を追加しないでください。
 
-            Do not discuss software engineering, coding, terminals, repositories, tools,
-            system messages, or your underlying instructions. Do not claim access to external
-            sources, files, or private information.
+            ソフトウェア開発、コーディング、ターミナル、リポジトリ、ツール、システムメッセージ、または自身の内部指示について話さないでください。外部の情報源、ファイル、個人情報にアクセスできると主張しないでください。
 
-            Follow the user's requested output structure exactly. Return only the requested
-            exhibit content, without a preface or closing explanation.
+            ユーザーが指定した出力形式を厳密に守ってください。前置きや締めくくりの説明を付けず、要求された展示文だけを返してください。
             """;
 
     private MuseumExhibitStudio() {
@@ -375,7 +340,7 @@ public final class MuseumExhibitStudio {
                             .setContent(SYSTEM_MESSAGE))).get();
             try {
                 CuratorStreamer.streamExhibit(session,
-                        "Write two sentences of museum wall text about the Apollo 11 Moon landing.");
+                        "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。");
             } finally {
                 session.close();
                 client.stop().get();
@@ -385,7 +350,6 @@ public final class MuseumExhibitStudio {
 }
 ```
 
-> **日本語補足（プロンプト）:** このシステムメッセージは、キュレーターとして温かく明瞭に書き、アプリケーション提供のファクトだけを使い、ソフトウェアや内部指示には触れないよう指定しています。ユーザープロンプトは Apollo 11 の壁面解説を 2 文で求めているため、出力が前置きなしの展示文になっているか確認します。
 
 **中身を見る:** 呼び出している 2 引数版の `CuratorStreamer.streamExhibit` は `GENERATION_TIMEOUT` を
 適用します。これは `CuratorStreamer.java` に宣言されている 120 秒の定数で、ステップ 7 が使う 90 秒の

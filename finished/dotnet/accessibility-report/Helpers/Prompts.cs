@@ -3,26 +3,26 @@ namespace AccessibilityReport.Helpers;
 public static class Prompts
 {
     public static string CreateReportPrompt(Uri targetUri) => $"""
-        Prepare an evidence-based accessibility review of {targetUri.AbsoluteUri}.
+        次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {targetUri.AbsoluteUri}.
 
-        1. Use browser_navigate to open that exact URL.
-        2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-        3. Identify three to five high-confidence issues supported by the snapshot.
-        4. Call accessibility_rule_lookup for each issue before recommending a fix.
+        1. `browser_navigate` を使って、指定された URL を開いてください。
+        2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+        3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+        4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
 
-        Return only this structure:
+        次の構成だけを返してください:
 
         # Accessibility review
-        ## Finding 1: <short name>
-        - Evidence: <specific element or page structure observed in the browser>
-        - WCAG criterion: <criterion and title returned by the catalog>
-        - Recommended remediation: <specific implementation change>
+        ## Finding 1: <短い名称>
+        - Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+        - WCAG criterion: <カタログが返した基準とタイトル>
+        - Recommended remediation: <具体的な実装上の変更>
 
-        Repeat the finding section as needed.
+        必要に応じて指摘事項のセクションを繰り返してください。
 
         ## Review limits
-        State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
+        これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
 
-        Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant.
+        根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。
         """;
 }

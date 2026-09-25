@@ -18,7 +18,7 @@
 
     const workshops = {
         sdlc: {
-            name: 'Accessibility Reviewer',
+            name: 'アクセシビリティレビュー',
             previewTitle: 'accessibility-reviewer',
             preview: `URL → Playwright inspection
      → WCAG lookup
@@ -29,10 +29,10 @@
 
 Finding
 The name input has no accessible name.`,
-            guidance: '90 分のコアワークショップで、SDLC 向けの開発者ツールを作ります。'
+            guidance: '90分で、ソフトウェア開発を支援するエージェントを作ります。'
         },
         museum: {
-            name: 'Museum Exhibit Studio',
+            name: '博物館の展示解説づくり',
             previewTitle: 'museum-exhibit-studio',
             preview: `Approved facts → curator session
                → exhibit validation
@@ -44,7 +44,7 @@ System message: replace
 # Journey to the Moon
 ## Narrative
 ## Visitor questions`,
-            guidance: '90 分のコアワークショップで、SDLC 以外のキュレーターツールを作ります。'
+            guidance: '90分で、博物館の展示解説を作るエージェントを構築します。'
         }
     };
 
@@ -79,31 +79,31 @@ System message: replace
         startLink.href = ready
             ? WorkshopLanguageNavigation.firstLessonUrl(language.id, selectedWorkshopId)
             : workshop ? '#language-picker' : '#workshop-picker';
-        startLink.textContent = ready ? `${workshop.name} を開始` : '選択したワークショップを開始';
+        startLink.textContent = ready ? `${workshop.name}を始める` : 'ワークショップを始める';
         targetAppLink.hidden = selectedWorkshopId !== 'sdlc';
 
         if (!hasLanguage) {
             docsLink.removeAttribute('href');
             docsLink.setAttribute('aria-disabled', 'true');
             summary.textContent = workshop
-                ? `次に ${workshop.name} の実装言語を選択してください。`
-                : '先にワークショップを選び、次に実装言語を選択してください。';
+                ? `次に「${workshop.name}」の実装言語を選んでください。`
+                : '先にワークショップを選んでください。';
             installCommand.textContent = '';
             runtimeNote.textContent = '';
             startGuidance.textContent = workshop?.guidance ??
-                'ワークショップと言語を選んでください。エージェントや SDK の経験は不要です。';
+                'ワークショップと言語を選んでください。エージェントやSDKの知識は必要ありません。';
             return;
         }
 
         docsLink.href = language.docsUrl;
         docsLink.removeAttribute('aria-disabled');
-        docsLink.textContent = `${language.displayName} SDK ドキュメント ↗`;
+        docsLink.textContent = `📚 ${language.displayName} SDKドキュメントを見る ↗`;
         summary.textContent = workshop
-            ? `${workshop.name} では ${language.displayName} SDK を使用します。`
-            : '続けるにはワークショップを選択してください。';
+            ? `「${workshop.name}」では${language.displayName} SDKを使います。`
+            : '続けるには、ワークショップを選んでください。';
         installCommand.textContent = language.installCommand;
         runtimeNote.textContent = language.runtimeNote;
-        startGuidance.textContent = workshop?.guidance ?? '続けるにはワークショップを選択してください。';
+        startGuidance.textContent = workshop?.guidance ?? '続けるには、ワークショップを選んでください。';
     }
 
     function selectWorkshop(workshopId) {
@@ -113,7 +113,7 @@ System message: replace
         });
         const workshop = selectedWorkshopId ? workshops[selectedWorkshopId] : null;
         previewTitle.textContent = workshop?.previewTitle ?? 'workshop-preview';
-        preview.textContent = workshop?.preview ?? 'ワークショップを選択すると、エージェントの流れをプレビューできます。';
+        preview.textContent = workshop?.preview ?? 'ワークショップを選ぶと、エージェントの動作の流れを確認できます。';
         updateSelection(languageInputs.find(input => input.checked)?.value ?? null);
         if (workshop) {
             languageInputs[0].focus();

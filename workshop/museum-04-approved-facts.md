@@ -101,28 +101,25 @@ CuratorFactSet ReadFactSetSelection()
 static string BuildExhibitPrompt()
 {
     return $"""
-        Create visitor-facing exhibit text about this application's approved subject.
+        このアプリケーションで承認された対象について、来館者向けの展示文を作成してください。
 
-        Call {CuratorFacts.ApprovedFactLookupName} first. Use only the facts it returns, and
-        treat them as the complete source of truth for this exhibit.
+        最初に {CuratorFacts.ApprovedFactLookupName} を呼び出してください。 返された事実だけを使い、この展示に関する完全な根拠として扱ってください。
 
-        Return exactly this structure:
+        次の構成を厳密に守ってください:
 
-        # <an engaging exhibit title>
+        # <魅力的な展示タイトル>
         ## Narrative
-        <100-140 words, excluding the title and questions>
+        <タイトルと質問を除いて 100〜140 語>
         ## Visitor questions
-        1. <question>
-        2. <question>
-        3. <question>
+        1. <質問>
+        2. <質問>
+        3. <質問>
 
-        Write exactly three distinct visitor reflection questions. Do not add a preface,
-        conclusion, software discussion, or facts the tool did not return.
+        来館者が考えるための異なる質問を、必ず 3 つ作成してください。 前置き、結論、ソフトウェアに関する説明、ツールが返していない事実を追加しないでください。
         """;
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 ローカル関数はトップレベルのステートメントの後に来ます。`BuildExhibitPrompt` はもはやファクトをまったく受け取りません。代わりにツールの名前を指定します。`CreateApprovedFactLookup` は内部で `BoundFacts` を呼び出すため、誰がツールを組み立てても境界は保たれます。
 
@@ -150,23 +147,21 @@ import {
 
 ```typescript
 function buildExhibitPrompt(): string {
-  return `Create visitor-facing exhibit text about this application's approved subject.
+  return `このアプリケーションで承認された対象について、来館者向けの展示文を作成してください。
 
-Call ${approvedFactLookupName} first. Use only the facts it returns, and treat them as the
-complete source of truth for this exhibit.
+最初に ${approvedFactLookupName} を呼び出してください。 返された事実だけを使い、この展示に関する完全な根拠として扱ってください。
 
-Return exactly this structure:
+次の構成を厳密に守ってください:
 
-# <an engaging exhibit title>
+# <魅力的な展示タイトル>
 ## Narrative
-<100-140 words, excluding the title and questions>
+<タイトルと質問を除いて 100〜140 語>
 ## Visitor questions
-1. <question>
-2. <question>
-3. <question>
+1. <質問>
+2. <質問>
+3. <質問>
 
-Write exactly three distinct visitor reflection questions. Do not add a preface,
-conclusion, software discussion, or facts the tool did not return.`;
+来館者が考えるための異なる質問を、必ず 3 つ作成してください。 前置き、結論、ソフトウェアに関する説明、ツールが返していない事実を追加しないでください。`;
 }
 
 async function chooseFactSet(): Promise<(typeof factSets)[number]> {
@@ -179,7 +174,6 @@ async function chooseFactSet(): Promise<(typeof factSets)[number]> {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 `main` を次のように置き換えます。
 
@@ -245,26 +239,23 @@ from curator import (
 
 ```python
 def build_exhibit_prompt() -> str:
-    return f"""Create visitor-facing exhibit text about this application's approved subject.
+    return f"""このアプリケーションで承認された対象について、来館者向けの展示文を作成してください。
 
-Call {APPROVED_FACT_LOOKUP_NAME} first. Use only the facts it returns, and treat them as
-the complete source of truth for this exhibit.
+最初に {APPROVED_FACT_LOOKUP_NAME} を呼び出してください。 返された事実だけを使い、この展示に関する完全な根拠として扱ってください。
 
-Return exactly this structure:
+次の構成を厳密に守ってください:
 
-# <an engaging exhibit title>
+# <魅力的な展示タイトル>
 ## Narrative
-<100-140 words, excluding the title and questions>
+<タイトルと質問を除いて 100〜140 語>
 ## Visitor questions
-1. <question>
-2. <question>
-3. <question>
+1. <質問>
+2. <質問>
+3. <質問>
 
-Write exactly three distinct visitor reflection questions. Do not add a preface,
-conclusion, software discussion, or facts the tool did not return."""
+来館者が考えるための異なる質問を、必ず 3 つ作成してください。 前置き、結論、ソフトウェアに関する説明、ツールが返していない事実を追加しないでください。"""
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 `main` を置き換えます。
 
@@ -311,27 +302,24 @@ async def main() -> None:
 
 ```go
 func buildExhibitPrompt() string {
-	return fmt.Sprintf(`Create visitor-facing exhibit text about this application's approved subject.
+	return fmt.Sprintf(`このアプリケーションで承認された対象について、来館者向けの展示文を作成してください。
 
-Call %s first. Use only the facts it returns, and treat them as the complete
-source of truth for this exhibit.
+最初に %s を呼び出してください。 返された事実だけを使い、この展示に関する完全な根拠として扱ってください。
 
-Return exactly this structure:
+次の構成を厳密に守ってください:
 
-# <an engaging exhibit title>
+# <魅力的な展示タイトル>
 ## Narrative
-<100-140 words, excluding the title and questions>
+<タイトルと質問を除いて 100〜140 語>
 ## Visitor questions
-1. <question>
-2. <question>
-3. <question>
+1. <質問>
+2. <質問>
+3. <質問>
 
-Write exactly three distinct visitor reflection questions. Do not add a preface,
-conclusion, software discussion, or facts the tool did not return.`, ApprovedFactLookupName)
+来館者が考えるための異なる質問を、必ず 3 つ作成してください。 前置き、結論、ソフトウェアに関する説明、ツールが返していない事実を追加しないでください。`, ApprovedFactLookupName)
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 `main` を置き換えます。
 
@@ -420,28 +408,25 @@ use museum_exhibit_studio::{
 ```rust
 fn build_exhibit_prompt() -> String {
     format!(
-        r#"Create visitor-facing exhibit text about this application's approved subject.
+        r#"このアプリケーションで承認された対象について、来館者向けの展示文を作成してください。
 
-Call {APPROVED_FACT_LOOKUP_NAME} first. Use only the facts it returns, and treat them as
-the complete source of truth for this exhibit.
+最初に {APPROVED_FACT_LOOKUP_NAME} を呼び出してください。 返された事実だけを使い、この展示に関する完全な根拠として扱ってください。
 
-Return exactly this structure:
+次の構成を厳密に守ってください:
 
-# <an engaging exhibit title>
+# <魅力的な展示タイトル>
 ## Narrative
-<100-140 words, excluding the title and questions>
+<タイトルと質問を除いて 100〜140 語>
 ## Visitor questions
-1. <question>
-2. <question>
-3. <question>
+1. <質問>
+2. <質問>
+3. <質問>
 
-Write exactly three distinct visitor reflection questions. Do not add a preface,
-conclusion, software discussion, or facts the tool did not return."#
+来館者が考えるための異なる質問を、必ず 3 つ作成してください。 前置き、結論、ソフトウェアに関する説明、ツールが返していない事実を追加しないでください。"#
     )
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 `main` を置き換えます。
 
@@ -512,23 +497,21 @@ async fn main() -> Result<(), RuntimeError> {
 ```java
     public static String buildExhibitPrompt() {
         return """
-                Create visitor-facing exhibit text about this application's approved subject.
+                このアプリケーションで承認された対象について、来館者向けの展示文を作成してください。
 
-                Call %s first. Use only the facts it returns, and treat them as the
-                complete source of truth for this exhibit.
+                最初に %s を呼び出してください。 返された事実だけを使い、この展示に関する完全な根拠として扱ってください。
 
-                Return exactly this structure:
+                次の構成を厳密に守ってください:
 
-                # <an engaging exhibit title>
+                # <魅力的な展示タイトル>
                 ## Narrative
-                <100-140 words, excluding the title and questions>
+                <タイトルと質問を除いて 100〜140 語>
                 ## Visitor questions
-                1. <question>
-                2. <question>
-                3. <question>
+                1. <質問>
+                2. <質問>
+                3. <質問>
 
-                Write exactly three distinct visitor reflection questions. Do not add a preface,
-                conclusion, software discussion, or facts the tool did not return.
+                来館者が考えるための異なる質問を、必ず 3 つ作成してください。 前置き、結論、ソフトウェアに関する説明、ツールが返していない事実を追加しないでください。
                 """.formatted(CuratorFacts.APPROVED_FACT_LOOKUP_NAME);
     }
 
@@ -546,7 +529,6 @@ async fn main() -> Result<(), RuntimeError> {
     }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、最初に `approved_fact_lookup` を呼び出し、その返却ファクトだけを根拠に展示文を作るよう依頼しています。タイトル、100〜140 語の Narrative、3 つの Visitor questions という構成と、前置き・結論・ソフトウェア説明・未承認ファクトの禁止を確認します。
 
 `main` を置き換えます。
 

@@ -112,7 +112,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("\nCopilot:");
     stream_response!(
         session,
-        format!("Use accessibility_rule_lookup to answer this question: {question}")
+        format!("この質問に答えるため、accessibility_rule_lookup を使ってください: {question}")
     );
     session.disconnect().await?;
     client.stop().await?;

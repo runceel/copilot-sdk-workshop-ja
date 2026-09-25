@@ -38,32 +38,31 @@ namespace HelloCopilotSDK.Helpers;
 public static class Prompts
 {
     public static string CreateReportPrompt(Uri targetUri) => $"""
-        Prepare an evidence-based accessibility review of {targetUri.AbsoluteUri}.
+        次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {targetUri.AbsoluteUri}.
 
-        1. Use browser_navigate to open that exact URL.
-        2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-        3. Identify three to five high-confidence issues supported by the snapshot.
-        4. Call accessibility_rule_lookup for each issue before recommending a fix.
+        1. `browser_navigate` を使って、指定された URL を開いてください。
+        2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+        3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+        4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
 
-        Return only this structure:
+        次の構成だけを返してください:
 
         # Accessibility review
-        ## Finding 1: <short name>
-        - Evidence: <specific element or page structure observed in the browser>
-        - WCAG criterion: <criterion and title returned by the catalog>
-        - Recommended remediation: <specific implementation change>
+        ## Finding 1: <短い名称>
+        - Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+        - WCAG criterion: <カタログが返した基準とタイトル>
+        - Recommended remediation: <具体的な実装上の変更>
 
-        Repeat the finding section as needed.
+        必要に応じて指摘事項のセクションを繰り返してください。
 
         ## Review limits
-        State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
+        これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
 
-        Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant.
+        根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。
         """;
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
 
 :::
 :::language dotnet
@@ -84,26 +83,25 @@ await ResponseStreamer.SendAndPrintAsync(session, Prompts.CreateReportPrompt(tar
 
 ```typescript
 export function reportPrompt(target: URL): string {
-  return `Prepare an evidence-based accessibility review of ${target.href}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
+  return `次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  ${target.href}.
+1. browser_navigate を使って、指定された URL を開いてください。
+2. read_latest_accessibility_snapshot を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について accessibility_rule_lookup を呼び出してください。
 
-Return only this structure:
+次の構成だけを返してください:
 # Accessibility review
-## Finding 1: <short name>
-- Evidence: <specific element or page structure observed in the browser>
-- WCAG criterion: <criterion and title returned by the catalog>
-- Recommended remediation: <specific implementation change>
-Repeat the finding section as needed.
+## Finding 1: <短い名称>
+- Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+- WCAG criterion: <カタログが返した基準とタイトル>
+- Recommended remediation: <具体的な実装上の変更>
+必要に応じて指摘事項のセクションを繰り返してください。
 ## Review limits
-State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
-Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant.`;
+これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
+根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。`;
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
 
 :::
 :::language nodejs
@@ -151,25 +149,24 @@ import "./report.js";
 
 ```python
 def report_prompt(target: str) -> str:
-    return f"""Prepare an evidence-based accessibility review of {target}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
+    return f"""次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {target}.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
 
-Return only this structure:
+次の構成だけを返してください:
 # Accessibility review
-## Finding 1: <short name>
-- Evidence: <specific element or page structure observed in the browser>
-- WCAG criterion: <criterion and title returned by the catalog>
-- Recommended remediation: <specific implementation change>
-Repeat the finding section as needed.
+## Finding 1: <短い名称>
+- Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+- WCAG criterion: <カタログが返した基準とタイトル>
+- Recommended remediation: <具体的な実装上の変更>
+必要に応じて指摘事項のセクションを繰り返してください。
 ## Review limits
-State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
-Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant."""
+これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
+根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。"""
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
 
 :::
 :::language python
@@ -247,14 +244,14 @@ if __name__ == "__main__":
 
 ```go
 func reportPrompt(target string) string {
-	return fmt.Sprintf(`Prepare an evidence-based accessibility review of %s.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot for browser-observable evidence.
-3. Call accessibility_rule_lookup before each recommendation.
+	return fmt.Sprintf(`次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  %s.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、ブラウザーで観測できる根拠を取得してください。
+3. 推奨事項を示す前に、各課題について accessibility_rule_lookup を呼び出してください。
 
-Return only:
+次の内容だけを返してください:
 # Accessibility review
-## Finding 1: <short name>
+## Finding 1: <短い名称>
 - Evidence: <specific browser evidence>
 - WCAG criterion: <catalog result>
 - Recommended remediation: <specific change>
@@ -263,7 +260,6 @@ State that this focused review is not a full WCAG conformance audit.`, target)
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、スナップショットと WCAG カタログを根拠に、アクセシビリティレビューを決められた見出し構成で返すよう依頼しています。各指摘にブラウザで観測した根拠、カタログ結果、具体的な修正案があり、レビューが完全な適合監査ではないことを明示しているか確認します。
 
 :::
 :::language go
@@ -335,27 +331,26 @@ func main() {
 ```rust
 fn report_prompt(target: &Url) -> String {
     format!(
-        r#"Prepare an evidence-based accessibility review of {target}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
+        r#"次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {target}.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
 
-Return only this structure:
+次の構成だけを返してください:
 # Accessibility review
-## Finding 1: <short name>
-- Evidence: <specific element or page structure observed in the browser>
-- WCAG criterion: <criterion and title returned by the catalog>
-- Recommended remediation: <specific implementation change>
-Repeat the finding section as needed.
+## Finding 1: <短い名称>
+- Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+- WCAG criterion: <カタログが返した基準とタイトル>
+- Recommended remediation: <具体的な実装上の変更>
+必要に応じて指摘事項のセクションを繰り返してください。
 ## Review limits
-State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
-Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant."#
+これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
+根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。"#
     )
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
 
 :::
 :::language rust
@@ -444,26 +439,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ```java
 private static String reportPrompt(URI target) {
     return """
-            Prepare an evidence-based accessibility review of %s.
-            1. Use browser_navigate to open that exact URL.
-            2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-            3. Identify three to five high-confidence issues supported by the snapshot.
-            4. Call accessibility_rule_lookup for each issue before recommending a fix.
+            次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  %s.
+            1. `browser_navigate` を使って、指定された URL を開いてください。
+            2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+            3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+            4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
 
-            Return only this structure:
+            次の構成だけを返してください:
             # Accessibility review
-            ## Finding 1: <short name>
-            - Evidence: <specific element or page structure observed in the browser>
-            - WCAG criterion: <criterion and title returned by the catalog>
-            - Recommended remediation: <specific implementation change>
-            Repeat the finding section as needed.
+            ## Finding 1: <短い名称>
+            - Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+            - WCAG criterion: <カタログが返した基準とタイトル>
+            - Recommended remediation: <具体的な実装上の変更>
+            必要に応じて指摘事項のセクションを繰り返してください。
             ## Review limits
-            State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
-            Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant.""".formatted(target);
+            これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
+            根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。""".formatted(target);
 }
 ```
 
-> **日本語補足（プロンプト）:** 指定した URL をブラウザで開き、最新のアクセシビリティスナップショットと WCAG カタログを根拠に、3〜5 件の高確度な指摘を構造化レポートとして返すよう依頼しています。各指摘に具体的な根拠、基準、修正案があり、最後にレビューの限界が明示され、根拠のない統計や適合宣言がないことを確認します。
 
 ステップ 4 のパーミッションコールバックはそのままにしておきます。管理下のワークショップ用ターゲット
 に対して明示的に `--allow-local-demo-mcp` を渡さない限り、フェイルクローズドのままです。この一時的な
@@ -782,22 +776,22 @@ try {
 
 ```typescript
 export function reportPrompt(target: URL): string {
-  return `Prepare an evidence-based accessibility review of ${target.href}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
+  return `次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  ${target.href}.
+1. browser_navigate を使って、指定された URL を開いてください。
+2. read_latest_accessibility_snapshot を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について accessibility_rule_lookup を呼び出してください。
 
-Return only this structure:
+次の構成だけを返してください:
 # Accessibility review
-## Finding 1: <short name>
-- Evidence: <specific element or page structure observed in the browser>
-- WCAG criterion: <criterion and title returned by the catalog>
-- Recommended remediation: <specific implementation change>
-Repeat the finding section as needed.
+## Finding 1: <短い名称>
+- Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+- WCAG criterion: <カタログが返した基準とタイトル>
+- Recommended remediation: <具体的な実装上の変更>
+必要に応じて指摘事項のセクションを繰り返してください。
 ## Review limits
-State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
-Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant.`;
+これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
+根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。`;
 }
 ```
 </details>
@@ -873,22 +867,22 @@ if __name__ == "__main__":
 
 ```python
 def report_prompt(target: str) -> str:
-    return f"""Prepare an evidence-based accessibility review of {target}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
+    return f"""次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {target}.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
 
-Return only this structure:
+次の構成だけを返してください:
 # Accessibility review
-## Finding 1: <short name>
-- Evidence: <specific element or page structure observed in the browser>
-- WCAG criterion: <criterion and title returned by the catalog>
-- Recommended remediation: <specific implementation change>
-Repeat the finding section as needed.
+## Finding 1: <短い名称>
+- Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+- WCAG criterion: <カタログが返した基準とタイトル>
+- Recommended remediation: <具体的な実装上の変更>
+必要に応じて指摘事項のセクションを繰り返してください。
 ## Review limits
-State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
-Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant."""
+これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
+根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。"""
 ```
 </details>
 :::
@@ -902,14 +896,14 @@ Do not invent evidence, report unsupported statistics, or claim the page is WCAG
 
 ```go
 func reportPrompt(target string) string {
-	return fmt.Sprintf(`Prepare an evidence-based accessibility review of %s.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot for browser-observable evidence.
-3. Call accessibility_rule_lookup before each recommendation.
+	return fmt.Sprintf(`次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  %s.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、ブラウザーで観測できる根拠を取得してください。
+3. 推奨事項を示す前に、各課題について accessibility_rule_lookup を呼び出してください。
 
-Return only:
+次の内容だけを返してください:
 # Accessibility review
-## Finding 1: <short name>
+## Finding 1: <短い名称>
 - Evidence: <specific browser evidence>
 - WCAG criterion: <catalog result>
 - Recommended remediation: <specific change>
@@ -982,22 +976,22 @@ func main() {
 ```rust
 fn report_prompt(target: &Url) -> String {
     format!(
-        r#"Prepare an evidence-based accessibility review of {target}.
-1. Use browser_navigate to open that exact URL.
-2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-3. Identify three to five high-confidence issues supported by the snapshot.
-4. Call accessibility_rule_lookup for each issue before recommending a fix.
+        r#"次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  {target}.
+1. `browser_navigate` を使って、指定された URL を開いてください。
+2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
 
-Return only this structure:
+次の構成だけを返してください:
 # Accessibility review
-## Finding 1: <short name>
-- Evidence: <specific element or page structure observed in the browser>
-- WCAG criterion: <criterion and title returned by the catalog>
-- Recommended remediation: <specific implementation change>
-Repeat the finding section as needed.
+## Finding 1: <短い名称>
+- Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+- WCAG criterion: <カタログが返した基準とタイトル>
+- Recommended remediation: <具体的な実装上の変更>
+必要に応じて指摘事項のセクションを繰り返してください。
 ## Review limits
-State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
-Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant."#
+これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
+根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。"#
     )
 }
 
@@ -1184,22 +1178,22 @@ private record RunOptions(URI target, boolean allowLocalDemoMcp) {
 
 private static String reportPrompt(URI target) {
     return """
-            Prepare an evidence-based accessibility review of %s.
-            1. Use browser_navigate to open that exact URL.
-            2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
-            3. Identify three to five high-confidence issues supported by the snapshot.
-            4. Call accessibility_rule_lookup for each issue before recommending a fix.
+            次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  %s.
+            1. `browser_navigate` を使って、指定された URL を開いてください。
+            2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+            3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
+            4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
 
-            Return only this structure:
+            次の構成だけを返してください:
             # Accessibility review
-            ## Finding 1: <short name>
-            - Evidence: <specific element or page structure observed in the browser>
-            - WCAG criterion: <criterion and title returned by the catalog>
-            - Recommended remediation: <specific implementation change>
-            Repeat the finding section as needed.
+            ## Finding 1: <短い名称>
+            - Evidence: <ブラウザーで観測した具体的な要素またはページ構造>
+            - WCAG criterion: <カタログが返した基準とタイトル>
+            - Recommended remediation: <具体的な実装上の変更>
+            必要に応じて指摘事項のセクションを繰り返してください。
             ## Review limits
-            State that this is a focused review of browser-observable evidence, not a full WCAG conformance audit.
-            Do not invent evidence, report unsupported statistics, or claim the page is WCAG compliant.""".formatted(target);
+            これはブラウザーで観測できる根拠に限定したレビューであり、WCAG 適合性の完全な監査ではないことを明記してください。
+            根拠を捏造したり、裏付けのない統計を報告したり、このページが WCAG に適合していると断定したりしないでください。""".formatted(target);
 }
 ```
 </details>

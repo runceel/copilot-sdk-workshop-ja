@@ -30,7 +30,7 @@ if (!question) {
     });
     try {
       console.log("\nCopilot:");
-      await streamResponse(session, `Use accessibility_rule_lookup to answer this question: ${question}`);
+      await streamResponse(session, `この質問に答えるため、accessibility_rule_lookup を使ってください:  ${question}`);
     } finally {
       await session.disconnect();
     }

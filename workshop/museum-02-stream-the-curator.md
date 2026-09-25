@@ -41,12 +41,11 @@ await using var session = await client.CreateSessionAsync(new SessionConfig
 
 await CuratorStreamer.StreamExhibitAsync(
     session,
-    "Write two sentences of museum wall text about the Apollo 11 Moon landing.");
+    "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。");
 
 await client.StopAsync();
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 変更点は 2 つです。セッション設定の `Streaming = true` と、`SendAndWaitAsync` の代わりの
 `CuratorStreamer.StreamExhibitAsync` です。ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。ヘルパーは
@@ -81,7 +80,7 @@ async function main(): Promise<void> {
 
   await streamExhibit(
     session,
-    "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+    "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
   );
 
   await session.disconnect();
@@ -91,7 +90,6 @@ async function main(): Promise<void> {
 void main();
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 変更点は 2 つです。セッション設定の `streaming: true` と、`sendAndWait` の代わりの `streamExhibit` です。
 ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。ヘルパーは
@@ -128,7 +126,7 @@ async def main() -> None:
         ) as session:
             await stream_exhibit(
                 session,
-                "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+                "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
             )
 
 
@@ -136,7 +134,6 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 ステップ 1 のイベントリスナー全体が 1 回の呼び出しにまとまります。`stream_exhibit` は
 `curator.py` にあり、すでに `AssistantMessageDeltaData`、`SessionErrorData`、`SessionIdleData` に対するマッチングを行っており、
@@ -187,7 +184,7 @@ func main() {
 
 	if _, err := StreamExhibit(
 		session,
-		"Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+		"Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
 		GenerationTimeout,
 	); err != nil {
 		panic(err)
@@ -195,7 +192,6 @@ func main() {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 変更点は 2 つです。セッション設定の `Streaming: copilot.Bool(true)` と、`SendAndWait` の代わりの `StreamExhibit` です。
 ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。`StreamExhibit` と
@@ -232,7 +228,7 @@ async fn main() -> Result<(), RuntimeError> {
 
     stream_exhibit(
         &session,
-        "Write two sentences of museum wall text about the Apollo 11 Moon landing.",
+        "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。",
         GENERATION_TIMEOUT,
     )
     .await?;
@@ -243,7 +239,6 @@ async fn main() -> Result<(), RuntimeError> {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 変更点は 2 つです。`config.streaming = Some(true)` と、`send_and_wait` の代わりの `stream_exhibit` です。
 ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。`stream_exhibit` と
@@ -285,7 +280,7 @@ public final class MuseumExhibitStudio {
                     .setStreaming(true)).get();
             try {
                 CuratorStreamer.streamExhibit(session,
-                        "Write two sentences of museum wall text about the Apollo 11 Moon landing.");
+                        "Apollo 11 の月面着陸について、博物館の壁面解説文を 2 文で書いてください。");
             } finally {
                 session.close();
                 client.stop().get();
@@ -295,7 +290,6 @@ public final class MuseumExhibitStudio {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、Apollo 11 の月面着陸について博物館の壁面解説を 2 文で書くよう依頼しています。応答の内容だけでなく、ストリーミングによって文が少しずつ表示されるかも確認します。
 
 変更点は 2 つです。セッション設定の `setStreaming(true)` と、`sendAndWait` の代わりの `CuratorStreamer.streamExhibit` です。
 ステップ 1 のパーミッションハンドラーは、まったく同じ位置に残ります。ヘルパーは

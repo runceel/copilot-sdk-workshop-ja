@@ -27,4 +27,4 @@ if (string.IsNullOrWhiteSpace(question))
 Console.WriteLine("\nCopilot:");
 await ResponseStreamer.SendAndPrintAsync(
     session,
-    $"Use accessibility_rule_lookup to answer this question: {question}");
+    $"この質問に答えるため、accessibility_rule_lookup を使ってください: {question}");

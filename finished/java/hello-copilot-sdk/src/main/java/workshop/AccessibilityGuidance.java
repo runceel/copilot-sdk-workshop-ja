@@ -54,7 +54,7 @@ public final class AccessibilityGuidance {
                 })) {
                     System.out.println("\nCopilot:");
                     session.sendAndWait(new MessageOptions()
-                            .setPrompt("Use accessibility_rule_lookup to answer this question: " + question))
+                            .setPrompt("この質問に答えるため、accessibility_rule_lookup を使ってください: " + question))
                             .get();
                     System.out.println();
                 }

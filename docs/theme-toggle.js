@@ -14,8 +14,8 @@ function toggleTheme() {
 function updateToggleIcon() {
     const isLight = document.documentElement.dataset.theme === 'light';
     document.querySelectorAll('.theme-toggle').forEach(button => {
-        button.textContent = isLight ? '🌙 ダーク' : '☀️ ライト';
-        button.setAttribute('aria-label', `${isLight ? 'ダーク' : 'ライト'}テーマに切り替える`);
+        button.textContent = isLight ? '🌙 ダークモード' : '☀️ ライトモード';
+        button.setAttribute('aria-label', `${isLight ? 'ダーク' : 'ライト'}モードに切り替える`);
     });
 }
 

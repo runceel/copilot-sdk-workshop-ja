@@ -269,7 +269,6 @@ Structural checks do not prove factual grounding. Unsupported claims require hum
 The museum's ticketing terminal was installed in 1998.
 ```
 
-> **日本語補足（プロンプト）:** 禁止語彙ルールを試すため、`terminal` を含む英語のファクトを入力する例です。生成後のレポートで禁止語彙が検出されることを確認します。
 
 展示は `terminal` という語を繰り返し、レポートがそれを指摘します。このチェックはあなたの意図では
 なく、出力を読み取っているのです。

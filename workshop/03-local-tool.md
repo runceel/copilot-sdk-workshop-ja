@@ -91,10 +91,9 @@ await using var session = await client.CreateSessionAsync(new SessionConfig
 Console.WriteLine("\nCopilot:");
 await ResponseStreamer.SendAndPrintAsync(
     session,
-    "Use accessibility_rule_lookup to explain how to fix an input with no accessible name.");
+    "`accessibility_rule_lookup` を使って、アクセシブルネームのない入力をどう修正するか説明してください。");
 ```
 
-> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って、accessible name がない入力の修正方法を説明するよう依頼しています。ツール名を明示しており、応答がツール結果に基づいて具体的な修正を述べているかを確認してください。
 
 ## 実行する
 
@@ -153,7 +152,7 @@ await using var session = await client.CreateSessionAsync(new SessionConfig
 Console.WriteLine("Copilot:");
 await ResponseStreamer.SendAndPrintAsync(
     session,
-    "Use accessibility_rule_lookup to explain how to fix an input with no accessible name.");
+    "`accessibility_rule_lookup` を使って、アクセシブルネームのない入力をどう修正するか説明してください。");
 ```
 
 カタログツールとルックアップは `Helpers/AccessibilityRuleCatalog.cs` にあります。ツールの開始と完了の
@@ -214,14 +213,13 @@ const session = await client.createSession({
 try {
   await streamResponse(
     session,
-    "Use accessibility_rule_lookup to explain WCAG 4.1.2.",
+    "accessibility_rule_lookup を使って、WCAG 4.1.2 の内容を説明してください。",
   );
 } finally {
   await session.disconnect();
 }
 ```
 
-> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
 
 `tools` は実装を登録します。`availableTools` はモデルが呼び出せる許可リストです。
 
@@ -274,7 +272,7 @@ try {
     availableTools: ["accessibility_rule_lookup"],
   });
   try {
-    await streamResponse(session, "Use accessibility_rule_lookup to explain WCAG 4.1.2.");
+    await streamResponse(session, "accessibility_rule_lookup を使って、WCAG 4.1.2 の内容を説明してください。");
   } finally {
     await session.disconnect();
   }
@@ -348,14 +346,13 @@ async with await client.create_session(
 
     session.on(on_event)
     await session.send(
-        "Use accessibility_rule_lookup to explain WCAG 4.1.2."
+        "`accessibility_rule_lookup` を使って、WCAG 4.1.2 の内容を説明してください。"
     )
     await done.wait()
     if error is not None:
         raise error
 ```
 
-> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
 
 `tools` は実装を登録します。`available_tools` はモデルが呼び出せる許可リストです。
 
@@ -428,7 +425,7 @@ async def main() -> None:
                         done.set()
 
             session.on(on_event)
-            await session.send("Use accessibility_rule_lookup to explain WCAG 4.1.2.")
+            await session.send("`accessibility_rule_lookup` を使って、WCAG 4.1.2 の内容を説明してください。")
             await done.wait()
             if error is not None:
                 raise error
@@ -499,13 +496,12 @@ defer session.Disconnect()
 
 if err := streamResponse(
 	session,
-	"Use accessibility_rule_lookup to explain WCAG 4.1.2.",
+	"`accessibility_rule_lookup` を使って、WCAG 4.1.2 の内容を説明してください。",
 ); err != nil {
 	panic(err)
 }
 ```
 
-> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
 
 `Tools` は実装を登録します。`AvailableTools` はモデルが呼び出せる許可リストです。
 このツールはアプリケーションが所有する読み取り専用データのみを返すため、`SkipPermission = true` は意図的なものです。
@@ -617,7 +613,7 @@ func main() {
 	}
 	defer session.Disconnect()
 
-	if err := streamResponse(session, "Use accessibility_rule_lookup to explain WCAG 4.1.2."); err != nil {
+	if err := streamResponse(session, "`accessibility_rule_lookup` を使って、WCAG 4.1.2 の内容を説明してください。"); err != nil {
 		panic(err)
 	}
 }
@@ -688,11 +684,10 @@ let session = client.create_session(config).await?;
 
 stream_response!(
     session,
-    "Use accessibility_rule_lookup to explain WCAG 4.1.2.".to_owned()
+    "`accessibility_rule_lookup` を使って、WCAG 4.1.2 の内容を説明してください。".to_owned()
 );
 ```
 
-> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
 
 マクロ呼び出しの後には、ステップ 2 の disconnect とクライアントのシャットダウンを残しておきます。
 `config.tools` は実装を登録します。`config.available_tools` はモデルが呼び出せる許可リストです。このツールはアプリケーションが所有する読み取り専用データのみを返すため、`with_skip_permission(true)` は意図的なものです。
@@ -825,7 +820,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     stream_response!(
         session,
-        "Use accessibility_rule_lookup to explain WCAG 4.1.2.".to_owned()
+        "`accessibility_rule_lookup` を使って、WCAG 4.1.2 の内容を説明してください。".to_owned()
     );
     session.disconnect().await?;
     client.stop().await?;
@@ -886,7 +881,7 @@ var config = new SessionConfig()
 ```java
 var session = client.createSession(config).get();
 var response = session.sendAndWait(new MessageOptions()
-        .setPrompt("Use accessibility_rule_lookup to explain WCAG 4.1.2."))
+        .setPrompt("`accessibility_rule_lookup` を使って、WCAG 4.1.2 の内容を説明してください。"))
         .get();
 if (response == null) {
     throw new IllegalStateException("Copilot completed without an assistant message.");
@@ -894,7 +889,6 @@ if (response == null) {
 System.out.println(response.getData().content());
 ```
 
-> **日本語補足（プロンプト）:** `accessibility_rule_lookup` ツールを使って WCAG 4.1.2 を説明するよう依頼しています。ツール名と基準番号を明示しており、応答がカタログの該当基準と推奨事項に基づいているかを確認してください。
 
 `setTools` は実装を登録します。`setAvailableTools` はモデルが呼び出せる許可リストです。このツールはアプリケーションが所有する読み取り専用データのみを返すため、`skipPermission(true)` は意図的なものです。ステップ 4 でスコープ付きの Playwright ハンドラーに置き換えられるまで、ステップ 1 のパーミッションハンドラーを残しておきます。Java の実装はストリーミングを有効にしたセッションで `sendAndWait` を使用するため、ターンが終了すると完成した応答を表示します。
 
@@ -964,7 +958,7 @@ public final class AccessibilityReport {
             client.start().get();
             var session = client.createSession(config).get();
             var response = session.sendAndWait(new MessageOptions()
-                    .setPrompt("Use accessibility_rule_lookup to explain WCAG 4.1.2."))
+                    .setPrompt("`accessibility_rule_lookup` を使って、WCAG 4.1.2 の内容を説明してください。"))
                     .get();
             if (response == null) {
                 throw new IllegalStateException("Copilot completed without an assistant message.");

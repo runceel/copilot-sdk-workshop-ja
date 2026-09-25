@@ -188,13 +188,11 @@ Console.WriteLine($"\nInspecting: {targetUri.AbsoluteUri}\n");
 await ResponseStreamer.SendAndPrintAsync(
     session,
     $"""
-    Use browser_navigate to open {targetUri.AbsoluteUri}.
-    Then use read_latest_accessibility_snapshot and report the page title
-    plus one sentence describing its main content.
+    `browser_navigate` で {targetUri.AbsoluteUri} を開いてください。
+    続けて `read_latest_accessibility_snapshot` を使い、ページタイトルと主な内容を説明する 1 文を報告してください。
     """);
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開き、`read_latest_accessibility_snapshot` で取得した情報からページタイトルと主な内容を 1 文で報告するよう依頼しています。ツールの呼び出し順と対象 URL が意図どおりかを確認します。
 
 ## 実行する
 
@@ -288,7 +286,7 @@ Console.WriteLine($"Inspecting: {targetUri.AbsoluteUri}\n");
 await ResponseStreamer.SendAndPrintAsync(
     session,
     $"""
-    Use browser_navigate to open {targetUri.AbsoluteUri}.
+    `browser_navigate` で {targetUri.AbsoluteUri} を開いてください。
     Then use read_latest_accessibility_snapshot and return the page title
     plus one sentence describing its main content.
     """);
@@ -444,7 +442,7 @@ try {
   try {
     await streamResponse(
       session,
-      `Use browser_navigate to open ${target.href}, then read_latest_accessibility_snapshot and report the page title.`,
+      `browser_navigate で ${target.href} を開き、read_latest_accessibility_snapshot を使ってページタイトルを報告してください。`,
     );
   } finally {
     await session.disconnect();
@@ -454,7 +452,6 @@ try {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開いたあと、`read_latest_accessibility_snapshot` を使ってページタイトルを報告するよう依頼しています。ナビゲーション先が入力した URL に限定され、スナップショット取得後にタイトルが返るかを確認します。
 
 `availableTools` はランタイムが接頭辞を付けた MCP 名 `playwright-browser_navigate` を使用しますが、
 MCP サーバー構成では引き続き接頭辞なしの `browser_navigate` を列挙します。
@@ -519,7 +516,7 @@ try {
     mcpServers: { playwright: { command: "npx", args: ["-y", "@playwright/mcp@0.0.78", "--browser=msedge", "--output-dir", ".playwright-mcp", "--output-mode", "file"], workingDirectory: process.cwd(), tools: ["browser_navigate"] } },
   });
   try {
-    await streamResponse(session, `Use browser_navigate to open ${target.href}, then read_latest_accessibility_snapshot and report the page title.`);
+    await streamResponse(session, `browser_navigate で ${target.href} を開き、read_latest_accessibility_snapshot を使ってページタイトルを報告してください。`);
   } finally {
     await session.disconnect();
   }
@@ -704,15 +701,14 @@ def create_snapshot_reader(working_directory: str):
 
             session.on(on_event)
             await session.send(
-                f"Use browser_navigate to open {target}, then "
-                "read_latest_accessibility_snapshot and report the page title."
+                f"`browser_navigate` で {target} を開き、 "
+                "`read_latest_accessibility_snapshot` を使ってページタイトルを報告してください。"
             )
             await done.wait()
             if error is not None:
                 raise error
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開いたあと、`read_latest_accessibility_snapshot` を使ってページタイトルを報告するよう依頼しています。ナビゲーション先が入力した URL に限定され、スナップショット取得後にタイトルが返るかを確認します。
 
 `available_tools` はランタイムが接頭辞を付けた MCP 名 `playwright-browser_navigate` を使用しますが、
 MCP サーバー構成では引き続き接頭辞なしの `browser_navigate` を列挙します。
@@ -797,7 +793,7 @@ async def main() -> None:
                         done.set()
 
             session.on(on_event)
-            await session.send(f"Use browser_navigate to open {target}, then read_latest_accessibility_snapshot and report the page title.")
+            await session.send(f"`browser_navigate` で {target} を開き、`read_latest_accessibility_snapshot` を使ってページタイトルを報告してください。")
             await done.wait()
             if error is not None:
                 raise error
@@ -963,12 +959,11 @@ if err != nil {
 	panic(err)
 }
 defer session.Disconnect()
-if err := streamResponse(session, fmt.Sprintf("Use browser_navigate to open %s, then read_latest_accessibility_snapshot and report the page title.", target)); err != nil {
+if err := streamResponse(session, fmt.Sprintf("`browser_navigate` で %s を開き、`read_latest_accessibility_snapshot` を使ってページタイトルを報告してください。", target)); err != nil {
 	panic(err)
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開いたあと、`read_latest_accessibility_snapshot` を使ってページタイトルを報告するよう依頼しています。ナビゲーション先が入力した URL に限定され、スナップショット取得後にタイトルが返るかを確認します。
 
 新しいヘルパーが使用するインポートを追加します: `encoding/json`、`net/url`、`path/filepath`、`sort`、
 `time`、および `"github.com/github/copilot-sdk/go/rpc"`。
@@ -1042,7 +1037,7 @@ if err != nil {
 	panic(err)
 }
 defer session.Disconnect()
-if err := streamResponse(session, fmt.Sprintf("Use browser_navigate to open %s, then read_latest_accessibility_snapshot and report the page title.", target)); err != nil {
+if err := streamResponse(session, fmt.Sprintf("`browser_navigate` で %s を開き、`read_latest_accessibility_snapshot` を使ってページタイトルを報告してください。", target)); err != nil {
 	panic(err)
 }
 ```
@@ -1276,14 +1271,13 @@ let session = client.create_session(config).await?;
 stream_response!(
     session,
     format!(
-        "Use browser_navigate to open {target}, then read_latest_accessibility_snapshot and report the page title."
+        "`browser_navigate` で {target} を開き、`read_latest_accessibility_snapshot` を使ってページタイトルを報告してください。"
     )
 );
 session.disconnect().await?;
 client.stop().await?;
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定した URL を `browser_navigate` で開いたあと、`read_latest_accessibility_snapshot` を使ってページタイトルを報告するよう依頼しています。ナビゲーション先が入力した URL に限定され、スナップショット取得後にタイトルが返るかを確認します。
 
 新しいヘルパーが使用するインポートを追加します。これには
 `github_copilot_sdk::handler::{PermissionHandler, PermissionResult}`、
@@ -1628,8 +1622,8 @@ try (var client = new CopilotClient()) {
     var response = session.sendAndWait(new MessageOptions().setPrompt(
             """
             Open %s with browser_navigate.
-            1. Use browser_navigate to open that exact URL.
-            2. Call read_latest_accessibility_snapshot to inspect its accessibility tree.
+            1. `browser_navigate` を使って、指定された URL を開いてください。
+            2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
             3. Return the observed page title only.
 
             The permission handler must approve only this exact Playwright navigation target."""
@@ -1641,7 +1635,6 @@ try (var client = new CopilotClient()) {
 }
 ```
 
-> **日本語補足（プロンプト）:** このプロンプトは、指定した URL だけを `browser_navigate` で開き、`read_latest_accessibility_snapshot` でアクセシビリティツリーを確認して、観測したページタイトルのみを返すよう依頼しています。許可ハンドラーがその正確な Playwright ナビゲーション対象だけを承認する前提も確認します。
 
 MCP とパーミッションのインポートを追加します。
 

@@ -77,7 +77,7 @@ async def main() -> None:
             session.on(on_event)
             print("\nCopilot:")
             await session.send(
-                f"Use accessibility_rule_lookup to answer this question: {question}"
+                f"この質問に答えるため、accessibility_rule_lookup を使ってください: {question}"
             )
             await done.wait()
             if error is not None:

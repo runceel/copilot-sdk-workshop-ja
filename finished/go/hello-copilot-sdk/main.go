@@ -116,7 +116,7 @@ func main() {
 	defer session.Disconnect()
 
 	fmt.Println("\nCopilot:")
-	if err := streamResponse(session, "Use accessibility_rule_lookup to answer this question: "+question); err != nil {
+	if err := streamResponse(session, "この質問に答えるため、accessibility_rule_lookup を使ってください: "+question); err != nil {
 		panic(err)
 	}
 }
