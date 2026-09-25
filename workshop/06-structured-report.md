@@ -623,13 +623,28 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 
 ```text
 # Accessibility review
-## Finding 1: Input has no accessible name
-- Evidence: The snapshot contains a textbox with no accessible name.
-- WCAG criterion: 4.1.2 Name, Role, Value
-- Recommended remediation: Associate a visible label using matching for and id values.
+
+## Finding 1: テキストボックスにアクセシブルネームがない
+
+- Evidence: スナップショットで `textbox [ref=e12]` が名前なしで出力されている(「Submit」ボタンとペアだが、ラベルとの関連付けが確認できない)
+- WCAG criterion: 4.1.2 名前・役割・値
+- Recommended remediation: 表示ラベルに `<label for="...">` を付与し、`id` を入力欄と一致させてアクセシブルネームを持たせる。
+
+## Finding 2: 見出しレベルの階層が不正
+
+- Evidence: スナップショット上で `h2`(banner)→`h2`(Welcome)→`h4`(Quick actions)→`h3`(About this app)の順に出現しており、h2 から h4 へ飛び、その後 h3 に戻るなど連続していない
+- WCAG criterion: 1.3.1 情報及び関係性
+- Recommended remediation: 見出しレベルを視覚的な見た目ではなく、文書構造に沿って連番(例: h2 → h3 → h3)に修正する。
+
+## Finding 3: main ランドマークが存在しない
+
+- Evidence: スナップショットのルート構造は `banner`・`generic`・`contentinfo` のみで、主要コンテンツを囲む `main` ランドマークが確認できない
+- WCAG criterion: 1.3.1 情報及び関係性
+- Recommended remediation: バナーとフッターに挟まれた主要コンテンツを `<main>` 要素(または `role="main"`)でマークアップし、支援技術がページ構造を認識できるようにする。
 
 ## Review limits
-This focused review uses browser-observable evidence and is not a full WCAG conformance audit.
+
+本レビューはブラウザーで取得したアクセシビリティスナップショットから観測できる範囲の根拠のみに基づくものであり、WCAG 適合性の完全な監査ではありません。色のコントラストやキーボード操作、スクリーンリーダーでの実際の読み上げ挙動など、スナップショットだけでは判断できない項目は評価対象に含まれていません。また、このページが WCAG に適合している、または適合していないと断定するものではありません。
 ```
 
 > **日本語補足（出力例）:** 見出し、指摘事項、根拠、WCAG 基準、推奨修正、レビューの限界がそろっている状態が成功例です。特に Evidence がブラウザで観測した内容に基づき、最後に完全な WCAG 適合監査ではないことを明示している点を確認します。

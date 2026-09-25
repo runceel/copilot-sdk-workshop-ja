@@ -6,40 +6,40 @@ public static class AccessibilityRuleCatalog
     [
         new(
             "1.1.1",
-            "Non-text Content",
-            "An informative image has no useful text alternative.",
-            "Add concise alt text that communicates the image's purpose. Use alt=\"\" only for decorative images.",
-            ["image", "alt text", "text alternative"]),
+            "非テキストコンテンツ",
+            "情報を伝える画像に、内容を説明する代替テキストがありません。",
+            "画像の目的が伝わる簡潔な代替テキストを設定してください。装飾目的の画像に限り alt=\"\" を使用します。",
+            ["image", "alt text", "text alternative", "Non-text Content", "画像", "代替テキスト"]),
         new(
             "1.3.1",
-            "Info and Relationships",
-            "Page structure or relationships are only conveyed visually.",
-            "Use semantic landmarks and a logical heading hierarchy so structure is programmatically available.",
-            ["main landmark", "heading hierarchy", "page structure", "semantic"]),
+            "情報及び関係性",
+            "ページの構造や要素間の関係が、見た目だけで示されています。",
+            "main などのランドマークや適切な見出し階層を使い、支援技術にも構造が伝わるようにしてください。",
+            ["main landmark", "heading hierarchy", "page structure", "semantic", "Info and Relationships", "ランドマーク", "見出し", "ページ構造"]),
         new(
             "1.4.3",
-            "Contrast (Minimum)",
-            "Text does not have enough contrast against its background.",
-            "Provide at least 4.5:1 contrast for normal text and 3:1 for large text.",
-            ["contrast", "low contrast", "color"]),
+            "コントラスト（最低限）",
+            "テキストと背景のコントラストが不足しています。",
+            "通常のテキストでは 4.5:1 以上、大きなテキストでは 3:1 以上のコントラスト比を確保してください。",
+            ["contrast", "low contrast", "color", "Contrast (Minimum)", "コントラスト", "色"]),
         new(
             "2.4.7",
-            "Focus Visible",
-            "Keyboard focus cannot be seen clearly.",
-            "Keep a visible, high-contrast focus indicator on every interactive element.",
-            ["focus", "keyboard", "outline"]),
+            "フォーカスの可視化",
+            "キーボード操作時に、フォーカスの位置がはっきり見えません。",
+            "すべての操作可能な要素に、見やすくコントラストの十分なフォーカス表示を設けてください。",
+            ["focus", "keyboard", "outline", "Focus Visible", "フォーカス", "キーボード"]),
         new(
             "3.3.2",
-            "Labels or Instructions",
-            "A form does not provide a persistent visible label or necessary instructions.",
-            "Provide visible labels and instructions that explain the expected input.",
-            ["visible label", "instructions", "required field", "input format"]),
+            "ラベル又は説明",
+            "フォームに、常に表示されるラベルや必要な入力説明がありません。",
+            "入力する内容が分かるラベルと、必要に応じた説明を表示してください。",
+            ["visible label", "instructions", "required field", "input format", "Labels or Instructions", "ラベル", "入力説明", "必須項目"]),
         new(
             "4.1.2",
-            "Name, Role, Value",
-            "A form control has no programmatically determinable accessible name.",
-            "Associate a visible <label> with the input by using matching for and id values.",
-            ["accessible name", "programmatic label", "unlabeled input", "name role value"])
+            "名前・役割・値",
+            "フォームの入力欄に、支援技術が読み取れるアクセシブルネームがありません。",
+            "表示される <label> の for 属性と入力欄の id 属性を一致させ、ラベルを関連付けてください。",
+            ["accessible name", "programmatic label", "unlabeled input", "name role value", "Name, Role, Value", "アクセシブルネーム", "ラベルのない入力欄", "名前・役割・値"])
     ];
 }
 

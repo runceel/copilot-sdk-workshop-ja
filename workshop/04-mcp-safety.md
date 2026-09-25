@@ -136,7 +136,7 @@ public static AIFunction CreateTool(string workingDirectory)
         factoryOptions: new AIFunctionFactoryOptions
         {
             Name = "read_latest_accessibility_snapshot",
-            Description = "Reads the newest Playwright accessibility snapshot created during this run."
+            Description = "この実行中に作成された最新の Playwright アクセシビリティスナップショットを読み取ります。"
         });
 }
 ```
@@ -463,6 +463,10 @@ npm start -- "{{TARGET_APP_URL}}"
 ```
 
 初回の実行は、`npx` が Playwright を起動する間、時間がかかることがあります。
+`browser_navigate` が利用できない場合は `copilot mcp list` で `playwright` の状態を確認してください。
+`Disabled` と表示された場合、ユーザー設定の無効化が SDK のセッションにも適用されます。
+利用を許可するなら `copilot mcp enable playwright` で有効化してから再実行してください。
+この変更は以降のセッションにも反映されます。
 
 次のような出力を探します。
 

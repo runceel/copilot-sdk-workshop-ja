@@ -37,13 +37,13 @@ using Microsoft.Extensions.AI;
 
 ```csharp
 public static AIFunction CreateLookupTool() => CopilotTool.DefineTool(
-    ([Description("The accessibility issue or WCAG criterion to look up.")] string query) =>
+    ([Description("調べたいアクセシビリティ上の問題、または WCAG の達成基準。")] string query) =>
         Task.FromResult(Lookup(query)),
     toolOptions: new CopilotToolOptions { SkipPermission = true },
     factoryOptions: new AIFunctionFactoryOptions
     {
         Name = "accessibility_rule_lookup",
-        Description = "Looks up read-only WCAG guidance maintained by this application."
+        Description = "アプリ内のカタログから、該当する WCAG の達成基準と修正方法を読み取ります。"
     });
 
 public static AccessibilityRule Lookup(string query)
@@ -55,10 +55,10 @@ public static AccessibilityRule Lookup(string query)
                rule.Keywords.Any(keyword =>
                    normalizedQuery.Contains(keyword, StringComparison.OrdinalIgnoreCase)))
            ?? new AccessibilityRule(
-               "No exact match",
-               "Criterion not found",
-               "The issue is not represented in the workshop catalog.",
-               "Verify the evidence and consult the complete WCAG reference.",
+               "該当なし",
+               "達成基準が見つかりません",
+               "この問題に対応する達成基準は、ワークショップのカタログに登録されていません。",
+               "根拠を確認し、WCAG の公式資料を参照してください。",
                []);
 }
 ```
@@ -107,7 +107,7 @@ dotnet run
 [tool:start] accessibility_rule_lookup
 [tool:done] success=True
 
-WCAG 4.1.2 Name, Role, Value ...
+WCAG 4.1.2 名前・役割・値 ...
 ```
 
 > **日本語補足（出力例）:** ローカルツールの結果を使って WCAG 4.1.2 の情報が表示される例です。ツールイベントや基準名、推奨される修正内容が確認できれば成功です。

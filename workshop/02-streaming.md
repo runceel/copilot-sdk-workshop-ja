@@ -103,12 +103,15 @@ dotnet run
 箇条書きは、プロセスが終了する前に段階的に表示され始めるはずです。
 
 ```text
-Connected to the Copilot runtime: ...
+=== First Copilot session ===
+
+Connected to the Copilot runtime: pong: workshop
 
 Copilot:
-- Gives a control a programmatic identity.
-- Helps screen-reader users understand its purpose.
-- Connects visible labels to form controls.
+
+- アクセシブルネーム(accessible name)とは、スクリーンリーダー等の支援技術がUI要素を読み上げる際に使う「名前」で、ボタンやリンク、フォーム部品が何であるかをユーザーに伝える役割を持つ。
+- 決定方法には優先順位があり、aria-labelledby > aria-label > ネイティブなラベル付け(labelタグ、alt属性など) > 要素のテキストコンテンツ、といった順で計算される(Accessible Name and Description Computation仕様に準拠)。
+- 適切なアクセシブルネームがないと、アイコンのみのボタンや画像リンクなどが「ボタン」「リンク」としか読み上げられず、視覚障害のあるユーザーが操作目的を理解できなくなるため、明確で簡潔な名前を設定することが重要。
 ```
 
 > **日本語補足（出力例）:** Copilot の回答が 3 つの箇条書きとして表示される例です。各項目が段階的に表示され、最後まで出力されてプロセスが終了すれば成功です。

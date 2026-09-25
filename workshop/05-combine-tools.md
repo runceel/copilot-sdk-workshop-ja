@@ -469,16 +469,51 @@ mvn compile exec:java -Dexec.args="--allow-local-demo-mcp {{TARGET_APP_URL}}"
 両方の種類のツールからのアクティビティが表示されるはずです。
 
 ```text
-[tool:start] playwright-browser_navigate
-[tool:start] read_latest_accessibility_snapshot
-[tool:start] accessibility_rule_lookup
+=== First Copilot session ===
 
-- Evidence: The text input has no accessible name ...
-- WCAG criterion: 4.1.2 Name, Role, Value
-- Recommended remediation: Associate a visible <label> ...
+Connected to the Copilot runtime: pong: workshop
+
+Analyzing: {{TARGET_APP_URL}}
+
+ページを開いてアクセシビリティスナップショットを取得します。
+[tool:start] playwright-browser_navigate
+[tool:done] success=True
+
+[tool:start] read_latest_accessibility_snapshot
+[tool:done] success=True
+スナップショットから、確度の高い課題を2件特定しました。カタログを照会します。
+[tool:start] accessibility_rule_lookup
+[tool:start] accessibility_rule_lookup
+[tool:done] success=True
+[tool:done] success=True
+2件目の課題について別のキーワードで再照会します。
+[tool:start] accessibility_rule_lookup
+[tool:done] success=True
+2件目候補を見出し構造の問題に変更して照会します(h2→h4のレベル飛び)。
+[tool:start] accessibility_rule_lookup
+[tool:done] success=True
+以下2件の課題を特定しました。
+
+## 課題1: テキストボックスにラベルがない
+
+- **根拠(スナップショット)**: `textbox [ref=e12]` が名前(アクセシブルネーム)なしで出力されている。隣接する `button "Submit"` から入力目的は推測できるが、プログラム的に関連付いたラベルが存在しない。
+- **該当基準**: WCAG 3.3.2「ラベル又は説明」
+- **推奨修正**: 入力する内容が分かる、常に表示されるラベル(`<label for>` など)をテキストボックスに関連付け、必要に応じて入力形式の説明も追加する。
+
+## 課題2: 見出し階層の飛び
+
+- **根拠(スナップショット)**: `heading level=2`(Welcome...)の後、`level=3`(About this app)を挟まず `heading level=4`(Quick actions)が先に出現しており、h2→h4→h3という順序で階層が飛び・逆転している。
+- **該当基準**: WCAG 1.3.1「情報及び関係性」
+- **推奨修正**: 見出しレベルを飛ばさず、文書構造に沿った適切な階層(h2→h3→h4)に修正し、支援技術がページ構造を正しく伝えられるようにする。
+
+なお「Learn more」リンクの文脈依存テキストも気になりましたが、カタログに該当基準が登録されていなかったため、確度の高い2件として上記を報告します。
 ```
 
-> **日本語補足（出力例）:** Playwright による確認、スナップショット取得、カタログ参照の 3 種類のツール活動が表示されていれば、複数ツールの連携が動いています。最終回答では、ブラウザーの根拠、対応する WCAG 基準、推奨修正が対応していることを確認します。
+> **出力例の見方:** 2 件目の照会をやり直していますが、各ツールの実行は成功しており、
+> Playwright の根拠をカタログに結び付けるというこのステップの目的は達成しています。
+> ただし、アクセシブルネームのない入力にはカタログの WCAG 4.1.2 も該当します。
+> 見出しレベルの飛びも、順序だけで WCAG 違反と断定せず、実際の内容と構造を確認してください。
+> この出力は監査結果ではなく、モデルが生成したレビュー例です。
 
 正確な順序と表現は異なる場合があります。根拠は Playwright から得られる必要があり、基準はカタログと
 一致する必要があります。

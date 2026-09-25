@@ -26,7 +26,7 @@ public static class PlaywrightSnapshotReader
             factoryOptions: new AIFunctionFactoryOptions
             {
                 Name = "read_latest_accessibility_snapshot",
-                Description = "Reads the newest Playwright accessibility snapshot created during this run."
+                Description = "この実行中に作成された最新の Playwright アクセシビリティスナップショットを読み取ります。"
             });
     }
 
