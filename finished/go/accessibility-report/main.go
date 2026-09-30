@@ -151,10 +151,10 @@ func permissionForTarget(target string) copilot.PermissionHandlerFunc {
 
 func reportPrompt(target string) string {
 	return fmt.Sprintf(`次の URL を対象に、根拠に基づくアクセシビリティレビューを作成してください:  %s.
-1. `browser_navigate` を使って、指定された URL を開いてください。
-2. `read_latest_accessibility_snapshot` を呼び出して、アクセシビリティツリーを確認してください。
+1. `+"`browser_navigate`"+` を使って、指定された URL を開いてください。
+2. `+"`read_latest_accessibility_snapshot`"+` を呼び出して、アクセシビリティツリーを確認してください。
 3. スナップショットで確認できる、確度の高い課題を 3〜5 件特定してください。
-4. 修正案を提案する前に、各課題について `accessibility_rule_lookup` を呼び出してください。
+4. 修正案を提案する前に、各課題について `+"`accessibility_rule_lookup`"+` を呼び出してください。
 
 次の構成だけを返してください:
 # Accessibility review
