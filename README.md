@@ -42,6 +42,19 @@ python3 -m http.server 8000
 <http://localhost:8000/docs/> を開きます。`step.html` を `file://` URL で開かないでください。
 レッスンビューアーが使用する Markdown リクエストをブラウザーがブロックします。
 
+### リンクカード用の画像
+
+トップページとレッスンページには、OGP と Twitter Card の設定があります。
+共有用画像は `docs/assets/ogp.png`（1200×630）、編集用の原稿は `docs/assets/ogp.svg` です。
+SVG を変更した場合は、日本語フォント（游ゴシックまたはメイリオ）のある環境で
+1200×630 の PNG に書き出し、両方のファイルを更新してください。
+リンクカードには互換性の高い PNG を使用します。
+
+OGP の URL は公開先 `https://runceel.github.io/copilot-sdk-workshop-ja/` の絶対 URL です。
+フォークなどで公開先を変える場合は、`docs/index.html` と `docs/workshop/step.html` の
+`og:url`、`og:image`、`twitter:image` も変更してください。
+公開後も、共有サービスのキャッシュによって以前の表示が残る場合があります。
+
 ## 前提条件
 
 - [.NET 10 SDK](https://learn.microsoft.com/dotnet/core/install/)

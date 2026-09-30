@@ -359,8 +359,14 @@ class LocalAssetParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
         self.references: list[str] = []
+        self.metadata: dict[str, str] = {}
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == "meta":
+            values = dict(attrs)
+            key = values.get("property") or values.get("name")
+            if key:
+                self.metadata[key] = values.get("content") or ""
         attribute = "href" if tag in {"a", "link"} else "src" if tag in {"script", "img"} else None
         if attribute:
             value = dict(attrs).get(attribute)
@@ -1474,6 +1480,47 @@ def validate_project_behavior() -> None:
                 f"{directory.relative_to(ROOT)} does not configure the Maven executable entrypoint")
 
 
+def validate_social_cards() -> None:
+    image = DOCS / "assets" / "ogp.png"
+    require(image.exists(), "Social card PNG is missing")
+    require((DOCS / "assets" / "ogp.svg").exists(), "Social card editable SVG is missing")
+    if image.exists():
+        header = image.read_bytes()[:24]
+        require(
+            header[:8] == b"\x89PNG\r\n\x1a\n" and header[12:16] == b"IHDR"
+            and int.from_bytes(header[16:20], "big") == 1200
+            and int.from_bytes(header[20:24], "big") == 630,
+            "Social card image must be a 1200x630 PNG",
+        )
+    for page in (DOCS / "index.html", DOCS / "workshop" / "step.html"):
+        parser = LocalAssetParser()
+        parser.feed(read(page).split("</head>", 1)[0])
+        metadata = parser.metadata
+        label = page.relative_to(ROOT)
+        for key in (
+            "og:type", "og:locale", "og:site_name", "og:title", "og:description",
+            "og:url", "og:image", "og:image:alt", "twitter:title",
+            "twitter:description", "twitter:image", "twitter:image:alt",
+        ):
+            require(bool(metadata.get(key)), f"{label} is missing social metadata: {key}")
+        require(metadata.get("og:locale") == "ja_JP", f"{label} must identify its Japanese locale")
+        require(metadata.get("twitter:card") == "summary_large_image",
+                f"{label} must request a large-image Twitter Card")
+        require(metadata.get("og:image:type") == "image/png"
+                and metadata.get("og:image:width") == "1200"
+                and metadata.get("og:image:height") == "630",
+                f"{label} must describe the social card PNG dimensions and type")
+        image_url = urlsplit(metadata.get("og:image", ""))
+        page_url = urlsplit(metadata.get("og:url", ""))
+        require(image_url.scheme == "https" and bool(image_url.netloc)
+                and image_url.path.endswith("/assets/ogp.png"),
+                f"{label} must use an absolute HTTPS URL for the social card PNG")
+        require(page_url.scheme == "https" and bool(page_url.netloc),
+                f"{label} must use an absolute HTTPS page URL")
+        require(metadata.get("twitter:image") == metadata.get("og:image"),
+                f"{label} must share the same OGP and Twitter Card image")
+
+
 def validate_site_behavior() -> None:
     index = read(DOCS / "index.html")
     step = read(DOCS / "workshop" / "step.html")
@@ -2114,6 +2161,7 @@ validate_python_dependencies()
 validate_security_invariants()
 validate_playwright_output_configuration()
 validate_project_behavior()
+validate_social_cards()
 validate_site_behavior()
 validate_documentation()
 validate_editor_open_guidance()
