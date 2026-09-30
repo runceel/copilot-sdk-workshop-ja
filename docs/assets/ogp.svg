@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">GitHub Copilot SDK エージェント開発ワークショップ</title>
+  <desc id="description">日本語で学ぶ、2つのハンズオン。Webアクセシビリティの確認と、博物館の展示解説づくりを、6つのプログラミング言語で。</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#2b3c59" stroke-width="1"/>
+    </pattern>
+    <clipPath id="artwork">
+      <path d="M854 0H1200V630H728Z"/>
+    </clipPath>
+    <filter id="shadow" x="-25%" y="-25%" width="160%" height="170%">
+      <feDropShadow dx="8" dy="18" stdDeviation="12" flood-color="#050a14" flood-opacity=".65"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="#0d1424"/>
+  <path d="M854 0H1200V630H728Z" fill="#151f35"/>
+  <rect x="728" width="472" height="630" fill="url(#grid)" clip-path="url(#artwork)" opacity=".65"/>
+  <path d="M854 0L728 630" stroke="#33465f" stroke-width="2"/>
+  <path d="M1190 0H1200V630H1064Z" fill="#67d9ef"/>
+  <path d="M1093 0H1142L1130 60H1081Z" fill="#c5b4ff"/>
+  <g fill="none" stroke="#466180" stroke-width="1.5">
+    <ellipse cx="991" cy="325" rx="172" ry="235" transform="rotate(16 991 325)"/>
+    <ellipse cx="991" cy="325" rx="133" ry="195" transform="rotate(16 991 325)"/>
+    <path d="M802 325H1168M991 73V550" stroke-dasharray="3 9"/>
+  </g>
+
+  <g font-family="'Yu Gothic', Meiryo, sans-serif" fill="#f5f8ff">
+    <text x="60" y="119" font-family="'Segoe UI', sans-serif" font-size="54" font-weight="700" letter-spacing="-1.5">GitHub Copilot SDK</text>
+    <text x="54" y="233" font-size="78" font-weight="700" letter-spacing="-2">エージェント開発</text>
+    <text x="54" y="325" font-size="78" font-weight="700" letter-spacing="-2">ワークショップ</text>
+    <text x="60" y="386" font-size="29" font-weight="500" fill="#b9cee7">日本語で学ぶ、2つのハンズオン。</text>
+    <path d="M60 421H693" stroke="#33465f" stroke-width="1"/>
+    <text x="86" y="466" font-size="25" font-weight="700" fill="#67d9ef">Webアクセシビリティを確認する</text>
+    <text x="86" y="508" font-size="25" font-weight="700" fill="#c5b4ff">博物館の展示解説を作る</text>
+    <text x="60" y="583" font-family="'Segoe UI', sans-serif" font-size="23" font-weight="600" fill="#b9cee7">.NET · Go · Java · Node.js · Python · Rust</text>
+    <text x="1037" y="583" text-anchor="end" font-size="20" font-weight="700" fill="#b9cee7">日本語版</text>
+  </g>
+  <path d="M60 451H71V462H60Z" fill="#67d9ef"/>
+  <path d="M60 493H71V504H60Z" fill="#c5b4ff"/>
+
+  <g transform="translate(840 119) rotate(-9 145 90)" filter="url(#shadow)">
+    <path d="M12 16H289L302 28V198L289 210H24L12 198Z" fill="#173942" stroke="#466180" stroke-width="2"/>
+    <rect width="286" height="190" rx="10" fill="#0d1424" stroke="#67d9ef" stroke-width="2"/>
+    <path d="M0 38H286" stroke="#466180" stroke-width="1"/>
+    <circle cx="21" cy="19" r="4" fill="#67d9ef"/>
+    <circle cx="37" cy="19" r="4" fill="#c5b4ff"/>
+    <circle cx="53" cy="19" r="4" fill="#829bb9"/>
+    <g fill="none" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M49 67L27 88L49 109M93 67L115 88L93 109" stroke="#67d9ef"/>
+      <path d="M82 61L62 116" stroke="#f5f8ff"/>
+      <path d="M143 76H242M143 99H209M27 140H95" stroke="#637c9a"/>
+      <path d="M110 140H180" stroke="#c5b4ff"/>
+      <path d="M195 140H240M27 163H148" stroke="#637c9a"/>
+    </g>
+  </g>
+
+  <g fill="none" stroke-linejoin="round">
+    <path d="M838 260L806 325L850 355M1107 307L1124 330L1096 370" stroke="#67d9ef" stroke-width="2"/>
+    <path d="M805 325H870" stroke="#67d9ef" stroke-width="2" stroke-dasharray="4 5"/>
+    <circle cx="806" cy="325" r="6" fill="#0d1424" stroke="#67d9ef" stroke-width="2"/>
+    <circle cx="1124" cy="330" r="6" fill="#0d1424" stroke="#67d9ef" stroke-width="2"/>
+  </g>
+
+  <g transform="translate(852 351) rotate(7 136 90)" filter="url(#shadow)">
+    <path d="M0 160L21 148H278L300 164V187H0Z" fill="#25304d" stroke="#829bb9" stroke-width="1.5"/>
+    <path d="M0 160H278V178H0Z" fill="#637c9a"/>
+    <path d="M278 160L300 164V187L278 178Z" fill="#25304d"/>
+    <path d="M19 139H261V154H19Z" fill="#c5b4ff"/>
+    <path d="M261 139L278 148V163L261 154Z" fill="#637c9a"/>
+    <g fill="#c5b4ff">
+      <path d="M35 54H61V139H35ZM101 54H127V139H101ZM167 54H193V139H167ZM233 54H259V139H233Z"/>
+    </g>
+    <g fill="#637c9a">
+      <path d="M61 54L70 60V139H61ZM127 54L136 60V139H127ZM193 54L202 60V139H193ZM259 54L268 60V139H259Z"/>
+    </g>
+    <g fill="#f5f8ff">
+      <path d="M35 59H42V132H35ZM101 59H108V132H101ZM167 59H174V132H167ZM233 59H240V132H233Z"/>
+    </g>
+    <path d="M14 50L142 -7L273 50Z" fill="#c5b4ff"/>
+    <path d="M142 -7L160 -1L292 56L273 50Z" fill="#829bb9"/>
+    <path d="M14 50H273V63H14Z" fill="#829bb9"/>
+    <path d="M273 50L292 56V70L273 63Z" fill="#466180"/>
+    <path d="M54 41L142 3L231 41Z" fill="#25304d"/>
+    <circle cx="142" cy="27" r="9" fill="#c5b4ff"/>
+  </g>
+</svg>
